@@ -17,37 +17,29 @@
 
 
     var DASHBOARD;
+
+    var listOfPlayerBoards = [[],[],[],[]];
+    console.log("Starting execution. (This is a place to click through and see the code in DevTools.");
+
     function initNewUI() {
-        //start by just iterating through and making everything disappear.
+        //start by just iterating through and taking note of everything.
         // Later we'll add back in what's useful to game histories, store those things
         // and present them in a better format, and make the rest disappear.
         openCards = document.getElementById('opencards'); //note all lower
         root = openCards.parentElement;
         all = root.getElementsByTagName('*');
         for (e of all) {
+            //e.style.display = 'none';
+            e.style.display = 'inline';
 
-            e.style.display = 'none';
         }
     }
-    function initNewUI0() {
+
+    function initDashboard() {
 // come back to some of these ideas, but I'm feeling bogged down.
         DASHBOARD = document.createElement('div');
         DASHBOARD.style.border = 'thick solid black';
         DASHBOARD.appendChild(document.createTextNode('dashboard'));
-
-        openCards = document.getElementById('opencards'); //note all lower
-        openCards.style.position = 'relative';
-        ocParent = openCards.parentElement;
-    //    ocParent.insertBefore(DASHBOARD, openCards);
-        ocParent.removeChild(DASHBOARD);
-        ocParent.appendChild(DASHBOARD);
-
-
-        dash2 = document.createElement('div');
-        dash2.style.border = 'thick solid red';
-        dash2.appendChild(document.createTextNode('dash2'));
-
-        openCards.insertBefore(DASHBOARD, openCards.children[0]);
     }
 
     function exploration() {
@@ -58,14 +50,9 @@
 //        nc.parentElement.style.position = 'relative';
 //        console.log(nc.parentElement.innerHTML);
 //        console.log(nc.parentElement.parentElement.style.position);
-        DASHBOARD = document.createElement('div');
-        DASHBOARD.style.border = 'thick solid black';
-        DASHBOARD.appendChild(document.createTextNode('dashboard'));
     }
 
 
-    var listOfPlayerBoards = [[],[],[],[]];
-    console.log("Starting execution. (This is a place to click through and see the code in DevTools.");
 
     function displayLists() {
       mainParent = document.getElementById('playerCards1').parentElement;
@@ -210,16 +197,20 @@
     }
 
     function reorganize() {
+        // Something about this setup isn't working now, and is making them all disappear.
       makeBoardsVisible();
-      displayNewUI();
+      // displayNewUI();
     }
     function go(i) {moveNr=i; InitBoard(); SetHistoryText();makeBoardsVisible();}
 
     function GoFirst(){go(0);}
     function GoBack(){moveNr>0&&moveNr--;InitBoard();SetHistoryText();makeBoardsVisible();}
-    function GoNext(){moveNr<MoveCount&&moveNr++;InitBoard();SetHistoryText();
-    //only one I wired this way
-    reorganize();}
+    function GoNext(){
+        moveNr<MoveCount&&moveNr++;
+        InitBoard();
+        SetHistoryText();
+        reorganize();
+    }
     function GoLast(){go(MoveCount);}
 
     //convenience elements
@@ -241,3 +232,22 @@
         7: ['BPUB', 'Schenke', 'pub', 1, "*", "*"],
         10: ['B1', 'Markt', 'market', 5, 0, 1],
         }
+
+        // Junkyard
+
+    function init_junkyard() {
+        //was my first attempt at initNewUI. come back to this stuff later
+        openCards = document.getElementById('opencards'); //note all lower
+        openCards.style.position = 'relative';
+        ocParent = openCards.parentElement;
+    //    ocParent.insertBefore(DASHBOARD, openCards);
+        ocParent.removeChild(DASHBOARD);
+        ocParent.appendChild(DASHBOARD);
+
+
+        dash2 = document.createElement('div');
+        dash2.style.border = 'thick solid red';
+        dash2.appendChild(document.createTextNode('dash2'));
+
+        openCards.insertBefore(DASHBOARD, openCards.children[0]);
+    }
