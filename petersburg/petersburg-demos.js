@@ -198,7 +198,7 @@
 
     function reorganize() {
         // Something about this setup isn't working now, and is making them all disappear.
-      makeBoardsVisible();
+//      makeBoardsVisible();
       // displayNewUI();
     }
     function go(i) {moveNr=i; InitBoard(); SetHistoryText();makeBoardsVisible();}
@@ -235,19 +235,4 @@
 
         // Junkyard
 
-    function init_junkyard() {
-        //was my first attempt at initNewUI. come back to this stuff later
-        openCards = document.getElementById('opencards'); //note all lower
-        openCards.style.position = 'relative';
-        ocParent = openCards.parentElement;
-    //    ocParent.insertBefore(DASHBOARD, openCards);
-        ocParent.removeChild(DASHBOARD);
-        ocParent.appendChild(DASHBOARD);
 
-
-        dash2 = document.createElement('div');
-        dash2.style.border = 'thick solid red';
-        dash2.appendChild(document.createTextNode('dash2'));
-
-        openCards.insertBefore(DASHBOARD, openCards.children[0]);
-    }
