@@ -109,7 +109,7 @@
         node = document.createElement("span")
     //    text = document.createTextNode("[" + number + "]");
         if (node) {
-            text = document.createTextNode(cardNumber);https://yucata.de/en/Game/Petersburg/8643624
+            text = document.createTextNode(cardNumber);https://site-yucata.de/en/Game/Petersburg/8643624
             node.style.display = 'inline-block';
             node.style.padding = '5px';
             node.style.border = '1px solid purple';
