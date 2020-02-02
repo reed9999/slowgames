@@ -1,8 +1,13 @@
 import requests
 class PetersburgAnalyzer(object):
-    def __init__(self, game_id=None, html=None):
+    def __init__(self, game_id=None, html=None, filename=None):
         self._game_id = game_id
-        self._html = html if html is not None else self.html_for_id(game_id)
+        if html is not None:
+            self._html = self.html_for_id(game_id)
+        elif filename is not None:
+            self._html = self.game_history_from_file(filename)
+        else:
+            self._html = html
 
     def diag(self):
         print(self._html)
@@ -12,9 +17,14 @@ class PetersburgAnalyzer(object):
         response = requests.get(url)
         return response.text
 
+    @staticmethod
+    def game_history_from_file(fn):
+        with open(fn, 'r') as f:
+            return f.read()
+
 
 def main():
-    a = PetersburgAnalyzer(9514605)
+    a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
     a.diag()
 
 
