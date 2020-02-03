@@ -3,6 +3,9 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# I don't really want to version this
+.idea
+
 # C extensions
 *.so
 
