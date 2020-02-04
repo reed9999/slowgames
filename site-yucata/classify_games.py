@@ -17,7 +17,8 @@ class GamesFinder(object):
         self._game = game
 
     def request_top_players(self):
-        url = 'https://yucata.de/de/GameInfo/' + self._game
+        url = 'https://yucata.de/de/GameInfo/' + self.
+        # Better to use https://yucata.de/en/Ranking/Game/<game>
         try:
             response = requests.get(url)
         except TimeoutError as e:
