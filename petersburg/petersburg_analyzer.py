@@ -72,7 +72,22 @@ class PetersburgAnalyzer(object):
         })
         cards.update({i: 'Schreiber 1 4' for i in range(59, 65)})
         cards.update({i: 'Verwalter 2 7' for i in range(65, 70)})
-        cards.update({i: 'card {}'.format(i) for i in range(70, 150)})
+        ii = 70
+        j = ii + 5
+        cards.update({i: 'Kontorist 3 10' for i in range(ii, j)})
+        ii = j
+        j = ii + 4
+        cards.update({i: 'Sekretar 4 12' for i in range(ii, j)})
+        ii = j
+        j = ii + 3
+        cards.update({i: 'Kontrolleur 4[1] 14' for i in range(ii, j)})
+        ii = j
+        j = ii + 2
+        cards.update({i: 'Richter 5[2] 16' for i in range(ii, j)})
+        ii = j
+        j = ii + 2
+        cards.update({i: 'Hofmeisterin 6[3] 18' for i in range(ii, j)})
+        cards.update({i: 'Austauschkarte Nr. {}'.format(i) for i in range(j, 155)})
         # cards.update({i: 'lumberjack 3' for i in range(0, 6)})
         # cards.update({i: 'gold miner 4' for i in range(6, 12)})
         # cards.update({i: 'weaver 5' for i in range(12, 18)})
