@@ -99,7 +99,26 @@ class PetersburgHistory(object):
         return "{} {}".format(verbs[tup[0]], object)
 
     def break_into_rounds(self):
-        pass
+        # Apparently the 3rd char always tells the nature of the round (0=worker, etc.)
+        last_move_of_each_round = [i for i in range(0, len(self._moves)) if i > 0 and
+                           self._moves[i]['status'][2] !=
+                           self._moves[i - 1]['status'][2]]
+        return last_move_of_each_round
+
+    def round_header_after(self, i):
+        output = """NEW ROUND
+        Status: {}
+        -----""".format(self._moves[i]['status'])
+        return output
+
+    def basic_report(self):
+        break_moves = self.break_into_rounds()
+        for i, move in enumerate(self._moves):
+            print("{}: {}".format(i, move['move_str']))
+            if i in break_moves:
+                print(self.round_header_after(i))
+
+
 
 class PetersburgAnalyzer(object):
     def __init__(self, game_id=None, html=None, filename=None):
@@ -111,7 +130,8 @@ class PetersburgAnalyzer(object):
         self._history = PetersburgHistory(html)
 
     def diag(self):
-        self._history.diag()
+        # self._history.diag()
+        self._history.basic_report()
 
     def html_for_id(self, game_id):
         url = "https://yucata.de/en/Game/Petersburg/{}".format(game_id)
