@@ -106,9 +106,20 @@ class PetersburgHistory(object):
         return last_move_of_each_round
 
     def round_header_after(self, i):
-        output = """NEW ROUND
-        Status: {}
-        -----""".format(self._moves[i]['status'])
+        round_designation = int(self._moves[i]['status'][2])
+        round_name = ['WORKER', 'BUILDING', 'ARISTO', 'UPGRADE'][round_designation]
+        status = self._moves[i]['status']
+        output = """
+{round_name} ROUND
+Status: {header}
+        {w}
+        {b}
+        {a}
+        {u}
+        {footer}
+-----
+        """.format(round_name=round_name, header=status[0:8], w=status[8:39],
+                   b=status[39:66], a=status[66:94], u=status[94:124], footer=status[124:])
         return output
 
     def basic_report(self):
