@@ -31,9 +31,52 @@ class PetersburgHistory(object):
                 assert len(self._moves) == int(m.group(1)) + 1
                 self._moves[-1]['status'] = str(m.group(2))
 
+    # card_info = [
+    #     ('lumberjack 3', 'XX', cost, payout, points, 6 - 0, ))
+    #     ('Goldgrüber 4', 'XX', cost, payout, points, 12 - 6, )
+    #     ('Schäfer 5', 'XX', cost, payout, points, 18 - 12, )
+    #     ('trapper 6', 'XX', cost, payout, points, 24 - 18, )
+    #     ('Schiffbauer 7', 'XX', cost, payout, points, 30 - 24, )
+    #     cards[30] = 'Zar und Zimmermann 8'
+    # ('Markt 1 5', 'XX', cost, payout, points, 36 - 31, )
+    # ('Zollhaus 2 8', 'XX', cost, payout, points, 41 - 36, )
+    # ('Feuerwehr 3 11', 'XX', cost, payout, points, 44 - 41, )
+    # ('Krankenhaus 4 14', 'XX', cost, payout, points, 47 - 44, )
+    # ('Bibliothek 5 17', 'XX', cost, payout, points, 50 - 47, )
+    # ('Krankenhaus 6 20', 'XX', cost, payout, points, 52 - 50, )
+    # cards[52] = 'Akademie 7 23'
+    # cards[53] = 'Pot. Dorf 2/6'
+    # ('Schenke 2:1', 'XX', cost, payout, points, 56 - 54, )
+    # cards.update({
+    #     56: 'Lagerhaus 2',
+    #     57: 'Sternwarte 6',
+    #     58: 'Sternwarte 6',
+    # })
+    # ('Schreiber 1 4', 'XX', cost, payout, points, 65 - 59, )
+    # ('Verwalter 2 7', 'XX', cost, payout, points, 70 - 65, )
+    # ii = 70
+    # j = ii + 5
+    # ('Kontorist 3 10' for i in range(ii, j)})
+    # ii = j
+    # j = ii + 4
+    # ('Sekretar 4 12' for i in range(ii, j)})
+    # ii = j
+    # j = ii + 3
+    # ('Kontrolleur 4[1] 14' for i in range(ii, j)})
+    # ii = j
+    # j = ii + 2
+    # ('Richter 5[2] 16' for i in range(ii, j)})
+    # ii = j
+    # j = ii + 2
+    # ('Hofmeisterin 6[3] 18' for i in range(ii, j)})
+    # ('Austauschkarte Nr. {}'.format(i) for i in range(j, 155)})
+    #
+    # ]
     @staticmethod
-    def cards_dict():
-        """Return a dict with card names and simple hints of their price/value"""
+    def cards_dict_de():
+        """Return a dict with card names and simple hints of their price/value in
+        German. Obviously this is a pretty crude way to do this. Commented code above
+        represents a better way."""
         cards = {}
         cards.update({i: 'lumberjack 3' for i in range(0, 6)})
         cards.update({i: 'Goldgrüber 4' for i in range(6, 12)})
@@ -73,11 +116,50 @@ class PetersburgHistory(object):
         j = ii + 2
         cards.update({i: 'Hofmeisterin 6[3] 18' for i in range(ii, j)})
         cards.update({i: 'Austauschkarte Nr. {}'.format(i) for i in range(j, 155)})
-        # cards.update({i: 'lumberjack 3' for i in range(0, 6)})
-        # cards.update({i: 'gold miner 4' for i in range(6, 12)})
-        # cards.update({i: 'weaver 5' for i in range(12, 18)})
-        # cards.update({i: 'trapper 6' for i in range(18, 24)})
-        # cards.update({i: 'shipbuilder 7' for i in range(24, 30)})
+        return cards
+
+    def cards_dict_en():
+        """Return a dict with card names and simple hints of their price/value,
+        in English"""
+        cards = {}
+        cards.update({i: 'lumberjack 3' for i in range(0, 6)})
+        cards.update({i: 'gold miner 4' for i in range(6, 12)})
+        cards.update({i: 'shepherd 5' for i in range(12, 18)})
+        cards.update({i: 'trapper 6' for i in range(18, 24)})
+        cards.update({i: 'shipbuilder 7' for i in range(24, 30)})
+        cards[30] = 'Czar and carpenter 8'
+        cards.update({i: 'market 1 5' for i in range(31, 36)})
+        cards.update({i: 'tollhouse 2 8' for i in range(36, 41)})
+        cards.update({i: 'fire station 3 11' for i in range(41, 44)})
+        cards.update({i: 'hospital 4 14' for i in range(44, 47)})
+        cards.update({i: 'library 5 17' for i in range(47, 50)})
+        cards.update({i: 'hospital 6 20' for i in range(50, 52)})
+        cards[52] = 'academy 7 23'
+        cards[53] = 'Potemkin village 2/6'
+        cards.update({i: 'Pub 2:1' for i in range(54, 56)})
+        cards.update({
+            56: 'Warehouse 2',
+            57: 'Observatory 6',
+            58: 'Observatory 6',
+        })
+        cards.update({i: 'Schreiber 1 4' for i in range(59, 65)})
+        cards.update({i: 'Verwalter 2 7' for i in range(65, 70)})
+        ii = 70
+        j = ii + 5
+        cards.update({i: 'Kontorist 3 10' for i in range(ii, j)})
+        ii = j
+        j = ii + 4
+        cards.update({i: 'Sekretar 4 12' for i in range(ii, j)})
+        ii = j
+        j = ii + 3
+        cards.update({i: 'Kontrolleur 4[1] 14' for i in range(ii, j)})
+        ii = j
+        j = ii + 2
+        cards.update({i: 'Richter 5[2] 16' for i in range(ii, j)})
+        ii = j
+        j = ii + 2
+        cards.update({i: 'Hofmeisterin 6[3] 18' for i in range(ii, j)})
+        cards.update({i: 'Austauschkarte Nr. {}'.format(i) for i in range(j, 155)})
         return cards
 
     @staticmethod
@@ -91,7 +173,7 @@ class PetersburgHistory(object):
         }
         if tup[0] in [10,]:
             return verbs[tup[0]]
-        cards = __class__.cards_dict()
+        cards = __class__.cards_dict_en()
         if tup[0] in [5,]:
             object = __class__.move_str((tup[1], tup[2]))
         else:
@@ -122,12 +204,26 @@ Status: {header}
                    b=status[39:66], a=status[66:94], u=status[94:124], footer=status[124:])
         return output
 
+    def starting_player_from_move(self, move_num):
+        status = self._moves[move_num]['status']
+        return status[int(status[2]) + 3]   #chars 3 thru 6 refer to respective round types
+
+
     def basic_report(self):
+        num_players = 2     # TODO read from statusß
         break_moves = self.break_into_rounds()
+        last_break = 0
         for i, move in enumerate(self._moves):
+            print("Player {}".format(
+                # Better: Have it remember state in member vars
+                i - last_break + int(self.starting_player_from_move(last_break))
+            )
+            )
             print("{}: {}".format(i, move['move_str']))
+            print(self.starting_player_from_move(i))
             if i in break_moves:
                 print(self.round_header_after(i))
+                last_break = i
 
 
 
