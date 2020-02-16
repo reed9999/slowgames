@@ -1,0 +1,136 @@
+
+view-source:https://yucata.de/en/Game/FewAcresOfSnow/9542536
+For comparison for a UK=Hero game, 9533652
+
+ACTIONS
+½ draft card X
+¼ piracy XX
+» trade
+¾ discard
+
+
+FRANCE CARDS
+
+Ë RegInf (free)
+Ì Trader
+
+° Gaspé
+² Montréal
+¶ Trois Rivieres
+± Louisbourg
+´ Port Royal
+µ Tadoussac
+
+
+UK CARDS
+ã Rangers
+Õ RegInf
+
+± New Haven
+
+Move 1. Red buy Rangers
+HistoryMove[0] = '½ã';
+
+Hypothesis: ½ = draft
+ã = Rangers
+
+
+Move 2. Blue piracy Lou PtR
+¼±´
+
+¼ = piracy
+± = Lou
+´ = PtR
+
+Never appears again so hard to verify.
+
+Move 3. Merchant for 6 ; draft infantry
+º³µ°,½Ó
+
+Move 4. Trader: Gas Mtl 3Riv, draft coureur
+»Ì°²¶,½Í
+
+½Í = draft - coureur
+
+
+
+Move 5. Red settle Hfx (Pem NH or Nor StM), Merchant Norfolk (or NH) NY
+°È´³¶,¹²
+Is this the only pure settlement of the game? '° never appears in file again.
+
+° settle
+È Pemaquid
+´ NH or Norfolx
+³ St Mary's
+¶ Hfx
+
+Move 6. Reserve free RegInf, Money for Quebec
+¿Ë,¹³
+
+Move 7. Besiege PR, draft a RegInf
+³Ì°±Ó,½Õ
+
+
+Move 8. Retrieve RegInf, play RegInf to opponent's siege , discard Gaspe/Tadoussac/3 Riv
+Three part move; note the commas
+        ÀË,´ÌË,¾°µ¶
+
+
+Move 9. Play RegInf to own siege, play NH to own siege.
+´ÌÕ,´Ì±
+
+
+Move 10 play Mtl to siege, draft RegInf
+Ì²,½Ú
+
+What about status?
+First six chars in this game always 307°°² except original status, 317
+In another game (UK) it was 308°°±
+-°
+
+
+Char 6, zero based, is player to move: ° = UK, ± = France, or perhaps antagonist/protagonist.
+Obv the comma delim number at pos 62 is France (or protagonist) money,
+and same for the other number being UK.
+ËÌ°²¶ are the five cards after move 2
+Reginf Trader Gas Mtl 3Riv
+Note last four are the same as in move 4.
+
+var OrigStatus   = '317°°²°°;²²²±²²±°°°°°°°°°°°°°°°°±±°²°²°±°µµµ°;,;±²°°--±±±°°°,6,ÏÓÙÚÛ,Ò,Î,DÖ³ÐÌ²¶,,,±°°°°,°°±²,13;°²´±--±±°°°°,0,°´µÎF,Ý,,¶ÓÞÜÕÔÌ³ÑÈÇ±²åÊCÙØãE,,,±°°°°,°±°³,54;';
+var StartStatus = '307°°±-°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±°°°--±±°°°°,5,±¶°²´,,³µËÌ,,,,±°°°°,°°±²,;°°°°--±±°°°°,12,´°µ±³,,²¶,,,,±°°°°,°°±²,;';
+why are these different ?!
+HistoryMove[0] = '½ã';
+HistoryStatus[0] = '
+307°°±±°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,5,±¶°²´,,³µËÌ,,,,±°°°°,°°±²,;°²°°--±±°°°°,7,°±³´µ,,²¶,ã,,,±°°°°,°°±²,;';
+HistoryMove[1] = '¼±´';
+HistoryStatus[1] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,7,ËÌ°²¶,,³µ,±´,,,±°°°°,°°±²,;°²°°--±±°°°°,5,°±³´µ,,²¶,ã,,,±°°°°,°°±²,;';
+HistoryMove[2] = 'º³µ°,½Ó';
+HistoryStatus[2] = '307°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,7,ËÌ°²¶,,³µ,±´,,,±°°°°,°°±²,;°²°°--±±°°°°,4,±²³´¶,,µ°Óã,,,,±°°°°,°±°³,;';
+HistoryMove[3] = '»Ì°²¶,½Í';
+HistoryStatus[3] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,13,ËÍ°³µ,,´²Ì±¶,,,,±°°°°,°°±²,;°²°°--±±°°°°,4,±²³´¶,,µ°Óã,,,,±°°°°,°±°³,;';
+HistoryMove[4] = '°È´³¶,¹²';
+HistoryStatus[4] = '307°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,13,ËÍ°³µ,,´²Ì±¶,,,,±°°°°,°°±²,;°²°°--±±°°°°,7,Óã°±µ,,,´³¶È²,,,±°°°°,°±°³,;';
+HistoryMove[5] = '¿Ë,¹³';
+HistoryStatus[5] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;±²°°--±±°°°°,15,Í°±µ¶,Ë,´²Ì,³,,,±°°°°,°°±²,;°²°°--±±°°°°,7,Óã°±µ,,,´³¶È²,,,±°°°°,°±°³,;';
+HistoryMove[6] = '³Ì°±Ó,½Õ';
+HistoryStatus[6] = '307°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,15,Í°±µ¶,Ë,´²Ì,³,,,±°°°°,°°±²,;°²°°--±±°°°°,0,Õã±²µ,,³´È¶°,,Ó,,±°°°°,°±°³,;';
+HistoryMove[7] = 'ÀË,´ÌË,¾°µ¶';
+HistoryStatus[7] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,12,ÌÍ±²´,,,³°µ¶,Ë,,±°°°°,°°±²,;°²°°--±±°°°°,0,Õã±²µ,,³´È¶°,,Ó,,±°°°°,°±°³,;';
+HistoryMove[8] = '´ÌÕ,´Ì±';
+HistoryStatus[8] = '307°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,12,ÌÍ±²´,,,³°µ¶,Ë,,±°°°°,°°±²,;°²°°--±±°°°°,0,ã°²µ¶,,³´È,,ÓÕ±,,±°°°°,°±°³,;';
+HistoryMove[9] = '´Ì²,½Ú';
+HistoryStatus[9] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,5,ÌÍ°±´,,Ú¶³µ,,Ë²,,±°°°°,°°±²,;°²°°--±±°°°°,0,ã°²µ¶,,³´È,,ÓÕ±,,±°°°°,°±°³,;';
+HistoryMove[10] = '´Ì²,¹µ';
+HistoryStatus[10] = '307°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,5,ÌÍ°±´,,Ú¶³µ,,Ë²,,±°°°°,°°±²,;°²°°--±±°°°°,3,ã°´¶È,,³,µ,ÓÕ±²,,±°°°°,°±°³,;';
+HistoryMove[11] = '´Ì±,»Ì°';
+HistoryStatus[11] = '307°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,7,Í³´µ¶,,Ú,Ì°,Ë²±,,±°°°°,°°±²,;°²°°--±±°°°°,3,ã°´¶È,,³,µ,ÓÕ±²,,±°°°°,°±°³,;';
+HistoryMove[12] = '´ÌÈ,±´´¶';
+HistoryStatus[12] = '307°°²±°;²±²±²±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,7,Í³´µ¶,,Ú,Ì°,Ë²±,,±°°°°,°°±²,;°²°°--±±°°°°,3,ã°³µ¶,,´,,ÓÕ±²È,,±°°°°,°±°³,;';
+HistoryMove[13] = '´Ì³,½Ù';
+HistoryStatus[13] = '307°°²°°;²±²±²±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,0,ÍÚ´µ¶,,,Ì°Ù,Ë²±³,,±°°°°,°°±²,;°²°°--±±°°°°,3,ã°³µ¶,,´,,ÓÕ±²È,,±°°°°,°±°³,;';
+HistoryMove[14] = 'º³µ°,½Ö';
+HistoryStatus[14] = '307°°²±°;²±²±²±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,0,ÍÚ´µ¶,,,Ì°Ù,Ë²±³,,±°°°°,°°±²,;°²°°--±±°°°°,2,Öã´µ¶,,°³,,ÓÕ±²È,,±°°°°,°±°³,;';
+HistoryMove[15] = '´ÌÚ,½Î';
+HistoryStatus[15] = '307°°²°°;²±²±²±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,0,ÍÙ´µ¶,,ÌÎ°,,Ë²±³Ú,,±°°°°,°°±²,;°²°°--±±°°°°,2,Öã´µ¶,,°³,,ÓÕ±²È,,±°°°°,°±°³,;';
+HistoryMove[16] = '´ÌÖ,¹µ';
+HistoryStatus[16] = '307°°²±°;²±²±²±±°°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;Ì,;±²°°--±±°°°°,0,ÍÙ´µ¶,,ÌÎ°,,Ë²±³Ú,,±°°°°,°°±²,;°²°°--±±°°°°,5,ã°³´¶,,,µ,ÓÕ±²ÈÖ,,±°°°°,°±°³,;';
