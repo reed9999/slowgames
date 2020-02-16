@@ -1,0 +1,128 @@
+This is the place to compare code snippets to help hack the encoding of the game statuses.
+
+
+
+// What can I learn about the initial tile placement? It always starts at ±³±Ñ
+        // (for standard one-tile placement) and the biggest bit of the last char
+        // is always 1.
+
+        ¹ »¼½¾
+        // 1, 1 ¹   251
+        // 1, 3 ±³±Ñ»   » 10101111 175 confirmed
+        // 1, 4 ¼
+        // 1, 5         ½ 10101011 171
+        // 1, 6 ¾
+
+
+        // row 2
+        //  col 1       10110101
+        // 2, 2         10110110 definitively         ±³±ÑÂ  10110110
+        // 2, 2 mountain ±³±ÑÂ 182
+        // 2, 3 Ã 199
+        // 2, 4 Ä
+        // 2, 5 Å 143. OK, this is weird.
+        // 2, 6 Æ
+
+        // 3, 3 Ë 211
+        // 3, 4 Ì
+
+        // 4, 4 Ô
+
+        ÚÛÜÝ
+        // 5, 0 Ø
+        // 5, 2 11101001 Ú 233
+        // 5, 3 11101010 Û 234
+        // 5, 4 Ü Õ
+        // 5, 5 11101101 Ý
+
+        // row 6
+        // 6, 1 á
+        // 6, 3 Õ
+        // 6, 5 å
+        // 6, 6 æ 0b10010001
+// For comparison here is view-source:https://yucata.de/en/Game/CarsonCity/9316184
+        // because it's New Beginning we start at 3
+// HistoryMove[3] = '±³±ÑÚ';    // green takes 5, 2 -- 233 11101001
+// HistoryStatus[3] = '01±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°°°³²°»±°»°°°°@';
+// HistoryMove[4] = '±³±ÑÂ';    // blue 2, 2
+// HistoryStatus[4] = '01²°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°±Â°³²°»±°»°°°°@';
+// HistoryMove[5] = '±·±Ñ½ÿ²Ñæ'; // yellow 1, 5 and 6, 6
+// HistoryStatus[5] = '02±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°±Â°³²°»±°»°°²½æ°@';
+// HistoryMove[6] = '±³²ÑÖ';
+// HistoryStatus[6] = '02°°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°²ÂÖ°³²°»±°»°°²½æ°@';
+// HistoryMove[7] = '±·²ÑÛÿ³ÑË';
+// HistoryStatus[7] = '03±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°³ÚÛË°±³°¾±³»°°²ÂÖ°³²°»±°»°°²½æ°@';
+// HistoryMove[8] = '±³³ÑÐ';
+
+HistoryMove[0] = '±³±ÑÁ'
+// orange set tile on 2, 1
+// Á is ASCII 181 = 0b10110101
+        // 101 is 5 so it's almost backwards
+        // if numbered backwards 2, 1 -> 5, 6 = 101, 110.
+        // reverse the order and that's what we've got 110101. Note this is first player.
+        // ±³±Ñ is definitively part or all of "place first tile"
+
+        // 2,1 is the 18th space. 10001
+        // counting downward, the 11th. 01011. (That's in there backwards.)
+HistoryStatus[0] = '01²°±°º°º°º°±¹³¸³µ¹³²ÎÍ²ÎÖ°°º²Î±¼±â±Ã±¹±Ä±Ì±É±Í±Â°°°°Å±±³°¿±±»°°±Á°°³°¿±±»°°°°°³°¿±±»°°°°@';
+HistoryMove[1] = '±³±Ñæ';
+//yellow set tile on 6, 6.
+        // æ: 145 = 0b10010001
+        // from above æ is definitively 6, 6 (110, 110).
+        // what else could it be? reversed 001001
+
+HistoryStatus[1] = '01±°±°º°º°º°±¹³¸³µ¹³²ÎÍ²ÎÖ°°º²Î±¼±â±Ã±¹±Ä±Ì±É±Í±Â°°°°Å±±³°¿±±»°°±Á°°³°¿±±»°°°°´³°¿±±»°°±æ°@';
+HistoryMove[2] = '±·±ÑËÿ²Ñ»';
+// The middle player (green, me!) is considered to make both moves at once.
+        // I played on 1, 3 and 3, 3
+        // Ë 211 11010011
+        // » 175 10101111
+        // backwards thesis: 6, 4 = 4, 6 = 100110 and 4, 4 = 100100.
+        // It seems like the 100110 has shifted one bit into the ÿ
+        // 4,4 I have no idea.
+
+        // comparison ±·±Ñ½ÿ²Ñæ -- ±·±Ñ is definitively all or part of middle player placing
+        // ÿ²Ñæ is definitively (all/part) middle player placing second tile on a turn.
+HistoryStatus[2] = '02²°±°º°º°º°±¹³¸³µ¹³²ÎÍ²ÎÖ°°º²Î±¼±â±Ã±¹±Ä±Ì±É±Í±Â°°°°Å±±³°¿±±»°°±Á°´³°¿±±»°°²Ë»°´³°¿±±»°°±æ°@';
+HistoryMove[3] = '±³²ÑÅ';
+// back to same format with only the ² new instead of the ±.
+        // 2, 5 Å 143 0b10001111
+        // same row 2 as 0b10110101 . ssdddsds
+        // -> 5, 2 -> then reverse 2, 5 = 010 101
+HistoryStatus[3] = '02°°±°º°º°º°±¹³¸³µ¹³²ÎÍ²ÎÖ°°º²Î±¼±â±Ã±¹±Ä±Ì±É±Í±Â°°°°Å±±³°¿±±»°°±Á°´³°¿±±»°°²Ë»°´³°¿±±»°°²æÅ°@';
+HistoryMove[4] = '±¼²ÑÎÿÐÒµ°Ô²²´';
+//combo move. orange takes 3, 6 which happens to be Carson City, ÿ
+        // and...
+        // BEGIN CHARACTER CHOICE
+        // chooses yellow Captain ÐÒµ°Ô²²´
+
+        // other games
+// yellow Captain buy 2:  ÐÒµ°Ô²²´ exactly the same
+        // ±¹ÐÒ¶°Ó³³ÿÌ
+        // choose mercenary get 3 guns
+
+
+
+
+== OK, now what about character selection?
+±¸´ÑÃÿÐÒ°±
+sets a tile on 2, 3 and chooses the red sheriff.
+±¸ÐÒµ°Ô²²´
+Yellow captain; buy 2 cowboys
+±¹ÐÒ±°Ó°¹ÿÌ';
+yellow banker. Get $9
+
+±¶ÎÿÐÒ°±
+red sheriff
+
+
+±¶ÐÒ²°ÿÌ
+grocer
+
+ÿ - new round, maybe?
+ÐÒ - select characters (confirmed, no other use)
+°± - red sheriff
+
+
+
+Ò³°Ó´² pretty definitively means "chooses Chinese and gets two roads"

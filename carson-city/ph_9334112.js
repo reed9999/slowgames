@@ -14,57 +14,7 @@ var moveNr = 0;
 var HistoryMove = new Array();
 var HistoryStatus = new Array();
 
-// What can I learn about the initial tile placement? It always starts at ±³±Ñ
-        // (for standard one-tile placement) and the biggest bit of the last char
-        // is always 1.
 
-        ¹ »¼½¾
-        // 1, 1 ¹   251
-        // 1, 3 ±³±Ñ»   » 10101111 175 confirmed
-        // 1, 4 ¼
-        // 1, 5         ½ 10101011 171
-        // 1, 6 ¾
-
-
-        // row 2
-        //  col 1       10110101
-        // 2, 2         10110110 definitively         ±³±ÑÂ  10110110
-        // 2, 2 mountain ±³±ÑÂ 182
-        // 2, 3 Ã 199
-        // 2, 4 Ä
-        // 2, 5 Å 143. OK, this is weird.
-        // 2, 6 Æ
-
-        // 3, 3 Ë 211
-        // 3, 4 Ì
-
-        // 4, 4 Ô
-
-        ÚÛÜÝ
-        // 5, 0 Ø
-        // 5, 2 11101001 Ú 233
-        // 5, 3 11101010 Û 234
-        // 5, 4 Ü Õ
-        // 5, 5 11101101 Ý
-
-        // row 6
-        // 6, 1 á
-        // 6, 3 Õ
-        // 6, 5 å
-        // 6, 6 æ 0b10010001
-// For comparison here is view-source:https://yucata.de/en/Game/CarsonCity/9316184
-        // because it's New Beginning we start at 3
-// HistoryMove[3] = '±³±ÑÚ';    // green takes 5, 2 -- 233 11101001
-// HistoryStatus[3] = '01±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°°°³²°»±°»°°°°@';
-// HistoryMove[4] = '±³±ÑÂ';    // blue 2, 2
-// HistoryStatus[4] = '01²°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°±Â°³²°»±°»°°°°@';
-// HistoryMove[5] = '±·±Ñ½ÿ²Ñæ'; // yellow 1, 5 and 6, 6
-// HistoryStatus[5] = '02±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°±Â°³²°»±°»°°²½æ°@';
-// HistoryMove[6] = '±³²ÑÖ';
-// HistoryStatus[6] = '02°°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°±Ú°±³°¾±³»°°²ÂÖ°³²°»±°»°°²½æ°@';
-// HistoryMove[7] = '±·²ÑÛÿ³ÑË';
-// HistoryStatus[7] = '03±°°°°°µ°º°±¹³¹³¹¹³²ÑÐ²ÑÙ°°·²Ñ±Ì±Û±â±Ë±º±Ù°°°°±»´³°Ã°°»°°³ÚÛË°±³°¾±³»°°²ÂÖ°³²°»±°»°°²½æ°@';
-// HistoryMove[8] = '±³³ÑÐ';
 
 HistoryMove[0] = '±³±ÑÁ'
 // orange set tile on 2, 1
@@ -108,10 +58,6 @@ HistoryMove[4] = '±¼²ÑÎÿÐÒµ°Ô²²´';
         // BEGIN CHARACTER CHOICE
         // chooses yellow Captain ÐÒµ°Ô²²´
 
-        // other games
-// yellow Captain buy 2:  ÐÒµ°Ô²²´ exactly the same
-        // ±¹ÐÒ¶°Ó³³ÿÌ
-        // choose mercenary get 3 guns
 
 HistoryStatus[4] = '0P²°±°º°º°º°±¹³¸³µ¹³²ÎÍ²ÎÖ°°º²Î±¼±â±Ã±¹±Ä±Ì±É±Í±Â°°°°Å±±µ°»±±µ°°²ÁÎ°´³°¿±±»°°²Ë»°´³°¿±±»°°²æÅ°@';
 HistoryMove[5] = '±·ÐÒ±°Ó°¹';
