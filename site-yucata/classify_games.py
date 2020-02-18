@@ -85,22 +85,23 @@ def main():
     # ['califax', 'Levster', 'tamihiko71b', 'Agentus', 'loulouulou', 'Gio1987', 'RobRdam',
     #  'oelschlegel', 'noblekenny', 'AndreasJ']
 
-
-if __name__ == "__main__":
-    main()
-
-
 ## EXPERIMENTS, dead code
 def experiment():
-    r = requests.get('https://yucata.de/en/Game/8000010')
-    r10 = requests.get('https://yucata.de/en/Game/Oregon/8000010')
-    r11 = requests.get('https://yucata.de/en/Game/Oregon/8000011')
-    r12 = requests.get('https://yucata.de/en/Game/Oregon/8000012')
+    print("ENTER EXPERIMENT")
+    ids = [8473881, 9514605,]
+    template = 'https://yucata.de/en/Game/Petersburg/{}'
+    all_reqs = {id: requests.get(template.format(id)).text for id in ids}
+    def quick_writer(id, text):
+        with open("OUTPUT_" + str(id), 'w') as f:
+            print("writing {}--{}".format(id, text))
+            f.write(text)
+    map(quick_writer, all_reqs.items())
+    print(map(lambda x: x, all_reqs.items()))
+    _ = [print(x) for x in all_reqs.items()]
 
-    print(r.text)
-    print(r10.text)
-    print(r11.text)
-    print(r12.text)
+if __name__ == "__main__":
+    # main()
+    experiment()
 
 
 # <div id="divRankingFilter" style="padding:10px;">Filter by game: <select id="selFilterGameType"><option value="-1">All games</option></select>&nbsp;and by opponent:&nbsp;<select id="selFilterOpponent"><option value="-1">All opponents</option></select></div>
