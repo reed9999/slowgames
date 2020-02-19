@@ -91,13 +91,14 @@ def experiment():
     ids = [8473881, 9514605,]
     template = 'https://yucata.de/en/Game/Petersburg/{}'
     all_reqs = {id: requests.get(template.format(id)).text for id in ids}
-    def quick_writer(id, text):
-        with open("OUTPUT_" + str(id), 'w') as f:
+    def quick_writer(tup):
+        id, text = tup
+        with open("petersburg/petersburg_game_{}.html".format(id), 'w') as f:
             print("writing {}--{}".format(id, text))
             f.write(text)
-    map(quick_writer, all_reqs.items())
-    print(map(lambda x: x, all_reqs.items()))
-    _ = [print(x) for x in all_reqs.items()]
+    list(map(quick_writer, all_reqs.items()))
+    # print(list(map(lambda x: x, all_reqs.items())))
+    # _ = [print(x) for x in all_reqs.items()]
 
 if __name__ == "__main__":
     # main()
