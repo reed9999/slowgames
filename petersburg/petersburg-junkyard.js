@@ -198,7 +198,7 @@
 
     function reorganize() {
         // Something about this setup isn't working now, and is making them all disappear.
-      makeBoardsVisible();
+//      makeBoardsVisible();
       // displayNewUI();
     }
     function go(i) {moveNr=i; InitBoard(); SetHistoryText();makeBoardsVisible();}
