@@ -40,23 +40,11 @@ class GamesFinder(object):
             ## This might happen legitimately if the player is not found.
             # In our case, starting up, it's more likely a bad regex
             raise
-
-    # Here's an example of the Ajax URL that I see by using developer tools.
-    # This is for hotei11, a top Petersburg player.
-    # https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=188172&OppID=-1&
-    #   GameType=-1&draw=1&columns%5B0%5D%5Bdata%5D=function&columns%5B0%5D%5Bname%5D=&
-    #   columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=false
-    #   &columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&
-    #   columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&
-    #   columns%5B1%5D%5Bdata%5D=FinishedOnString&columns%5B1%5D%5Bname%5D=&
-    #   columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=false&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=CustomGameName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=false&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=Opponents&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=false&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=GameId&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=PointResult&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=false&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=25&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1581302442930
-
-    # Apparently nothing after GameType is necessary.
-
     # Originally get the ID by parsing: var profileId = 188172;  or var CurrentUserId = 188172;
     # Maybe different though? Rashtulla 339070 found by that number in the JS.
     def request_games_for(self, player):
         id = self.user_id_for(player)
+        # For a lengthier URL see the very bottom of this file
         url = "https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=" + id
         try:
             response = requests.get(url)
@@ -87,8 +75,6 @@ def main():
 
 ## EXPERIMENTS, dead code
 def experiment():
-    print("ENTER EXPERIMENT")
-    ids = [8473881, 9514605,]
     template = 'https://yucata.de/en/Game/Petersburg/{}'
     all_reqs = {id: requests.get(template.format(id)).text for id in ids}
     def quick_writer(tup):
@@ -107,3 +93,14 @@ if __name__ == "__main__":
 
 # <div id="divRankingFilter" style="padding:10px;">Filter by game: <select id="selFilterGameType"><option value="-1">All games</option></select>&nbsp;and by opponent:&nbsp;<select id="selFilterOpponent"><option value="-1">All opponents</option></select></div>
 
+    # Here's an example of the Ajax URL that I see by using developer tools.
+    # This is for hotei11, a top Petersburg player.
+    # https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=188172&OppID=-1&
+    #   GameType=-1&draw=1&columns%5B0%5D%5Bdata%5D=function&columns%5B0%5D%5Bname%5D=&
+    #   columns%5B0%5D%5Bsearchable%5D=true&columns%5B0%5D%5Borderable%5D=false
+    #   &columns%5B0%5D%5Bsearch%5D%5Bvalue%5D=&
+    #   columns%5B0%5D%5Bsearch%5D%5Bregex%5D=false&
+    #   columns%5B1%5D%5Bdata%5D=FinishedOnString&columns%5B1%5D%5Bname%5D=&
+    #   columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=false&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=CustomGameName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=false&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=Opponents&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=false&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=GameId&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=PointResult&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=false&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=25&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1581302442930
+
+    # Apparently nothing after GameType is necessary.
