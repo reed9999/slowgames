@@ -175,10 +175,10 @@ class PetersburgHistory(object):
             return verbs[tup[0]]
         cards = __class__.cards_dict_en()
         if tup[0] in [5,]:
-            object = __class__.move_str((tup[1], tup[2]))
+            object_of_action = __class__.move_str((tup[1], tup[2]))
         else:
-            object = cards[tup[1]]
-        return "{} {}".format(verbs[tup[0]], object)
+            object_of_action = cards[tup[1]]
+        return "{} {}".format(verbs[tup[0]], object_of_action0)
 
     def break_into_rounds(self):
         # Apparently the 3rd char always tells the nature of the round (0=worker, etc.)
@@ -208,17 +208,20 @@ Status: {header}
         status = self._moves[move_num]['status']
         return status[int(status[2]) + 3]   #chars 3 thru 6 refer to respective round types
 
+    @staticmethod
+    def current_player_from(move_num, round_first_move, round_first_player):
+        assert move_num >= round_first_move
+        num_players = 2
+        return (move_num - round_first_move + round_first_player) % num_players
 
     def basic_report(self):
-        num_players = 2     # TODO read from statusß
+        num_players = 2     # TODO read from status
         break_moves = self.break_into_rounds()
         last_break = 0
         for i, move in enumerate(self._moves):
-            print("Player {}".format(
-                # Better: Have it remember state in member vars
-                i - last_break + int(self.starting_player_from_move(last_break))
-            )
-            )
+            print("Player {}".format(self.current_player_from(i,
+                                                      last_break,
+                                                      self.starting_player_from_move(i))
             print("{}: {}".format(i, move['move_str']))
             print(self.starting_player_from_move(i))
             if i in break_moves:
@@ -252,8 +255,32 @@ class PetersburgAnalyzer(object):
 
 
 def main():
-    a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
-    a.diag()
+    # a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
+    # a.diag()
+    test_current_player()
+
+def test_current_player():
+    for input, result in [
+        ((28, 28, 1), 1),
+        ((28, 28, 0), 0),
+        ((29, 28, 0), 1),
+        ((30, 28, 0), 0),
+        ((21, 19, 1), 1),
+        ((27, 19, 1), 1),
+        ((28, 19, 1), 0),
+    ]:
+        rv = PetersburgHistory.current_player_from(move_num=input[0],
+                                                   round_first_move=input[1],
+                                                   round_first_player=input[2])
+        assert rv == result, "input: {} expected {} got {}".format(input, result, rv)
+    try:
+        _ = PetersburgHistory.current_player_from(28, 35, 1)
+        assert False, "It should have thrown an error!"
+    except AssertionError:
+        # Good, threw the error.
+        pass
+
+
 
 def test_move_str():
     a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
