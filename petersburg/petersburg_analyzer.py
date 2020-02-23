@@ -138,12 +138,12 @@ class PetersburgHistory(object):
         cards[53] = 'Potemkin village 2/6'
         cards.update({i: 'Pub 2:1' for i in range(54, 56)})
         cards.update({
-            56: 'Warehouse 2',
-            57: 'Observatory 6',
-            58: 'Observatory 6',
+            56: 'warehouse 2',
+            57: 'observatory 6',
+            58: 'observatory 6',
         })
-        cards.update({i: 'Schreiber 1 4' for i in range(59, 65)})
-        cards.update({i: 'Verwalter 2 7' for i in range(65, 70)})
+        cards.update({i: 'author 1 4' for i in range(59, 65)})
+        cards.update({i: 'administrator 2 7' for i in range(65, 70)})
         ii = 70
         j = ii + 5
         cards.update({i: 'Kontorist 3 10' for i in range(ii, j)})
@@ -178,7 +178,7 @@ class PetersburgHistory(object):
             object_of_action = __class__.move_str((tup[1], tup[2]))
         else:
             object_of_action = cards[tup[1]]
-        return "{} {}".format(verbs[tup[0]], object_of_action0)
+        return "{} {}".format(verbs[tup[0]], object_of_action)
 
     def break_into_rounds(self):
         # Apparently the 3rd char always tells the nature of the round (0=worker, etc.)
@@ -212,16 +212,19 @@ Status: {header}
     def current_player_from(move_num, round_first_move, round_first_player):
         assert move_num >= round_first_move
         num_players = 2
-        return (move_num - round_first_move + round_first_player) % num_players
+        return (move_num - round_first_move + int(round_first_player)) % num_players
 
     def basic_report(self):
         num_players = 2     # TODO read from status
         break_moves = self.break_into_rounds()
         last_break = 0
         for i, move in enumerate(self._moves):
+            assert type(i) == int, "Type of i is {}".format(type(i))
+            assert type(self.starting_player_from_move(i)) == str
             print("Player {}".format(self.current_player_from(i,
                                                       last_break,
-                                                      self.starting_player_from_move(i))
+                                                      self.starting_player_from_move(i)
+                                                              )))
             print("{}: {}".format(i, move['move_str']))
             print(self.starting_player_from_move(i))
             if i in break_moves:
@@ -255,9 +258,9 @@ class PetersburgAnalyzer(object):
 
 
 def main():
-    # a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
-    # a.diag()
-    test_current_player()
+    a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
+    a.diag()
+    # test_current_player()
 
 def test_current_player():
     for input, result in [
