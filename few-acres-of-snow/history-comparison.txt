@@ -29,7 +29,7 @@ UK CARDS
 ± New Haven
 
 Move 1. Red buy Rangers
-HistoryMove[0] = '½ã';
+    HistoryMove[0] = '½ã';
 
 Hypothesis: ½ = draft
 ã = Rangers
