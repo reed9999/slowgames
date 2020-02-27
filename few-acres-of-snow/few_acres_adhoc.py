@@ -66,6 +66,8 @@ UK_CARDS = {    #  å·»
     'å': 'Governor',
     'ä': 'Fortification (red)',
 
+    # '´': 'Home support (UK) maybe',
+
 }
 
 FR_CARDS = {
@@ -95,9 +97,8 @@ FR_CARDS = {
     None: 'Kennebec',
     '±': 'Louisbourg',
     'Ð': 'Oswego (dead)',
-    # '´': 'Port Royal',
-    'Ì': 'Port Royal',
-    'Ç': 'Port Royal (dead maybe)',
+    '´': 'Port Royal',
+    'Ç': 'Port Royal (sometimes?)',
     None: 'Richmond',
     'µ': 'Tadoussac',
     None: 'Ticonderoga',
@@ -114,12 +115,10 @@ FR_CARDS = {
 
     'Ó': 'Militia',
     'Ö': 'Native Americans (blue)',
-    # 'Ì': 'Trader',
-    None: 'Trader',
+    'Ì': 'Trader (but sometimes PR maybe?)',
     'Í': 'Coureurs de Bois',
     'Ñ': 'Intendant',
     'Î': 'Fortification (blue)',
-    '´': 'Home support',
     'Ê': 'Bateaux (huh?)',
 
 }
@@ -189,16 +188,18 @@ TEST_BED = [
 ]
 
 TEST_BED_02 = [
+    # I believe this is the mellyagain game.
+    # https://yucata.de/en/Game/FewAcresOfSnow/8945638
     '°È°³¶',
     '¿Ë',
     'º±²µ,½ä',
     '¹¶,½Î',
     '±³³¶,±´´°',
-    '¼±´,¹²',
+    '¼±´,¹²',   # piracy
     '°·²¶µ,¹°',
     '»Ì²,±Îµ³',
     '²ÈäÈ,½H',
-    '²Ì´Î,¹¶',
+    '²Ì´Î,¹¶',      ## Fortify PR;
     'ºÈ³,¾´',
     '»Ì°¶,½Í',
     '²·ä·,°»±¶°',
