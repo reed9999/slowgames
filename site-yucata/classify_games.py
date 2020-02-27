@@ -17,13 +17,14 @@ class GamesFinder(object):
         self._game = game
 
     def request_top_players(self):
-        url = 'https://yucata.de/de/GameInfo/' + self._game
-        # Better to use https://yucata.de/en/Ranking/Game/<game>
+        # url = 'https://yucata.de/de/GameInfo/' + self._game
+        url = 'https://yucata.de/en/Ranking/Game/' + self._game
         try:
             response = requests.get(url)
         except TimeoutError as e:
             raise YucataOSError(wrapped_error=e, game=self._game)
-
+        # For now let's just take the top 10. We should be able to change to 25, 50,
+        # or 100 if we know how to hack the Javascript. See note at end.
         # lines = response.text.split(sep='<tr style="background-color:white;">')
         lines = response.text.split(sep='background-color:white')
         patt = 'User/([a-zA-Z0-9 ]*)"'
@@ -87,8 +88,8 @@ def experiment():
     # _ = [print(x) for x in all_reqs.items()]
 
 if __name__ == "__main__":
-    # main()
-    experiment()
+    main()
+    # experiment()
 
 
 # <div id="divRankingFilter" style="padding:10px;">Filter by game: <select id="selFilterGameType"><option value="-1">All games</option></select>&nbsp;and by opponent:&nbsp;<select id="selFilterOpponent"><option value="-1">All opponents</option></select></div>
@@ -104,3 +105,25 @@ if __name__ == "__main__":
     #   columns%5B1%5D%5Bsearchable%5D=true&columns%5B1%5D%5Borderable%5D=false&columns%5B1%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B1%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B2%5D%5Bdata%5D=CustomGameName&columns%5B2%5D%5Bname%5D=&columns%5B2%5D%5Bsearchable%5D=true&columns%5B2%5D%5Borderable%5D=false&columns%5B2%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B2%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B3%5D%5Bdata%5D=Opponents&columns%5B3%5D%5Bname%5D=&columns%5B3%5D%5Bsearchable%5D=true&columns%5B3%5D%5Borderable%5D=false&columns%5B3%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B3%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B4%5D%5Bdata%5D=GameId&columns%5B4%5D%5Bname%5D=&columns%5B4%5D%5Bsearchable%5D=true&columns%5B4%5D%5Borderable%5D=false&columns%5B4%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B4%5D%5Bsearch%5D%5Bregex%5D=false&columns%5B5%5D%5Bdata%5D=PointResult&columns%5B5%5D%5Bname%5D=&columns%5B5%5D%5Bsearchable%5D=true&columns%5B5%5D%5Borderable%5D=false&columns%5B5%5D%5Bsearch%5D%5Bvalue%5D=&columns%5B5%5D%5Bsearch%5D%5Bregex%5D=false&start=0&length=25&search%5Bvalue%5D=&search%5Bregex%5D=false&_=1581302442930
 
     # Apparently nothing after GameType is necessary.
+
+
+
+# NOTE ON CHANGING NUMBER OF TOP PLAYERS
+        # then if you change the number of records, it calls
+        #     function ku(n, t, r) {
+        #         for (var u, o = t ? i.filter(t, n) : n, e = 0; (u = o[e]) != null; e++)
+        #             r || u.nodeType !== 1 || i.cleanData(f(u)),
+        #             u.parentNode && (r && i.contains(u.ownerDocument, u) && ci(f(u, "script")),
+        #             u.parentNode.removeChild(u));
+        #         return n
+        #     }
+    #     then this:
+        # append: function() {
+        #     return k(this, arguments, function(n) {
+        #         if (this.nodeType === 1 || this.nodeType === 11 || this.nodeType === 9) {
+        #             var t = yu(this, n);
+        #             t.appendChild(n)
+        #         }
+        #     })
+        # },
+        # This seems to be similar code: https://gist.github.com/jeppech/4541577
