@@ -62,6 +62,7 @@ UK_CARDS = {    #  å·»
     'Ø': 'Indian leader',
     'Ñ': 'Military leader',
     'Ý': 'Militia',
+    'Þ': 'Militia',
     'å': 'Governor',
     'ä': 'Fortification (red)',
 
