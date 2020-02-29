@@ -2,6 +2,16 @@ import pprint
 import re
 import requests
 
+HEADER_TEMPLATE = """
+{round_name} ROUND
+Status: {header}
+        {w}
+        {b}
+        {a}
+        {u}
+        {footer}
+-----"""
+
 class PetersburgHistory(object):
     def __init__(self, html):
         self._html = html
@@ -191,17 +201,9 @@ class PetersburgHistory(object):
         round_designation = int(self._moves[i]['status'][2])
         round_name = ['WORKER', 'BUILDING', 'ARISTO', 'UPGRADE'][round_designation]
         status = self._moves[i]['status']
-        output = """
-{round_name} ROUND
-Status: {header}
-        {w}
-        {b}
-        {a}
-        {u}
-        {footer}
------
-        """.format(round_name=round_name, header=status[0:8], w=status[8:39],
-                   b=status[39:66], a=status[66:94], u=status[94:124], footer=status[124:])
+        output = HEADER_TEMPLATE.format(
+            round_name=round_name, header=status[0:8], w=status[8:39], b=status[39:66],
+            a=status[66:94], u=status[94:124], footer=status[124:])
         return output
 
     def starting_player_from_move(self, move_num):
@@ -231,6 +233,10 @@ Status: {header}
                 print(self.round_header_after(i))
                 last_break = i
 
+    @staticmethod
+    def meaning_of_status_header(header):
+        assert len(header) == 8
+        assert header[0:2] == '30'  # Just always seems to be the case
 
 
 class PetersburgAnalyzer(object):
@@ -246,7 +252,8 @@ class PetersburgAnalyzer(object):
         # self._history.diag()
         self._history.basic_report()
 
-    def html_for_id(self, game_id):
+    @staticmethod
+    def html_for_id(game_id):
         url = "https://yucata.de/en/Game/Petersburg/{}".format(game_id)
         response = requests.get(url)
         return response.text
@@ -261,46 +268,6 @@ def main():
     a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
     a.diag()
     # test_current_player()
-
-def test_current_player():
-    for input, result in [
-        ((28, 28, 1), 1),
-        ((28, 28, 0), 0),
-        ((29, 28, 0), 1),
-        ((30, 28, 0), 0),
-        ((21, 19, 1), 1),
-        ((27, 19, 1), 1),
-        ((28, 19, 1), 0),
-    ]:
-        rv = PetersburgHistory.current_player_from(move_num=input[0],
-                                                   round_first_move=input[1],
-                                                   round_first_player=input[2])
-        assert rv == result, "input: {} expected {} got {}".format(input, result, rv)
-    try:
-        _ = PetersburgHistory.current_player_from(28, 35, 1)
-        assert False, "It should have thrown an error!"
-    except AssertionError:
-        # Good, threw the error.
-        pass
-
-
-
-def test_move_str():
-    a = PetersburgAnalyzer(filename='petersburg/tests/inputs/ph_9514605.js')
-    assert a.move_str((1, 0)) == 'bought lumberjack 3', a.move_str((1, 0))
-    assert a.move_str((1, 15)) == 'bought Schäfer 5', a.move_str((1, 15))
-    assert a.move_str((1, 9)) == 'bought Goldgrüber 4', a.move_str((1, 9))
-    assert a.move_str((1, 13)) == 'bought Schäfer 5', a.move_str((1, 13))
-    assert a.move_str((1, 12)) == 'bought Schäfer 5', a.move_str((1, 12))
-    assert a.move_str((1, 24)) == 'bought Schiffbauer 7', a.move_str((1, 24))
-    assert a.move_str((2, 54)) == 'took up Schenke 2:1', a.move_str((2, 54))
-    assert a.move_str((2, 55)) == 'took up Schenke 2:1', a.move_str((2, 55))
-    assert a.move_str((2, 32)) == 'took up Markt 1 5', a.move_str((2, 32))
-    assert a.move_str((10, 1)) == 'passed', a.move_str((10, 1))
-    assert a.move_str((5, 2, 70)) == 'used observatory -- took up card 70', a.move_str((5, 2, 70))
-    # assert a.move_str((1, 0)) == 'bought lumberjack 3', a.move_str((1, 0))
-    # assert a.move_str((1, 15)) == 'bought weaver 5', a.move_str((1, 15))
-
 
 if __name__ == "__main__":
     main()
