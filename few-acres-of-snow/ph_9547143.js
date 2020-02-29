@@ -1,6 +1,8 @@
 <script  type="text/javascript">
         // https://yucata.de/en/Game/FewAcresOfSnow/9547143
         // view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
+        // Philip was France. Feb 2020.
+
 var StartStatus = '307°°±-°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±°°°--±±°°°°,5,³±Ë´²,,µ¶°Ì,,,,±°°°°,°°±²,;°°°°--±±°°°°,12,°µ±²³,,´¶,,,,±°°°°,°°±²,;';
 var moveNr = 0;
 var HistoryMove = new Array();

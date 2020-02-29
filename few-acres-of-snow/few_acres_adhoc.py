@@ -5,11 +5,17 @@ Use this link for all philip9999's AFAoS games (player ID: 404792):
 https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=404792&GameType=90&length=-1
 or just use the UI from here (probably easier):
 https://yucata.de/en/Ranking/philip9999
+
+Something is changing under my feet though. In
+view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
+which became TEST_BED below, 4th move switched from
+»Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
+
 
 import pprint
 
-UK_CARDS = {    #  å·»
+UK_CARDS = {
     '°': 'Boston',
     '±': 'New Haven',
     '²': 'New York',
@@ -70,6 +76,9 @@ UK_CARDS = {    #  å·»
 
 }
 
+FR_PROTAGONIST_CARDS = {
+
+}
 FR_CARDS = {
     None: 'New Haven',
     None: 'Norfolk',
@@ -96,7 +105,7 @@ FR_CARDS = {
     None: 'Halifax',
     None: 'Kennebec',
     '±': 'Louisbourg',
-    'Ð': 'Oswego (dead)',
+    'Ð': 'Oswego',
     '´': 'Port Royal',
     'Ç': 'Port Royal (sometimes?)',
     None: 'Richmond',
@@ -115,7 +124,7 @@ FR_CARDS = {
 
     'Ó': 'Militia',
     'Ö': 'Native Americans (blue)',
-    'Ì': 'Trader (but sometimes PR maybe?)',
+    'Ì': 'Trader/PR (siege)',
     'Í': 'Coureurs de Bois',
     'Ñ': 'Intendant',
     'Î': 'Fortification (blue)',
@@ -163,7 +172,8 @@ TEST_BED = [
     'º³µ²',
     '¼±´',
     'º³µ°,½Ó',
-    '»Ì°²¶,½Í',
+    # '»Ì°²¶,½Í', ## 4th move; See comment in header
+    '½Í,»Ì°²', ## 4th move; See comment in header
     '°È´³¶,¹²',
     '¿Ë,¹³',
     '³Ì°±Ó,½Õ',
@@ -247,12 +257,15 @@ TEST_BED_02 = [
 ]
 def test():
     players = ['uk', 'fr']
-    current = 0
-    for test in TEST_BED_02:
-        print(players[current])
+    i = 0
+    for test in TEST_BED:
+        current = i % 2
+        print("{}: move {}".format(players[current], i + 1))
         for action in move_to_actions(test, players[current]):
             print("-- {}".format(action))
-        current = (current + 1) % 2
+        print()
+        i += 1
+
 
 if __name__ == "__main__":
     main()
