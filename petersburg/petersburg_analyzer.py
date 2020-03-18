@@ -2,6 +2,8 @@ import pprint
 import re
 import requests
 
+from game_analyzer_adhoc import GameHistory, GameAnalyzer
+
 HEADER_TEMPLATE = """
 {round_name} ROUND
 Status: {header}
@@ -12,16 +14,12 @@ Status: {header}
         {footer}
 -----"""
 
-class PetersburgHistory(object):
-    def __init__(self, html):
-        self._html = html
-        self._moves = []
-        self.init_from_html()
 
-    def diag(self):
-        pprint.pprint([m['move_str'] for m in self._moves])
+class PetersburgHistory(GameHistory):
 
     def init_from_html(self):
+        # TODO much of this is repetitive from GameHistory.
+        # Extract out the Petersburg specific stuff.
         for line in self._html.split(';'):
             # There is a catch. A few move types have three numbers; when that happens,
             # we need to make the comma optional but drop it in the group

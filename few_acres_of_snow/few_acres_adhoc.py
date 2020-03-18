@@ -12,8 +12,13 @@ which became TEST_BED below, 4th move switched from
 »Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
 
-
 import pprint
+
+from game_analyzer_adhoc import GameAnalyzer, GameHistory
+from few_acres_of_snow.test_moves import moves9575653_fr
+
+class FewAcresOfSnowHistory(GameHistory):
+    pass
 
 UK_CARDS = {
     '°': 'Boston',
@@ -32,7 +37,7 @@ UK_CARDS = {
     None: 'Fort Beausejour',
     None: 'Fort Duquesne',
     None: 'Fort Frontenac',
-    None: 'Fort Halifax',
+    'À': 'Fort Halifax',
     None: 'Fort Niagara',
     None: 'Fort Presqu\'île',
     None: 'Fort St. John',
@@ -55,6 +60,7 @@ UK_CARDS = {
     'Õ': 'Regular infantry',
     'Ö': 'Regular infantry',
     'Ò': 'Regular infantry',
+    'Ô': 'Regular infantry',
     'ã': 'Rangers',
 
     'C': 'Native Americans',
@@ -72,13 +78,11 @@ UK_CARDS = {
     'å': 'Governor',
     'ä': 'Fortification (red)',
 
-    # '´': 'Home support (UK) maybe',
+    # '´': 'Home support (UK) maybe',   ## Not most recent
+    'Ù': 'home support',
 
 }
 
-FR_PROTAGONIST_CARDS = {
-
-}
 FR_CARDS = {
     None: 'New Haven',
     None: 'Norfolk',
@@ -105,7 +109,7 @@ FR_CARDS = {
     None: 'Halifax',
     None: 'Kennebec',
     '±': 'Louisbourg',
-    'Ð': 'Oswego',
+    None: 'Oswego',         # Ð old and suspect now HS
     '´': 'Port Royal',
     'Ç': 'Port Royal (sometimes?)',
     None: 'Richmond',
@@ -130,25 +134,76 @@ FR_CARDS = {
     'Î': 'Fortification (blue)',
     'Ê': 'Bateaux (huh?)',
 
+    'Ð': 'Home support',
+    'Ï': 'Governor',
+
+    '0': '[opponent w/draw] could mean UK siege or no card relinquished',
+
+    '×': 'Priest',
+
 }
 
 ACTIONS = {
     '¹': 'money from',
-    '²': 'fortify (UK) or intendant (FR)',     #UK at least
+    '²': 'fortify (UK) or intendant (FR)',
+    'Â': 'fortify (FR)',
     '½': 'draft',
     '¼': 'piracy',
     '»': 'trade',
     '¾': 'discard',
     '¿': 'put into reserve',
     'À': 'retrieve reserve',
+    'Ã': 'home support',
     'º': 'merchant',
     '°': 'settle',
     '±': 'develop',
     '³': 'besiege',
     '´': 'play to siege',
     'µ': 'raid',
+    # '¶': 'successful ambush apparently. First card is protagonist;
+    # third card is the card that was returned to the deck, e.g. Ë =
+    # free French infantry.
+    # the second (T) and fourth (°) are unclear to me.
+    '¶': 'successful ambush [see comments]',
+    'Î': 'opponent withdrew from siege',
 }
 
+def raid(predicate):
+    s = "upon {target} by {subject} {extra}".format(
+        target=predicate[0],
+        subject=predicate[1],
+        extra='<TODO: what happened?>',
+    )
+
+def ambush(predicate):
+    pass
+
+# handlers for special actions. Perhaps this should be merged
+# with the card dicts, except there shouldn't be too many.
+# By default, we should just print out the names of the other cards.
+FUNCTION_LOOKUP = {
+    'µ': raid,
+    '¶': ambush,
+}
+RAID_AND_AMBUSH_NOTES = """
+These require more research.
+
+RAID:
+µÒCR³ - Attempted raid on Qbc (³) by natives (C) defended by location card (³).
+µÒãRÖ - Attempted raid, unclear on where, by Rangers (ã), defended by natives (Ö)
+µÌãRÍ - Attempted raid on Pt Royal (Ì) by Rangers defended by Coureurs (Í). 
+µÌC - Successful raid on Pt Royal by natives (C)
+
+It could be that Ò is a UK code for Qbc. It seems to also be an infantry card, thus 
+the character could be recycled.
+ 
+AMBUSH:
+¶ãTË° - Ambush by Rangers (ã) took out free inf (Ë).
+"""
+
+INTENDANT_NOTES = """
+²ÒÎ³ means intendant pulled out Quebec. No idea what ÒÎ mean here.
+"""
 def action_code_to_action(code, which_side):
     cards_dict = {'uk': UK_CARDS, 'fr': FR_CARDS}[which_side.lower()]
     cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
@@ -167,98 +222,26 @@ def file_to_history(filename):
 def main():
     pass
 
-TEST_BED = [
-    # 9547143
-    'º³µ²',
-    '¼±´',
-    'º³µ°,½Ó',
-    # '»Ì°²¶,½Í', ## 4th move; See comment in header
-    '½Í,»Ì°²', ## 4th move; See comment in header
-    '°È´³¶,¹²',
-    '¿Ë,¹³',
-    '³Ì°±Ó,½Õ',
-    'ÀË,´ÌË,¾°µ¶',
-    '´ÌÕ,´Ì±',
-    '´Ì²,½Ú',
-    '´Ì²,¹µ',
-    '´Ì±,»Ì°',
-    '´ÌÈ,±´´¶',
-    '´Ì³,½Ù',
-    'º³µ°,½Ö',
-    '´ÌÚ,½Î',
-    '´ÌÖ,¹µ',
 
-    '¶DC,½Ò',
-    'Î0LÍDB,±±±²,½å',
-    'ÀÏ,ÁÏ°,ÃÐ,»Ì¶',
-    '¿Ý,¾Ê',
-    'µ´DÖRC,¹³',
-    'ÃÙ,¸ØC,µÒãE',
-    'ÃÐ,»Ì²¶,¿Ò',
-]
-
-TEST_BED_02 = [
-    # I believe this is the mellyagain game.
-    # https://yucata.de/en/Game/FewAcresOfSnow/8945638
-    '°È°³¶',
-    '¿Ë',
-    'º±²µ,½ä',
-    '¹¶,½Î',
-    '±³³¶,±´´°',
-    '¼±´,¹²',   # piracy
-    '°·²¶µ,¹°',
-    '»Ì²,±Îµ³',
-    '²ÈäÈ,½H',
-    '²Ì´Î,¹¶',      ## Fortify PR;
-    'ºÈ³,¾´',
-    '»Ì°¶,½Í',
-    '²·ä·,°»±¶°',
-    '²Ò³Î,¼±´',
-    '±»»H,±µµ²',
-    '¼±´,»Ì²µ',
-    '±±±°,¿ä',
-    '²ÇÎ°,±Ð¶³',
-    '±ÈÈ¶,½C',
-    '²Ð¶Î,¹´',
-    '±··H,¹³',
-    '±Ç°³,»Ìµ',
-    '±¶¶²,½D',
-    '»Ì²µ,½Ó',
-    '½Ñ,½å',
-    '²ÊÎ±,º³¶',
-    'ºÈ±°,¾´',
-    'º´¶,½Ö',
-    'º³µ»,½Ò',
-    '²ÎÎµ,»Ì°',
-    '°¹È°H,ÄP',
-    '±Ê±³,¿Ó',
-    '¹²,¿å',
-    '±Ñ²³,¾°',
-    '°Æ·¶,µÑCDRÖ,Àäå',
-    '»Ìµ,ÄP',
-    'Áå±´,¿Ñ',
-    '¹¶,½Ñ',
-    'ÁåÈ,¾Ò',
-    '¾±,¾µ',
-    'µÑCDR²,¹°',        ## Raid on Montreal with two natives, failing.
-    'µ¹ÍRä,½I',
-    '°Í³¶²,¾H',
-    'Â²,²ÑÎ²',
-    '¹µ,½Ý',
-    '±Ì´³,»Ì°¶',
-    '¹²,¹»',
-    '¾I,¾Ì',
-    '¿Ý,¾·',
-    '¾Î,ÄP',
-    '±ÍÍ°,¾å',
-    '¾°,¾Ñ',
-    '±¹¹µ,¿Ò',
-    '°¿²µ,¹¶',
-]
-def test():
+def test1():
     players = ['uk', 'fr']
     i = 0
-    for test in TEST_BED:
+    try:
+        with open('few_acres_of_snow/ph_9575653.js', 'r') as f:
+            full_html = f.read()
+    except:
+        with open('ph_9575653.js', 'r') as f:
+            full_html = f.read()
+
+    history = FewAcresOfSnowHistory(full_html)
+    print(history.basic_report())
+    # print(["****" + ms for )
+
+def test2():
+    players = ['uk', 'fr']
+    i = 0
+
+    for test in moves9575653_fr[20:40]:
         current = i % 2
         print("{}: move {}".format(players[current], i + 1))
         for action in move_to_actions(test, players[current]):
@@ -269,7 +252,7 @@ def test():
 
 if __name__ == "__main__":
     main()
-    test()
+    test2()
 
 
 ## FUN EXPLORATORY CODE
