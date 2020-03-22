@@ -1,0 +1,13 @@
+The first interesting elements are naturally the top row indicators of things like fortresses left:
+
+<img id="fortDisc" alt="" src="/netimages/games/FewAcresOfSnow/fortDisc.png" ...>
+
+Then a div called oppDiv with the opponent's dashboard. oppInfoDummy is the size of the discard pile, but naturally
+we care more about the contents that appear when we click it.
+
+We can go to Listeners (at the bottom) | click and see that this line 1 column 151358, or pretty line 4255.
+arrayShuffle()
+If I click I get an element called cardInfoDiv. This appears to be the name for Discard, Hand, etc.
+
+Not sure the debugger is in the right place -- arrayShuffle looks like it just shuffles the cards. What about instead
+go directly from https://yucata.de/bundles/game_FewAcresOfSnow?
