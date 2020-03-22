@@ -1,18 +1,24 @@
+# vim: set fileencoding=utf-8 :
 """I failed to commit changes from another computer. This file contains functions that
 should be turned into methods.
+
+From examining the JavaScript it becomes clear that the ASCII codes are offset by 176
+then referenced in a huge JS case statement. See user-interface-notes.txt for more.
 
 Use this link for all philip9999's AFAoS games (player ID: 404792):
 https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=404792&GameType=90&length=-1
 or just use the UI from here (probably easier):
 https://yucata.de/en/Ranking/philip9999
 
-Something is changing under my feet though. In
+Earlier I thought something was changing under my feet. In
 view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
 which became TEST_BED below, 4th move switched from
 »Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
 
 import pprint
+import sys
+print(sys.path)
 
 from game_analyzer_adhoc import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
@@ -144,22 +150,38 @@ FR_CARDS = {
 }
 
 ACTIONS = {
-    '¹': 'money from',
-    '²': 'fortify (UK) or intendant (FR)',
+    0: 'settle',
+    1: 'develop',
+    2: 'fortify',
+    3: 'besiege',
+    4: 'reinforce siege',
+    5: 'raid',
+    # Following the order in game_FewAcresOfSnow
+    36: 'raid',
+    6: 'ambush',
+    35: 'ambush',
+    7: 'played Military Leader',
+    8: 'played Indian Leader/Priest',
+    9: 'money from',
+    10: 'merchant',
+    11: 'trade',
+    12: 'piracy',
+    13: 'draft',
+    14: 'discard',
+    38: 'discard',
+
+
+    # '²': 'fortify (UK) or intendant (FR)',
     'Â': 'fortify (FR)',
-    '½': 'draft',
-    '¼': 'piracy',
-    '»': 'trade',
-    '¾': 'discard',
-    '¿': 'put into reserve',
-    'À': 'retrieve reserve',
-    'Ã': 'home support',
-    'º': 'merchant',
-    '°': 'settle',
-    '±': 'develop',
-    '³': 'besiege',
-    '´': 'play to siege',
-    'µ': 'raid',
+    15: 'put into reserve',
+    16: 'retrieve reserve',
+    17: 'govern',
+    18: 'use Intendant',
+    19: 'home support',
+    20: 'pass',
+    21: 'withrdaw from siege',
+    30: 'win a siege',
+    35: 'free fur action',  #special rules
     # '¶': 'successful ambush apparently. First card is protagonist;
     # third card is the card that was returned to the deck, e.g. Ë =
     # free French infantry.
@@ -209,7 +231,9 @@ def action_code_to_action(code, which_side):
     cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
                        else c for c in code[1:]
                        ])
-    action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
+    # action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
+    char_code0 = ord(code[0]) - 176
+    action = ACTIONS[char_code0] if char_code0 in ACTIONS.keys() else code[0] + str(char_code0)
     return "{action}: {cards}".format(action=action, cards=cards)
 
 def move_to_actions(move, which_side):
@@ -241,7 +265,7 @@ def test2():
     players = ['uk', 'fr']
     i = 0
 
-    for test in moves9575653_fr[20:40]:
+    for test in moves9575653_fr:
         current = i % 2
         print("{}: move {}".format(players[current], i + 1))
         for action in move_to_actions(test, players[current]):

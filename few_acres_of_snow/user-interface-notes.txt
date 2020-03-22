@@ -11,3 +11,19 @@ If I click I get an element called cardInfoDiv. This appears to be the name for 
 
 Not sure the debugger is in the right place -- arrayShuffle looks like it just shuffles the cards. What about instead
 go directly from https://yucata.de/bundles/game_FewAcresOfSnow?
+See the bundle
+SetHistoryMove() 3568
+InitBoard() 3436
+CancelMove() 3370
+UserGiveUp() 3364
+
+Let's dig in the general bundle.
+https://yucata.de/bundles/gamebasescripts?v=ghzUIaYi8NYsbTVPWk0-nFQr2HGXK0MBBRn-6uF4rE41
+Actually it turns out InitBoard() is more often called from $(document).ready, line 804 of the HTML.
+
+ShowLastMoveInfo() 3653 of beautified is probably more salient.
+The big case statement at 3723 is where the weird characters are used.
+Decode() is just return n.charCodeAt(t) - 176.
+So there you go. That's the offset into this weird world.
+
+Knowing the 176 offset, the case statement is easy to unwind. I'll just put it in the code.
