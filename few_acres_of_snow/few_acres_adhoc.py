@@ -150,44 +150,46 @@ FR_CARDS = {
 }
 
 ACTIONS = {
-    0: 'settle',
-    1: 'develop',
-    2: 'fortify',
-    3: 'besiege',
-    4: 'reinforce siege',
-    5: 'raid',
     # Following the order in game_FewAcresOfSnow
-    36: 'raid',
-    6: 'ambush',
-    35: 'ambush',
-    7: 'played Military Leader',
-    8: 'played Indian Leader/Priest',
-    9: 'money from',
-    10: 'merchant',
-    11: 'trade',
-    12: 'piracy',
-    13: 'draft',
-    14: 'discard',
-    38: 'discard',
+    0: ('settle', None, ),
+    1: ('develop', None, ),
+    2: ('fortify', None, ),
+    3: ('besiege', None, ),
+    4: ('reinforce siege', None, ),
+    5: ('raid', None, ),
+    36: ('raid', None, ),
+    6: ('ambush', None, ),
+    35: ('ambush', None, ),
+    7: ('played Military Leader', None, ),
+    8: ('played Indian Leader/Priest', None, ),
+    9: ('money from', None, ),
+    10: ('merchant', None, ),
+    11: ('trade', None, ),
+    12: ('piracy', None, ),
+    13: ('draft', None, ),
+    14: ('discard', None, ),
+    38: ('discard', None, ),
+    15: ('put into reserve', None, ),
+    16: ('retrieve reserve', None, ),
+    17: ('govern', None, ),
+    18: ('use Intendant', None, ),
+    19: ('home support', None, ),
+    20: ('pass', None, ),
+    21: ('withrdaw from siege', None, ),
+    30: ('win a siege', None, ),
+    35: ('free fur action', None, ),  #special rules
 
-
-    # '²': 'fortify (UK) or intendant (FR)',
-    'Â': 'fortify (FR)',
-    15: 'put into reserve',
-    16: 'retrieve reserve',
-    17: 'govern',
-    18: 'use Intendant',
-    19: 'home support',
-    20: 'pass',
-    21: 'withrdaw from siege',
-    30: 'win a siege',
-    35: 'free fur action',  #special rules
+    # From here is legacy junk, to help troubleshoot why I couldn't figure this out before.
     # '¶': 'successful ambush apparently. First card is protagonist;
     # third card is the card that was returned to the deck, e.g. Ë =
     # free French infantry.
     # the second (T) and fourth (°) are unclear to me.
-    '¶': 'successful ambush [see comments]',
-    'Î': 'opponent withdrew from siege',
+
+
+    # '²': 'fortify (UK) or intendant (FR)', None, ),
+    'Â': ('fortify (FR)', None, ),
+    '¶': ('successful ambush [see comments]', None, ),
+    'Î': ('opponent withdrew from siege', None, ),
 }
 
 def raid(predicate):
@@ -197,35 +199,9 @@ def raid(predicate):
         extra='<TODO: what happened?>',
     )
 
-def ambush(predicate):
+def ambush(detail_code):
     pass
 
-# handlers for special actions. Perhaps this should be merged
-# with the card dicts, except there shouldn't be too many.
-# By default, we should just print out the names of the other cards.
-FUNCTION_LOOKUP = {
-    'µ': raid,
-    '¶': ambush,
-}
-RAID_AND_AMBUSH_NOTES = """
-These require more research.
-
-RAID:
-µÒCR³ - Attempted raid on Qbc (³) by natives (C) defended by location card (³).
-µÒãRÖ - Attempted raid, unclear on where, by Rangers (ã), defended by natives (Ö)
-µÌãRÍ - Attempted raid on Pt Royal (Ì) by Rangers defended by Coureurs (Í). 
-µÌC - Successful raid on Pt Royal by natives (C)
-
-It could be that Ò is a UK code for Qbc. It seems to also be an infantry card, thus 
-the character could be recycled.
- 
-AMBUSH:
-¶ãTË° - Ambush by Rangers (ã) took out free inf (Ë).
-"""
-
-INTENDANT_NOTES = """
-²ÒÎ³ means intendant pulled out Quebec. No idea what ÒÎ mean here.
-"""
 def action_code_to_action(code, which_side):
     cards_dict = {'uk': UK_CARDS, 'fr': FR_CARDS}[which_side.lower()]
     cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
@@ -233,8 +209,12 @@ def action_code_to_action(code, which_side):
                        ])
     # action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
     char_code0 = ord(code[0]) - 176
-    action = ACTIONS[char_code0] if char_code0 in ACTIONS.keys() else code[0] + str(char_code0)
-    return "{action}: {cards}".format(action=action, cards=cards)
+    if char_code0 in ACTIONS.keys():
+        action, handler = ACTIONS[char_code0]
+    else:
+        action = code[0] + " -- " + str(char_code0)
+        handler = None
+    return "{action}: {detail}".format(action=action, detail=handler(cards) if handler else cards)
 
 def move_to_actions(move, which_side):
     list_of_action_codes = move.split(',')
