@@ -1,3 +1,4 @@
+import os
 import re
 import requests
 
@@ -8,6 +9,9 @@ class YucataOSError(OSError):
         self._state = state
 
 class GamesFinder(object):
+    game_url_name = None    # override, e.g. Petersburg or FewAcresOfSnow
+    output_dir = None       # eventually, derive this from game_url_name
+
     def __init__(self, game):
         """
 
@@ -41,6 +45,7 @@ class GamesFinder(object):
             ## This might happen legitimately if the player is not found.
             # In our case, starting up, it's more likely a bad regex
             raise
+
     # Originally get the ID by parsing: var profileId = 188172;  or var CurrentUserId = 188172;
     # Maybe different though? Rashtulla 339070 found by that number in the JS.
     def request_games_for(self, player):
@@ -59,20 +64,24 @@ class GamesFinder(object):
             text = self.request_games_for(player)
             print(text)
 
+    def save_game(self, id):
+        url = "https://yucata.de/en/Game/{}/{}".format(self.game_url_name, id)
+        try:
+            response = requests.get(url)
+        except TimeoutError as e:
+            raise YucataOSError(wrapped_error=e, game=self._game, state='for player')
+        fn = os.path.join('..', self.output_dir, "game-{}.html".format(id))
+        with open(fn, 'w') as f:
+            f.write(response.text)
 
 def main():
-    # GamesFinder('Snowdonia').find()       # ID 309
-    GamesFinder('Petersburg').find()      # 27
-    # GamesFinder('Delphi').find()          # 324
-    # ['JimF', 'Uli', 'JayAnthony', 'kyoysc', 'LJenkins', 'mcdoomer', 'suet63', 'Minella',
-    #  'BlauerKlaus', 'sto1']
-    # ['hotei11', 'thekid', 'c4dancer', 'CroOm', 'texaswer', 'oelschlegel', 'Monash',
-    #  'Ostrich', 'Chrissi', 'georgedim']
-    # ['Stonecrusher', 'kyoysc', 'Hircine', 'peet', 'Pompkin', 'Tintin', 'November',
-    #  'Alanna', 'vospe', 'Katzenfloh']
-    # GamesFinder('RRR2').find()            # 142
-    # ['califax', 'Levster', 'tamihiko71b', 'Agentus', 'loulouulou', 'Gio1987', 'RobRdam',
-    #  'oelschlegel', 'noblekenny', 'AndreasJ']
+    # Below are some examples of games and the resulting list of top players.
+    class Temp(GamesFinder):
+        game_url_name = 'FewAcresOfSnow'
+        output_dir = 'few_acres_of_snow'
+    finder=Temp('FewAcresOfSnow')
+    id = 9616498
+    finder.save_game(id)
 
 ## EXPERIMENTS, dead code
 def experiment():
@@ -127,3 +136,17 @@ if __name__ == "__main__":
         #     })
         # },
         # This seems to be similar code: https://gist.github.com/jeppech/4541577
+
+### Moved from main() -- lists of top players
+    # GamesFinder('Snowdonia').find()       # ID 309
+    # GamesFinder('Petersburg').find()      # 27
+    # GamesFinder('Delphi').find()          # 324
+    # ['JimF', 'Uli', 'JayAnthony', 'kyoysc', 'LJenkins', 'mcdoomer', 'suet63', 'Minella',
+    #  'BlauerKlaus', 'sto1']
+    # ['hotei11', 'thekid', 'c4dancer', 'CroOm', 'texaswer', 'oelschlegel', 'Monash',
+    #  'Ostrich', 'Chrissi', 'georgedim']
+    # ['Stonecrusher', 'kyoysc', 'Hircine', 'peet', 'Pompkin', 'Tintin', 'November',
+    #  'Alanna', 'vospe', 'Katzenfloh']
+    # GamesFinder('RRR2').find()            # 142
+    # ['califax', 'Levster', 'tamihiko71b', 'Agentus', 'loulouulou', 'Gio1987', 'RobRdam',
+    #  'oelschlegel', 'noblekenny', 'AndreasJ']
