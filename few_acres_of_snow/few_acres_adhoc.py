@@ -26,6 +26,26 @@ from few_acres_of_snow.test_moves import moves9575653_fr
 class FewAcresOfSnowHistory(GameHistory):
     pass
 
+## These handlers need to precede the actions using them.
+def raid(predicate):
+    s = "upon {target} by {subject} {extra}".format(
+        target=predicate[0],
+        subject=predicate[1],
+        extra='<TODO: what happened?>',
+    )
+
+def ambush(detail_code):
+    pass
+
+def location_then_cards(detail_code):
+    """For reinforce siege but I'll bet there are others. First the target
+    location then cards played"""
+    rv = LOCATIONS[ord(detail_code[0]) - 176] + " -- cards:"
+    for a in detail_code[1:]:
+        ## stopgap until the code to identify cards
+        rv += " (card {})".format(a)
+    return rv
+
 UK_CARDS = {
     '°': 'Boston',
     '±': 'New Haven',
@@ -155,7 +175,7 @@ ACTIONS = {
     1: ('develop', None, ),
     2: ('fortify', None, ),
     3: ('besiege', None, ),
-    4: ('reinforce siege', None, ),
+    4: ('reinforce siege', location_then_cards, ),
     5: ('raid', None, ),
     36: ('raid', None, ),
     6: ('ambush', None, ),
@@ -192,21 +212,55 @@ ACTIONS = {
     'Î': ('opponent withdrew from siege', None, ),
 }
 
-def raid(predicate):
-    s = "upon {target} by {subject} {extra}".format(
-        target=predicate[0],
-        subject=predicate[1],
-        extra='<TODO: what happened?>',
-    )
+LOCATIONS = [
+    "Boston",
+    "New Haven",
+    "New York",
+    "Norfolk",
+    "Pemaquid",
+    "Philadelphia",
+    "St. Mary's",
+    "Albany",
+    "Baltimore",
+    "Canso",
+    "Cumberland",
+    "Deerfield",
+    "Detroit",
+    "Fort Beausejour",
+    "Fort Duquesne",
+    "Fort Frontenac",
+    "Fort Halifax",
+    "Fort Niagara",
+    "Fort Presqu'Isle",
+    "Fort St. John",
+    "Fort Stanwix",
+    "Fort Venango",
+    "Fort William Henry",
+    "Gaspe",
+    "Halifax",
+    "Kennebec",
+    "Louisbourg",
+    "Oswego",
+    "Port Royal",
+    "Richmond",
+    "Tadoussac",
+    "Ticonderoga",
+    "Trois Rivieres",
+    "Montreal",
+    "Quebec",
+    "Michillimackinac",
+]
 
-def ambush(detail_code):
-    pass
-
-def action_code_to_action(code, which_side):
+def simple_cards(detail_code, which_side):
     cards_dict = {'uk': UK_CARDS, 'fr': FR_CARDS}[which_side.lower()]
     cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
-                       else c for c in code[1:]
+                       else c for c in detail_code
                        ])
+    return cards
+
+def action_code_to_action(code, which_side):
+    ## TODO - extract out the simplest handler, what I'm calling cards here,
+    # to be a default handler.
     # action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
     char_code0 = ord(code[0]) - 176
     if char_code0 in ACTIONS.keys():
@@ -214,7 +268,9 @@ def action_code_to_action(code, which_side):
     else:
         action = code[0] + " -- " + str(char_code0)
         handler = None
-    return "{action}: {detail}".format(action=action, detail=handler(cards) if handler else cards)
+    return "{action}: {detail}".format(
+        action=action, detail=(handler(code[1:]) if handler else
+                               simple_cards(code[1:], which_side)))
 
 def move_to_actions(move, which_side):
     list_of_action_codes = move.split(',')
