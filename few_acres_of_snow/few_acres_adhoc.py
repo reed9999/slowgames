@@ -119,8 +119,7 @@ UK_CARDS = {
     'å': 'Governor',
     'ä': 'Fortification (red)',
 
-    # '´': 'Home support (UK) maybe',   ## Not most recent
-    'Ù': 'home support',
+    'Ù': 'Home Support',
 
 }
 
@@ -169,7 +168,7 @@ FR_CARDS = {
 
     'Ó': 'Militia',
     'Ö': 'Native Americans (blue)',
-    'Ì': 'Trader/PR (siege)',
+    'Ì': 'Trader',
     'Í': 'Coureurs de Bois',
     'Ñ': 'Intendant',
     'Î': 'Fortification (blue)',
