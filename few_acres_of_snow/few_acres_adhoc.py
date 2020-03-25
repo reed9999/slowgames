@@ -37,14 +37,29 @@ def raid(predicate):
 def ambush(detail_code):
     pass
 
+# Forward "declaration" (i.e. assignment) lets us keep all the card lists together.
+UK_CARDS, FR_CARDS = None, None
+
+# More handlers, stacked this way because of dependencies.
+def simple_cards(detail_code, which_side):
+    cards_dict = {'uk': UK_CARDS, 'fr': FR_CARDS}[which_side.lower()]
+    cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
+                       else c for c in detail_code
+                       ])
+    return cards
+
+
 def location_then_cards(detail_code):
     """For reinforce siege but I'll bet there are others. First the target
     location then cards played"""
     rv = LOCATIONS[ord(detail_code[0]) - 176] + " -- cards:"
-    for a in detail_code[1:]:
-        ## stopgap until the code to identify cards
-        rv += " (card {})".format(a)
+    rv += simple_cards(detail_code[1:], 'fr')
     return rv
+
+def win_siege(detail_code):
+    if detail_code == '0XX':
+        return "No empire cards for the losing side to relinquish"
+    return "TODO: <{}>".format(detail_code)
 
 UK_CARDS = {
     '°': 'Boston',
@@ -163,8 +178,6 @@ FR_CARDS = {
     'Ð': 'Home support',
     'Ï': 'Governor',
 
-    '0': '[opponent w/draw] could mean UK siege or no card relinquished',
-
     '×': 'Priest',
 
 }
@@ -196,7 +209,7 @@ ACTIONS = {
     19: ('home support', None, ),
     20: ('pass', None, ),
     21: ('withrdaw from siege', None, ),
-    30: ('win a siege', None, ),
+    30: ('win a siege', win_siege, ),
     35: ('free fur action', None, ),  #special rules
 
     # From here is legacy junk, to help troubleshoot why I couldn't figure this out before.
@@ -251,12 +264,7 @@ LOCATIONS = [
     "Michillimackinac",
 ]
 
-def simple_cards(detail_code, which_side):
-    cards_dict = {'uk': UK_CARDS, 'fr': FR_CARDS}[which_side.lower()]
-    cards = "; ".join([cards_dict[c] if c in cards_dict.keys()
-                       else c for c in detail_code
-                       ])
-    return cards
+
 
 def action_code_to_action(code, which_side):
     ## TODO - extract out the simplest handler, what I'm calling cards here,
@@ -301,7 +309,7 @@ def test2():
     players = ['uk', 'fr']
     i = 0
 
-    for test in moves9575653_fr:
+    for test in moves9575653_fr[:20]:
         current = i % 2
         print("{}: move {}".format(players[current], i + 1))
         for action in move_to_actions(test, players[current]):
