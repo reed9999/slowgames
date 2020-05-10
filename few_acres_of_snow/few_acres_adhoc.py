@@ -29,7 +29,6 @@ class FewAcresOfSnowHistory(GameHistory):
 class FewAcresOfSnowAnalyzer(GameAnalyzer):
     # Redefine to be closer to how the JavaScript works.
     # See user-interface-notes.txt or .md for a fuller explanation.
-    this_class = FewAcresOfSnowAnalyzer
     def __init__(self, list_of_moves):
         self.game_type='FewAcresOfSnow'
         self.which_side = 'uk'
@@ -86,8 +85,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def location_then_cards(self, detail_code):
         """For reinforce siege but I'll bet there are others. First the target
         location then cards played"""
-        rv = location(detail_code[0]) + " -- cards: "
-        rv += simple_cards(detail_code[1:], 'fr')
+        rv = self.location(detail_code[0]) + " -- cards: "
+        rv += self.simple_cards(detail_code[1:])
         return rv
 
     def besiege(self, detail_code):
@@ -163,7 +162,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         0: ('settle', None,),
         1: ('develop', None,),
         2: ('fortify', None,),
-        3: ('besiege', this_class.besiege,),
+        3: ('besiege', besiege,),
         4: ('reinforce siege', location_then_cards,),
         5: ('raid', None,),
         36: ('raid', None,),
@@ -262,7 +261,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             action = code[0] + " -- " + str(char_code0)
             handler = None
         return "{action}: {detail}".format(
-            action=action, detail=(handler(code[1:]) if handler else
+            action=action, detail=(handler(self, code[1:]) if handler else
                                    self.simple_cards(code[1:])))
 
     def move_to_actions(self, move):
