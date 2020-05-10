@@ -1,6 +1,8 @@
+# General UI observations
 The first interesting elements are naturally the top row indicators of things like fortresses left:
 
 <img id="fortDisc" alt="" src="/netimages/games/FewAcresOfSnow/fortDisc.png" ...>
+
 
 Then a div called oppDiv with the opponent's dashboard. oppInfoDummy is the size of the discard pile, but naturally
 we care more about the contents that appear when we click it.
@@ -21,6 +23,9 @@ Let's dig in the general bundle.
 https://yucata.de/bundles/gamebasescripts?v=ghzUIaYi8NYsbTVPWk0-nFQr2HGXK0MBBRn-6uF4rE41
 Actually it turns out InitBoard() is more often called from $(document).ready, line 804 of the HTML.
 
+
+# A breakthrough about the extended ASCII characters
+
 ShowLastMoveInfo() 3653 of beautified is probably more salient.
 The big case statement at 3723 is where the weird characters are used.
 Decode() is just return n.charCodeAt(t) - 176.
@@ -30,6 +35,26 @@ Knowing the 176 offset, the case statement is easy to unwind. I'll just put it i
 Below I reproduce the intermediate-state conversion of the JavaScript switch/case into a Python dict, in order to
 allow use of the German translations. But really we're fine without processing this for now.
 
+
+# Trying to figure out empire cards
+Note that empTitles empData and empDataN are the data about empire cards.
+There are other functions about settlers and natives but frankly, aside from confirming natives
+are C through G, they don't tell me much because they're so hard to debug.
+
+empTitles on 4352 looks important. I believe the titles are set in the page itself, but knowing 
+the order here probably refers to other things. grep empTitles site/game_FewAcresOfSnow.js|grep Decode is 
+potentially useful. So is GetEmpireIndex. Apparently we deduct 176 from the ord(), then another 33 or 26 depending
+on the player, and there we are.
+
+Here's how it works. empDataEN column 2 is an index into empTitles. For example, row 0 is Military leader; row 1 begins
+a series of 6 infantry; etc. MLead is 'Ñ'; ord('Ñ') is 209. Deduct 176 and 33, that gives 0. Row 0 points to
+item 5 in the names. And there you go. Conveniently the order matches the order in the Empire Cards dialog
+(assuming FR free infantry and trader are first, not sure which order) so no need for the last indexing.
+
+
+# Trying to get interactive in the console
+
+This didn't do much.
 
 Wacky=CreateLastMoveInfo
 function CreateLastMoveInfo (n, t) {
@@ -41,6 +66,10 @@ function CreateLastMoveInfo (n, t) {
 <div style='position:absolute;top:10px;left:10px;width:387px;height:170px;border:1px solid black;overflow:auto;background-color:silver;font-size:13px'><ul><li><br/><br/></li></ul></div><input id='closeLMInfo' type='button' name='closeLM' value='Close' style='position:absolute;left:142px;top:192px;width:140px;padding:2px;font-size:14px'/>"
 Wacky("1", "1, 2, 3");
 "<div style='position:absolute;top:10px;left:10px;width:387px;height:170px;border:1px solid black;overflow:auto;background-color:silver;font-size:13px'><ul><li><br/><br/></li><li><br/><br/></li><li><br/><br/></li></ul></div><input id='closeLMInfo' type='button' name='closeLM' value='Close' style='position:absolute;left:142px;top:192px;width:140px;padding:2px;font-size:14px'/>"
+
+
+
+
 
 
 {
