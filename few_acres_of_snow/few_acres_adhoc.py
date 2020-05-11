@@ -18,7 +18,6 @@ which became TEST_BED below, 4th move switched from
 
 import pprint
 import sys
-print(sys.path)
 
 from game_analyzer_adhoc import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
@@ -81,7 +80,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             offset = 27
             return self.FR_CARDS[a_char]   #for now....
 
-    def any_card(self, a_char, which_side='uk'):
+    def any_card(self, a_char):
         """This may be too fancy -- can we just concat LOCATIONS and the empire cards to one list?"""
         try:
             return self.location(a_char)
@@ -102,8 +101,10 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         how the two are distinguished."""
         target = self.location(detail_code[0])
         launch = self.location(detail_code[1])
-        transport = self.location(detail_code[2])
-        return "on {} from {} "
+        transport = self.any_card(detail_code[2])
+        military = self.any_card(detail_code[3])
+        # This clearly can't be right because sometimes transport isn't a location.
+        return "on {} from {}; transport is {}; military is {}".format(target, launch, transport, military)
 
     def win_siege(self, detail_code):
         if detail_code == '0XX':
@@ -305,7 +306,7 @@ def test1():
     # print(["****" + ms for )
 
 def test2():
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr)
+    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:3])
     pprint.pprint(analyzer.iterate_through_moves())
     # players = ['uk', 'fr']
     # i = 0
