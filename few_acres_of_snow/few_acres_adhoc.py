@@ -48,9 +48,15 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         pass
 
     def simple_cards_new(self, detail_code, ):
-        cards_list, offset = self.UK_CARDS, 33 if self.which_side == 'uk' else self.FR_CARDS, 33
-        cards = "; ".join([cards_list[ord(c) - 176 - offset]
-                           for c in detail_code])
+        cards_list, offset = {
+            'uk': (self.UK_CARDS, 33),
+            'fr': (self.FR_CARDS, 27)
+        }[self.which_side]
+        try:
+            cards = "; ".join([cards_list[ord(c) - 176 - offset]
+                               for c in detail_code])
+        except:
+            return "failed for cards {}".format([ord(c) for c in detail_code])
         return cards
 
     def simple_cards(self, detail_code, ):
@@ -99,12 +105,12 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         transport = self.location(detail_code[2])
         return "on {} from {} "
 
-    def win_siege(detail_code):
+    def win_siege(self, detail_code):
         if detail_code == '0XX':
             return "No empire cards for the losing side to relinquish"
         return "TODO: figure out what this means: <{}>".format(detail_code)
 
-    def merchant(detail, which_side):
+    def merchant(self, detail):
         return "Merchant can't yet deal with {}".format(detail)
         rv = "; ".join([cards_dict[c] if c in cards_dict.keys()
                            else c for c in detail_code
@@ -271,9 +277,9 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def iterate_through_moves(self):
         for move in self.moves_list:
             self.which_side = ['uk', 'fr'][self.move_number % 2]
-            self.actions_list.append(self.move_to_actions(move))
+            self.actions_list.append((self.which_side, self.move_to_actions(move)))
             self.move_number += 1
-        return self.moves_list
+        return self.actions_list
 
 
     def file_to_history(filename):
