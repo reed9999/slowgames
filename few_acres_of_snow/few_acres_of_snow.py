@@ -19,7 +19,7 @@ which became TEST_BED below, 4th move switched from
 import pprint
 import sys
 
-from game_analyzer_adhoc import GameAnalyzer, GameHistory
+from game_analyzer import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
 
 class FewAcresOfSnowHistory(GameHistory):
