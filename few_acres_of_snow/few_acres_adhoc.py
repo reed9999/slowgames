@@ -46,7 +46,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def ambush(self, detail_code):
         pass
 
-    def simple_cards_new(self, detail_code, ):
+    def simple_cards(self, detail_code, ):
         cards_list, offset = {
             'uk': (self.UK_CARDS, 33),
             'fr': (self.FR_CARDS, 27)
@@ -54,11 +54,11 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         try:
             cards = "; ".join([cards_list[ord(c) - 176 - offset]
                                for c in detail_code])
-        except:
+        except IndexError:
             return "failed for cards {}".format([ord(c) for c in detail_code])
         return cards
 
-    def simple_cards(self, detail_code, ):
+    def simple_cards_old(self, detail_code, ):
         # This is purely because I haven't yet implemented the cards list for FR
         if self.which_side == 'uk':
             return self.simple_cards_new(detail_code)
@@ -142,27 +142,42 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Governor',
     ]
 
-    FR_CARDS = {
-        'Ë': 'RegInf (free)',
-        'Ù': 'Regular infantry',
-        'Ú': 'Regular infantry',
-        'Û': 'Regular infantry',
-        'Ò': 'Military leader',
+    FR_CARDS = [
 
-        'Ó': 'Militia',
-        'Ö': 'Native Americans (blue)',
-        'Ì': 'Trader',
-        'Í': 'Coureurs de Bois',
-        'Ñ': 'Intendant',
-        'Î': 'Fortification (blue)',
-        'Ê': 'Bateaux (huh?)',
-
-        'Ð': 'Home support',
-        'Ï': 'Governor',
-
-        '×': 'Priest',
-
-    }
+        'Coureurs de Bois',
+        'Fortification (blue)',
+        'Governor',
+        'Intendant',
+        'Military leader',
+        'Militia',
+        'Militia',
+        'Militia',
+        'Native Americans (blue)',
+        'card 9',
+        'card 10',
+        'card 11',
+        'card 12',
+        'card 13',
+        'card 14',
+        'card 15',
+        'card 16',
+        ]
+    #     'Ê': 'Bateaux (huh?)',
+    #
+    #     'Ð': 'Home support',
+    #     'Priest',
+    #
+    #     'Ë': 'RegInf (free)',
+    #     'Ù': 'Regular infantry',
+    #     'Ú': 'Regular infantry',
+    #     'Û': 'Regular infantry',
+    #     'Ò': 'Military leader',
+    #
+    #     'Ó': 'Militia',
+    #     'Ö': '',
+    #     'Ì': 'Trader',
+    #
+    # }
 
     ACTIONS = {
         # Following the order in game_FewAcresOfSnow
@@ -306,24 +321,20 @@ def test1():
     # print(["****" + ms for )
 
 def test2():
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:3])
+    # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
+    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:10])
     pprint.pprint(analyzer.iterate_through_moves())
-    # players = ['uk', 'fr']
-    # i = 0
 
-
-    # for test in moves9575653_fr[:20]:
-    #     current = i % 2
-    #     print("{}: move {}".format(players[current], i + 1))
-    #     for action in analyzer.move_to_actions(test):
-    #         print("-- {}".format(action))
-    #     print()
-    #     i += 1
+def test3():
+    s = 'Î0XX,»Ì°²µ,½Ð'
+    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:10])
+    analyzer.which_side = 'fr'
+    pprint.pprint(analyzer.move_to_actions(s))
 
 
 if __name__ == "__main__":
     main()
-    test2()
+    test3()
 
 
 ## FUN EXPLORATORY CODE
