@@ -1,9 +1,5 @@
 # vim: set fileencoding=utf-8 :
-"""I failed to commit changes from another computer. This file contains functions that
-should be turned into methods.
-
-From examining the JavaScript it becomes clear that the ASCII codes are offset by 176
-then referenced in a huge JS case statement. See user-interface-notes.txt for more.
+"""History and Analyzer classes specific to A Few Acres of Snow
 
 Use this link for all philip9999's AFAoS games (player ID: 404792):
 https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=404792&GameType=90&length=-1
@@ -29,7 +25,7 @@ class FewAcresOfSnowHistory(GameHistory):
 
 class FewAcresOfSnowAnalyzer(GameAnalyzer):
     # Redefine to be closer to how the JavaScript works.
-    # See user-interface-notes.txt or .md for a fuller explanation.
+    # See user-interface-notes.md or .md for a fuller explanation.
     def __init__(self, list_of_moves):
         self.game_type='FewAcresOfSnow'
         self.which_side = 'uk'
@@ -51,16 +47,22 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def simple_cards(self, detail_code, ):
         cards_list, offset = {
             'uk': (self.UK_CARDS, 33),
-            'fr': (self.FR_CARDS, 27)
+            'fr': (self.FR_CARDS, 26)
         }[self.which_side]
-        try:
-            logging.debug([(ord(c), ord(c) - 176 - offset)
-                               for c in detail_code])
-            cards = "; ".join([cards_list[ord(c) - 176 - offset]
-                               for c in detail_code])
-        except IndexError:
-            return "failed for cards {}".format([ord(c) for c in detail_code])
-        return cards
+        cards_strs = []
+        for c in detail_code:
+            try:
+                logging.debug("ordinal {} and adjusted {}".format(
+                    ord(c), ord(c) - 176 - offset))
+                cards_strs.append(cards_list[ord(c) - 176 - offset])
+            except IndexError:
+                logging.warning("empire card not identified for {} -> {}".format(
+                    ord(c), ord(c) - 176))
+                reduced = ord(c) - 176
+                logging.warning("Reduced {} should be location {}".format(
+                    reduced, self.LOCATIONS[reduced]))
+                cards_strs.append(self.LOCATIONS[reduced])
+        return "; ".join(cards_strs)
 
     def simple_cards_old(self, detail_code, ):
         # This is purely because I haven't yet implemented the cards list for FR
@@ -236,7 +238,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         "Albany",
         "Baltimore",
         "Canso",
-        "Cumberland",
+        "Cumberland",   #10
         "Deerfield",
         "Detroit",
         "Fort Beausejour",
@@ -246,7 +248,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         "Fort Niagara",
         "Fort Presqu'Isle",
         "Fort St. John",
-        "Fort Stanwix",
+        "Fort Stanwix", #20
         "Fort Venango",
         "Fort William Henry",
         "Gaspe",
@@ -256,7 +258,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         "Oswego",
         "Port Royal",
         "Richmond",
-        "Tadoussac",
+        "Tadoussac",    #30
         "Ticonderoga",
         "Trois Rivieres",
         "Montreal",
@@ -274,10 +276,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'I': 'Settlers',
     }
 
-
-
     def action_code_to_action(self, code):
-        # action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
+        # action = ACTIONS[code[0]] if code[0] in .keys() else code[0]
         char_code0 = ord(code[0]) - 176
         if char_code0 in self.ACTIONS.keys():
             action, handler = self.ACTIONS[char_code0]
@@ -299,9 +299,46 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             self.move_number += 1
         return self.actions_list
 
-
     def file_to_history(filename):
         pass
+
+    def calc_loc_title(self, char):
+        """This corresponds to the javascript:
+        ```
+        function CalcLocTitle(n, t) {
+    var r = n === 0 ? locDataEN : locDataFR,
+        u = n === 0 ? empDataEN : empDataFR,
+        i = "";
+    return IsLocationCard(n, t) ? (cardIndex = Decode(t, 0), i = locationData[r[cardIndex][0][2]][0])
+        : i = IsNeutralCard(t) ? empTitles[empDataN[GetNeutralIndex(t)][2]] : empTitles[u[GetEmpireIndex(n, t)][2]], i
+}
+    ```
+        """
+        if self.is_location_card(char):
+            return self.LOCATIONS[self.decode(char)]
+
+    def is_location_card(self, char):
+        """This corresponds to the javascript
+            function IsLocationCard(n, t)
+        In truth the actual Yucata handling seems a bit clumsy (doing
+        conversions in several functions; no single source of truth for
+        offsets etc.) but probably shadowing it is helpful in reading their
+        code.
+        """
+        if self.is_neutral_card(char):
+            return False
+        offset = {'uk': 33, 'fr': 26}[self.which_side]
+        return self.decode(char) in range(0, offset)
+
+    @staticmethod
+    def decode(string, index=0):
+        """Corresponds to javascript Decode() function.
+
+        :param string:
+        :param index:
+        :return:
+        """
+        return ord(string[index]) - 176
 
 
 def main():
@@ -328,7 +365,8 @@ def test2():
     pprint.pprint(analyzer.iterate_through_moves())
 
 def test3():
-    s = 'Î0XX,»Ì°²µ,½Ð'
+    # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
+    s = '»Ì°²µ,½Ð'
     analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:10])
     analyzer.which_side = 'fr'
     pprint.pprint(analyzer.move_to_actions(s))

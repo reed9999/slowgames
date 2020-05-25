@@ -3760,10 +3760,107 @@ function CreateLastMoveInfo(n, t) {
                     i += CalcLocTitle(s, e);
                     i += "<\/i>";
                     IsNeutralCard(e) && (i += " <b>(N)<\/b>");
-                    r.length === 3 && r.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte: Handkarten wurden offengelegt!" : "No vulnerable card: your <b>hand<\/b> has been revealed!", i += "<br/>" + f);
-                    r.length === 4 && r.substr(2, 1) === "B" && (f = Lang === 0 ? "&Uuml;berfall wurde geblockt durch:" : "Ambush has been blocked by this card:", i += "<br/>" + f + "<br/>", i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>", IsNeutralCard(e) && (i += " <b>(N)<\/b>"), a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)", i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
-                    r.length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4), c = k === 0 ? "Reserve" : "Hand", IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"), f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:", i += "<br/>" + f + "<br/>", i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
-                    break;Iempire card<\/b>";
+                    r.length === 3 && r.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte: Handkarten wurden offengelegt!" : "No vulnerable card: your <b>hand<\/b> has been revealed!",
+                    i += "<br/>" + f);
+                    r.length === 4 && r.substr(2, 1) === "B" && (f = Lang === 0 ? "&Uuml;berfall wurde geblockt durch:" : "Ambush has been blocked by this card:",
+                    i += "<br/>" + f + "<br/>",
+                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
+                    IsNeutralCard(e) && (i += " <b>(N)<\/b>"),
+                    a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
+                    i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
+                    r.length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4),
+                    c = k === 0 ? "Reserve" : "Hand",
+                    IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
+                    f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
+                    i += "<br/>" + f + "<br/>",
+                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
+                    break;
+                case 7:
+                    for (f = Lang === 0 ? "Gegner spielte <span style='color:red'><b>Heerf&uuml;hrer<\/b><\/span>" : "Opponent played <span style='color:red'><b>Military Leader<\/b><\/span>",
+                    i += f + ": <i>" + locationData[Decode(r, 1)][0] + "<\/i><br/>",
+                    o = r.substr(2, r.length - 2),
+                    u = 0; u < o.length; u++)
+                        i += " <i>",
+                        e = r.substr(2 + u, 1),
+                        i += CalcLocTitle(s, e),
+                        u < o.length - 1 && (i += ","),
+                        i += "<\/i>";
+                    break;
+                case 8:
+                    v = "";
+                    v = s === 0 ? Lang === 0 ? "Indian. F&uuml;hrer" : "Indian Leader" : Lang === 0 ? "Priester" : "Priest";
+                    f = Lang === 0 ? "Gegner spielte <span style='color:black'><b>" + v + "<\/b>.<\/span>" : "Opponent played <span style='color:black'><b>" + v + "<\/b>.<\/span>";
+                    i += f;
+                    r.length === 5 && r.substr(2, 1) === "T" && (nt = Decode(r, 4),
+                    c = nt === 0 ? "Reserve" : "Hand",
+                    f = Lang === 0 ? " war erfolgreich! Karte (aus " + c + ") wurde vom Gegner genommen:<br/>" : " was successful! This card (from " + c + ") has been taken by opponent:<br/>",
+                    i += "<br/>" + v + f,
+                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
+                    IsNeutralCard(r.substr(3, 1)) && (i += " <b>(N)<\/b>"));
+                    r.length === 3 && r.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte vorhanden: Gegner sah <b>Handkarten<\/b> ein." : "No vulnerable card: your <b>hand<\/b> has been revealed!",
+                    i += "<br/>" + f);
+                    break;
+                case 9:
+                    for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Einkommen<\/b>:" : "Opponent performed <b>money<\/b> action:",
+                    i += f + "<br/>",
+                    o = r.substr(1, r.length - 1),
+                    h = 0,
+                    u = 0; u < o.length; u++)
+                        i += " <i>",
+                        e = r.substr(1 + u, 1),
+                        HasSymbol(s, 7, e) && h++,
+                        HasSymbol(s, 8, e) && (h += 2),
+                        HasSymbol(s, 9, e) && (h += 3),
+                        i += CalcLocTitle(s, e),
+                        i += "<\/i>";
+                    i += " <b>(+" + h + ")<\/b><\/i>";
+                    break;
+                case 10:
+                    for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Kaufmann<\/b>:" : "Opponent performed <b>merchant<\/b> action:",
+                    i += f + "<br/>",
+                    o = r.substr(1, r.length - 1),
+                    h = 0,
+                    u = 0; u < o.length; u++)
+                        i += " <i>",
+                        e = r.substr(1 + u, 1),
+                        u > 0 && (HasSymbol(s, 7, e) && h++,
+                        HasSymbol(s, 8, e) && (h += 2),
+                        HasSymbol(s, 9, e) && (h += 3)),
+                        i += CalcLocTitle(s, e),
+                        u < o.length - 1 && (i += ","),
+                        i += "<\/i>";
+                    i += " <b>(+" + h + ")<\/b>";
+                    break;
+                case 11:
+                    for (f = Lang === 0 ? "Gegner nutzte Aktion <b>H&auml;ndler<\/b>:" : "Opponent performed <b>trader<\/b> action:",
+                    i += f + "<br/>",
+                    o = r.substr(1, r.length - 1),
+                    h = 0,
+                    u = 0; u < o.length; u++)   // o is remainder of string; u is index
+                        i += " <i>",
+                        e = r.substr(1 + u, 1), // e is the uth char of the remainder
+                        u > 0 && (HasSymbol(s, 7, e) && h++,
+                        HasSymbol(s, 8, e) && (h += 2),
+                        HasSymbol(s, 9, e) && (h += 3)),
+                        i += CalcLocTitle(s, e),
+                        u < o.length - 1 && (i += ","),
+                        i += "<\/i>";
+                    i += " <b>(+" + (o.length - 1) * 2 + ")<\/b>";
+                    break;
+            case 12:
+                for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Piraterie<\/b>:" : "Opponent performed <b>piracy<\/b> action:",
+                i += f + ":<br/>",
+                o = r.substr(1, r.length - 1),
+                u = 0; u < o.length; u++)
+                    i += " <i>",
+                    e = r.substr(1 + u, 1),
+                    i += CalcLocTitle(s, e),
+                    u < o.length - 1 && (i += ","),
+                    i += "<\/i>";
+                i += " <b>(+2)<\/b>";
+                break;
+                case 13:
+                    f = Lang === 0 ? "Gegner <b>nahm eine Imp.karte<\/b>" : "Opponent <b>drafted an empire card<\/b>";
                     i += f + ":<br/>";
                     e = r.substr(1, 1);
                     i += "<i>" + CalcLocTitle(s, e) + "<\/i>";

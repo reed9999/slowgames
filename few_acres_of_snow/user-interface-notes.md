@@ -1,8 +1,8 @@
 # General UI observations
 The first interesting elements are naturally the top row indicators of things like fortresses left:
-
+```html
 <img id="fortDisc" alt="" src="/netimages/games/FewAcresOfSnow/fortDisc.png" ...>
-
+```
 
 Then a div called oppDiv with the opponent's dashboard. oppInfoDummy is the size of the discard pile, but naturally
 we care more about the contents that appear when we click it.
@@ -19,12 +19,13 @@ InitBoard() 3436
 CancelMove() 3370
 UserGiveUp() 3364
 
-Let's dig in the general bundle.
-https://yucata.de/bundles/gamebasescripts?v=ghzUIaYi8NYsbTVPWk0-nFQr2HGXK0MBBRn-6uF4rE41
+
+## Let's dig in the general bundle.
+[https://yucata.de/bundles/gamebasescripts?v=ghzUIaYi8NYsbTVPWk0-nFQr2HGXK0MBBRn-6uF4rE41](here)
 Actually it turns out InitBoard() is more often called from $(document).ready, line 804 of the HTML.
 
 
-# A breakthrough about the extended ASCII characters
+## A breakthrough about the extended ASCII characters
 
 ShowLastMoveInfo() 3653 of beautified is probably more salient.
 The big case statement at 3723 is where the weird characters are used.
@@ -36,7 +37,7 @@ Below I reproduce the intermediate-state conversion of the JavaScript switch/cas
 allow use of the German translations. But really we're fine without processing this for now.
 
 
-# Trying to figure out empire cards
+## Trying to figure out empire cards
 Note that empTitles empData and empDataN are the data about empire cards.
 There are other functions about settlers and natives but frankly, aside from confirming natives
 are C through G, they don't tell me much because they're so hard to debug.
@@ -52,6 +53,15 @@ item 5 in the names. And there you go. Conveniently the order matches the order 
 (assuming FR free infantry and trader are first, not sure which order) so no need for the last indexing.
 
 
+locationData() line 3883 also interesting.
+
+## and for location cards
+`CalcLocTitle` is the function. See e.g. l 3845:
+```javascript
+i += CalcLocTitle(s, e),
+```
+i is the master string; s is unclear; e is the char corresponding to the card being
+iterated through. 
 # Trying to get interactive in the console
 
 This didn't do much.
