@@ -16,10 +16,12 @@ which became TEST_BED below, 4th move switched from
 »Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
 
+import logging
 import pprint
 import sys
 
-from game_analyzer_adhoc import GameAnalyzer, GameHistory
+logging.basicConfig(level=logging.DEBUG)
+from game_analyzer import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
 
 class FewAcresOfSnowHistory(GameHistory):
@@ -52,6 +54,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             'fr': (self.FR_CARDS, 27)
         }[self.which_side]
         try:
+            logging.debug([(ord(c), ord(c) - 176 - offset)
+                               for c in detail_code])
             cards = "; ".join([cards_list[ord(c) - 176 - offset]
                                for c in detail_code])
         except IndexError:
@@ -104,7 +108,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         transport = self.any_card(detail_code[2])
         military = self.any_card(detail_code[3])
         # This clearly can't be right because sometimes transport isn't a location.
-        return "on {} from {}; transport is {}; military is {}".format(target, launch, transport, military)
+        return "on {} from {}; transport is {}; military is {}.".format(target, launch, transport, military)
 
     def win_siege(self, detail_code):
         if detail_code == '0XX':
@@ -273,8 +277,6 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
 
 
     def action_code_to_action(self, code):
-        ## TODO - extract out the simplest handler, what I'm calling cards here,
-        # to be a default handler.
         # action = ACTIONS[code[0]] if code[0] in ACTIONS.keys() else code[0]
         char_code0 = ord(code[0]) - 176
         if char_code0 in self.ACTIONS.keys():
