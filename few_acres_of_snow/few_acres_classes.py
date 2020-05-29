@@ -54,7 +54,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             try:
                 logging.debug("ordinal {} and adjusted {}".format(
                     ord(c), ord(c) - 176 - offset))
-                cards_strs.append(cards_list[ord(c) - 176 - offset])
+                cards_strs.append(self.calc_loc_title(c))
             except IndexError:
                 logging.warning("empire card not identified for {} -> {}".format(
                     ord(c), ord(c) - 176))
@@ -303,9 +303,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         pass
 
     def calc_loc_title(self, char):
-        """This corresponds to the javascript:
-        ```
-        function CalcLocTitle(n, t) {
+        """This corresponds to the javascript function CalcLocTitle(n, t) {
     var r = n === 0 ? locDataEN : locDataFR,
         u = n === 0 ? empDataEN : empDataFR,
         i = "";
@@ -316,6 +314,15 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         """
         if self.is_location_card(char):
             return self.LOCATIONS[self.decode(char)]
+        elif self.is_neutral_card(char):
+            return self.NEUTRAL_CARDS[char]
+        else:
+            return self.empire_cards()[self.decode(char)]
+
+    @staticmethod
+    def is_neutral_card(char):
+        """Corresponds to javascript function IsNeutralCard"""
+        return ord(char.upper()) in range(65, 74)
 
     def is_location_card(self, char):
         """This corresponds to the javascript
@@ -340,6 +347,23 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         """
         return ord(string[index]) - 176
 
+    def empire_cards(self):
+        """I don't think this has a JS analogue on Yucata but represents the
+        recurring idiom:
+        ```
+        u = n === 0 ? empDataEN : empDataFR
+        ```
+        """
+        return {
+            'uk': self.UK_CARDS,
+            'fr': self.FR_CARDS,
+        }[self.which_side]
+
+    def offset(self):
+        """Analogous to empire_cards(), just a helper method for a
+        side-dependent variable.
+        """
+        return {'uk': 33, 'fr': 26}[self.which_side]
 
 def main():
     pass
