@@ -52,9 +52,10 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         cards_strs = []
         for c in detail_code:
             try:
-                logging.debug("ordinal {} and adjusted {}".format(
-                    ord(c), ord(c) - 176 - offset))
-                cards_strs.append(self.calc_loc_title(c))
+                proposed_str = self.calc_loc_title(c)
+                logging.debug("ordinal {} and proposed{}".format(
+                    ord(c), proposed_str))
+                cards_strs.append(proposed_str)
             except IndexError:
                 logging.warning("empire card not identified for {} -> {}".format(
                     ord(c), ord(c) - 176))
@@ -148,8 +149,15 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Governor',
     ]
 
+#    empTitles = [StrBateaux, StrFortification, StrGovernorString, StrHomeSupport, StrIndianLeader,
+    #           StrMLeader, StrMilitia, StrRangers, StrInfantry, StrSettlers,
+    # StrShips, StrArtillery, StrTrader, StrCoureurs, StrIntendant, StrNativesString, StrPriest],
+    # Note that the order of this list is based on empDataFR (line 4868) which indexes into empTitles.
     FR_CARDS = [
-
+        #Index into names array: 0, 8, 12, 13, 1, 2, 3 / 14 5 6 6 6 15 16 16 8 8 8 10 11 12
+        'Bateaux',      # Not even in the deck in 2nd edition
+        'Regular infantry (free)',
+        'Trader',
         'Coureurs de Bois',
         'Fortification (blue)',
         'Governor',
@@ -159,14 +167,14 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Militia',
         'Militia',
         'Native Americans (blue)',
-        'card 9',
-        'card 10',
-        'card 11',
-        'card 12',
-        'card 13',
-        'card 14',
-        'card 15',
-        'card 16',
+        'Priest',
+        'Priest',
+        'Regular infantry',
+        'Regular infantry',
+        'Regular infantry',
+        'Ships',
+        'Siege artillery',
+        'Trader (drafted second one)',
         ]
     #     'Ê': 'Bateaux (huh?)',
     #
@@ -317,7 +325,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         elif self.is_neutral_card(char):
             return self.NEUTRAL_CARDS[char]
         else:
-            return self.empire_cards()[self.decode(char)]
+            return self.empire_cards()[self.decode(char) - self.offset()]
 
     @staticmethod
     def is_neutral_card(char):
