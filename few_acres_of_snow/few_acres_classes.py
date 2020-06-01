@@ -93,14 +93,15 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             logging.error("I don't have an outcome for this character: {}".format(outcome_char))
             return Outcome.UNKNOWN, "Unknown outcome."
         
-        aggressor = self.empire(detail_code[0])
+        aggressor = self.calc_loc_title(detail_code[0])
         if outcome == Outcome.NO_TARGET:
             return "No vulnerable target for ambush by {}. Hand shown.".format(
                 aggressor
             )
         if outcome == Outcome.BLOCKED:
             return "Ambush by {} blocked by {}".format(
-                aggressor, self.calc_loc_title(detail_code[2])
+                aggressor, self.calc_loc_title(detail_code[2],
+                                               reverse=True)
             )
         assert outcome == Outcome.SUCCESS
         reserve_or_hand = self.decode(detail_code[3])
@@ -110,6 +111,17 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             'reserve' if reserve_or_hand == 0 else 'hand'
         )
 
+    def priest(self, detail_code):
+        return """DETAIL CODE={}
+        
+        
+        
+        
+        """.format(detail_code)
+
+    def pass_action(self, detail_code):
+        assert detail_code[0] == 'P'
+        return "Passed"
 
     def simple_cards(self, detail_code, ):
         cards_list, offset = {
@@ -124,6 +136,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
                     ord(c), proposed_str))
                 cards_strs.append(proposed_str)
             except IndexError:
+                logging.warning("THIS CODE SHOULD PROBABLY BE ELIMINATED (but not yet)")
                 logging.warning("empire card not identified for {} -> {}".format(
                     ord(c), ord(c) - 176))
                 reduced = ord(c) - 176
@@ -155,7 +168,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             return self.FR_CARDS[a_char]   #for now....
 
     def any_card(self, a_char):
-        """This may be too fancy -- can we just concat LOCATIONS and the empire cards to one list?"""
+        """This is largely subsumed by calc_loc_title"""
+        raise DeprecationWarning
         try:
             return self.location(a_char)
         except:
@@ -175,8 +189,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         how the two are distinguished."""
         target = self.location(detail_code[0])
         launch = self.location(detail_code[1])
-        transport = self.any_card(detail_code[2])
-        military = self.any_card(detail_code[3])
+        transport = self.calc_loc_title(detail_code[2])
+        military = self.calc_loc_title(detail_code[3])
         # This clearly can't be right because sometimes transport isn't a location.
         return "on {} from {}; transport is {}; military is {}.".format(target, launch, transport, military)
 
@@ -185,12 +199,17 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             return "No empire cards for the losing side to relinquish"
         return "TODO: figure out what this means: <{}>".format(detail_code)
 
-    def merchant(self, detail):
-        return "Merchant can't yet deal with {}".format(detail)
-        rv = "; ".join([cards_dict[c] if c in cards_dict.keys()
-                           else c for c in detail_code
-                           ])
+    def withdraw_from_siege(self, detail_code):
+        # No idea how similar to win_siege
+        if detail_code == '0XX':
+            return "No empire cards for the losing side to relinquish"
+        return "TODO: figure out what this means: <{}>".format(detail_code)
 
+    def merchant(self, detail):
+        # return "Merchant can't yet deal with {}".format(detail)
+        rv = "Using vessel{}: ".format(self.calc_loc_title(detail[0]))
+        rv += "; ".join([self.calc_loc_title(c) for c in detail[1:]])
+        return rv
 
     UK_CARDS = [
         'Military leader',
@@ -244,22 +263,6 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Siege artillery',
         'Trader (drafted second one)',
         ]
-    #     'Ê': 'Bateaux (huh?)',
-    #
-    #     'Ð': 'Home support',
-    #     'Priest',
-    #
-    #     'Ë': 'RegInf (free)',
-    #     'Ù': 'Regular infantry',
-    #     'Ú': 'Regular infantry',
-    #     'Û': 'Regular infantry',
-    #     'Ò': 'Military leader',
-    #
-    #     'Ó': 'Militia',
-    #     'Ö': '',
-    #     'Ì': 'Trader',
-    #
-    # }
 
     ACTIONS = {
         # Following the order in game_FewAcresOfSnow
@@ -273,7 +276,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         6: ('ambush', ambush,),
         35: ('ambush', ambush,),
         7: ('played Military Leader', None,),
-        8: ('played Indian Leader/Priest', None,),
+        8: ('played Indian Leader/Priest', priest,),
         9: ('money from', None,),
         10: ('merchant', merchant,),
         11: ('trade', None,),
@@ -286,10 +289,10 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         17: ('govern', None,),
         18: ('use Intendant', None,),
         19: ('home support', None,),
-        20: ('pass', None,),
-        21: ('withrdaw from siege', None,),
+        20: ('pass', pass_action,),
+        21: ('withdraw from siege', withdraw_from_siege,),
         30: ('win a siege', win_siege,),
-        35: ('free fur action', None,),  # special rules
+        35: ('free fur action', None,),   # special rules
 
         # From here is legacy junk, to help troubleshoot why I couldn't figure this out before.
         # '¶': 'successful ambush apparently. First card is protagonist;
@@ -377,6 +380,9 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         else:
             action = code[0] + " -- " + str(char_code0)
             handler = None
+        if len(code) == 1:
+            raise NotImplementedError("Action {} has only one char".format(action))
+        logging.info("Action is {}".format(action))
         return "{action}: {detail}".format(
             action=action, detail=(handler(self, code[1:]) if handler else
                                    self.simple_cards(code[1:])))
@@ -405,7 +411,9 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         elif self.is_neutral_card(char):
             return self.NEUTRAL_CARDS[char]
         else:
-            return self.empire_cards(reverse)[self.decode(char) - self.offset()]
+            index = self.decode(char) - self.offset(reverse)
+            cards = self.empire_cards(reverse)
+            return cards[index]
 
     @staticmethod
     def is_neutral_card(char):
@@ -456,11 +464,11 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
                     'fr': self.FR_LOCATION_INDICES
                     }[self.relevant_side(reverse)]
 
-    def offset(self):
+    def offset(self, reverse=False):
         """Analogous to empire_cards(), just a helper method for a
         side-dependent variable.
         """
-        return {'uk': 33, 'fr': 26}[self.which_side]
+        return {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
 
 def main():
     pass
