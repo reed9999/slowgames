@@ -29,7 +29,7 @@ def test1():
 
 def test2():
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:20])
+    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr)
     pprint.pprint(analyzer.iterate_through_moves())
 
 def test3():
@@ -40,8 +40,14 @@ def test3():
     analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:20])
     pprint.pprint(analyzer.move_to_actions(s))
 
+def test_priest():
+    code = '¸×TC±'
+    analyzer = FewAcresOfSnowAnalyzer(['', code])
+    pprint.pprint(analyzer.move_to_actions(code))
+
 def main():
     # test1()
+    test_priest()
     test2()
     test3()
 
