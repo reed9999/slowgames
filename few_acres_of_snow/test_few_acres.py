@@ -29,8 +29,13 @@ def test1():
 
 def test2():
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
+    global moves9575653_fr
+    moves9575653_fr = moves9575653_fr[82:]
     analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr)
-    pprint.pprint(analyzer.iterate_through_moves())
+    all_moves = analyzer.iterate_through_moves()
+    for i in range(0, len(moves9575653_fr)):
+        print(i)
+        pprint.pprint(all_moves[i])
 
 def test3():
     # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23

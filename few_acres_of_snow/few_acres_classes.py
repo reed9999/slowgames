@@ -199,6 +199,18 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             return "No empire cards for the losing side to relinquish"
         return "TODO: figure out what this means: <{}>".format(detail_code)
 
+    def win_siege_cant_settle(self, detail_code):
+        assert len(detail_code) == 1, """win_siege_cant_settle (W): Only known occurrence
+        it had one apparently irrelevant card in the detail_code."""
+        card = self.calc_loc_title(detail_code)
+        msg = """Won siege but can't settle because no settler cards.
+        This is a bizarre action in the Yucata output in many ways. 
+        In testing we saw 'WÌ' which shouldn't be a valid action, and
+        the card should be a Trader. Is this also a trader?: 
+        {}""".format(card)
+        logging.warning(msg)
+        return msg
+
     def withdraw_from_siege(self, detail_code):
         # No idea how similar to win_siege
         if detail_code == '0XX':
@@ -266,33 +278,34 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
 
     ACTIONS = {
         # Following the order in game_FewAcresOfSnow
-        0: ('settle', None,),
-        1: ('develop', None,),
-        2: ('fortify', None,),
-        3: ('besiege', besiege,),
-        4: ('reinforce siege', location_then_cards,),
-        5: ('raid', raid,),
-        36: ('raid', raid,),
-        6: ('ambush', ambush,),
-        35: ('ambush', ambush,),
-        7: ('played Military Leader', None,),
-        8: ('played Indian Leader/Priest', priest,),
-        9: ('money from', None,),
-        10: ('merchant', merchant,),
-        11: ('trade', None,),
-        12: ('piracy', None,),
-        13: ('draft', None,),
-        14: ('discard', None,),
-        38: ('discard', None,),
-        15: ('put into reserve', None,),
-        16: ('retrieve reserve', None,),
-        17: ('govern', None,),
-        18: ('use Intendant', None,),
-        19: ('home support', None,),
-        20: ('pass', pass_action,),
-        21: ('withdraw from siege', withdraw_from_siege,),
-        30: ('win a siege', win_siege,),
-        35: ('free fur action', None,),   # special rules
+        0: ('settle', None),
+        1: ('develop', None),
+        2: ('fortify', None),
+        3: ('besiege', besiege),
+        4: ('reinforce siege', location_then_cards),
+        5: ('raid', raid),
+        36: ('raid', raid),
+        6: ('ambush', ambush),
+        35: ('ambush', ambush),
+        7: ('played Military Leader', None),
+        8: ('played Indian Leader/Priest', priest),
+        9: ('money from', None),
+        10: ('merchant', merchant),
+        11: ('trade', None),
+        12: ('piracy', None),
+        13: ('draft', None),
+        14: ('discard', None),
+        38: ('discard', None),
+        15: ('put into reserve', None),
+        16: ('retrieve reserve', None),
+        17: ('govern', None),
+        18: ('use Intendant', None),
+        19: ('home support', None),
+        20: ('pass', pass_action),
+        21: ('withdraw from siege', withdraw_from_siege),
+        30: ('win a siege', win_siege),
+        35: ('free fur action', None),   # special rules
+        -89: ('no card to settle after siege', win_siege_cant_settle),
 
         # From here is legacy junk, to help troubleshoot why I couldn't figure this out before.
         # '¶': 'successful ambush apparently. First card is protagonist;
@@ -374,7 +387,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
 
     def action_code_to_action(self, code):
         # action = ACTIONS[code[0]] if code[0] in .keys() else code[0]
-        char_code0 = ord(code[0]) - 176
+        char_code0 = self.decode(code[0])   #ord(code[0]) - 176
         if char_code0 in self.ACTIONS.keys():
             action, handler = self.ACTIONS[char_code0]
         else:
@@ -382,7 +395,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             handler = None
         if len(code) == 1:
             raise NotImplementedError("Action {} has only one char".format(action))
-        logging.info("Action is {}".format(action))
+        logging.info("Move {} (+1) action is {}".format(
+            self.move_number, action))
         return "{action}: {detail}".format(
             action=action, detail=(handler(self, code[1:]) if handler else
                                    self.simple_cards(code[1:])))
@@ -392,6 +406,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return [self.action_code_to_action(ac) for ac in list_of_action_codes]
 
     def iterate_through_moves(self):
+        logging.warning("MISNOMER! iterate_through_moves is just a list.")
         for move in self.moves_list:
             self.which_side = ['uk', 'fr'][self.move_number % 2]
             self.actions_list.append((self.which_side, self.move_to_actions(move)))
@@ -472,34 +487,6 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
 
 def main():
     pass
-
-
-def test1():
-    players = ['uk', 'fr']
-    i = 0
-    try:
-        with open('few_acres_of_snow/ph_9575653.js', 'r') as f:
-            full_html = f.read()
-    except:
-        with open('ph_9575653.js', 'r') as f:
-            full_html = f.read()
-
-    history = FewAcresOfSnowHistory(full_html)
-    print(history.basic_report())
-    # print(["****" + ms for )
-
-def test2():
-    # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:20])
-    pprint.pprint(analyzer.iterate_through_moves())
-
-def test3():
-    # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
-    # s = '»Ì°²µ,½Ð'
-    # Successful ambush by Rangers on free Reg Inf in reserve:
-    s = '¶ãTË°'
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:20])
-    pprint.pprint(analyzer.move_to_actions(s))
 
 
 if __name__ == "__main__":
