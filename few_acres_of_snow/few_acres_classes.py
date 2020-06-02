@@ -15,6 +15,7 @@ which became TEST_BED below, 4th move switched from
 import logging
 import pprint
 import sys
+import yaml
 
 logging.basicConfig(level=logging.DEBUG)
 from game_analyzer import GameAnalyzer, GameHistory

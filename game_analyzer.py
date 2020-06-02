@@ -71,6 +71,7 @@ class GameAnalyzer(object):
             html = self.game_history_from_file(filename)
         self._history = self.create_game_history_from_html(
             html, game_type=game_type)
+        self._game_type = game_type
 
     @classmethod
         # Factory method
@@ -82,9 +83,8 @@ class GameAnalyzer(object):
         # self._history.diag()
         self._history.basic_report()
 
-    @staticmethod
-    def html_for_id(game_id):
-        url = "https://yucata.de/en/Game/Petersburg/{}".format(game_id)
+    def html_for_id(self, game_id):
+        url = "https://yucata.de/en/Game/{}/{}".format(self.game_type, game_id)
         response = requests.get(url)
         return response.text
 
