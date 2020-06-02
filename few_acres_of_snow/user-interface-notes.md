@@ -52,8 +52,27 @@ a series of 6 infantry; etc. MLead is 'Ñ'; ord('Ñ') is 209. Deduct 176 and 33,
 item 5 in the names. And there you go. Conveniently the order matches the order in the Empire Cards dialog
 (assuming FR free infantry and trader are first, not sure which order) so no need for the last indexing.
 
+### locationData and locData*
+locationData() line 3980 refed on 3883 also interesting.
 
-locationData() line 3883 also interesting.
+I think I made the fatal mistake of assuming that both UK and FR
+would have the same location list. In fact it seems to also be 
+derefenced in the same way via the fairly opaque locDataFR (4685) and
+locDataEN. 
+
+For example, let's say you want French location 2. 
+Second record in locDataFR (4700) is:
+```javascript
+        [
+            [2, 0, 33],
+            [
+                [0, 15, 19, 32]
+            ],
+            [0, 3, 6, 7]
+        ],
+```
+The 33 in ```[2, 0, 33]``` points to locationData, line 4014, Montreal.
+If decoded places are 23, 33, 30 then => Gaspe, Tadoussac, Mtl.
 
 ## and for location cards
 `CalcLocTitle` is the function. See e.g. l 3845:

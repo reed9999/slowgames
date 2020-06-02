@@ -12,12 +12,13 @@ which became TEST_BED below, 4th move switched from
 »Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
 
+from enum import Enum
 import logging
 import pprint
 import sys
 import yaml
 
-logging.basicConfig(level=logging.DEBUG)
+logging.basicConfig(level=logging.INFO)
 from game_analyzer import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
 
@@ -34,6 +35,10 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         self.moves_list = list_of_moves
         self.actions_list = []
 
+    def relevant_side(self, reverse):
+        reversal = {'uk': 'fr', 'fr': 'uk'}
+        return reversal[self.which_side] if reverse else self.which_side
+
     def raid(self, predicate):
         s = "upon {target} by {subject} {extra}".format(
             target=predicate[0],
@@ -43,7 +48,81 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return s
 
     def ambush(self, detail_code):
-        pass
+        """The Yucata Javascript deals with a lot of special cases.
+
+        Because only one aggressor participates in an ambush, we can make
+        assertions based on the length of the string. But I don't think this is
+        needed because the 2nd char gives the outcome.
+
+        Here's a pseudocode version of the JS:
+        ```
+                    i is the message string
+                    o = 2nd char of the move code called r.
+                    e = 2nd char of the move code.
+                    i += CalcLocTitle(s, e);
+                    add "(N)" to output if e (2nd char) is_neutral()
+                    if move code .length === 3 and 3rd char is === "C"
+                        then "No vulnerable card..."
+                    if length === 4 && and 3rd card is "B"
+                        "Ambush has been blocked by this card:",
+                    add to the message string:
+                        CalcLocTitle((s + 1) % 2, r.substr(3, 1))
+                        append N if is_neutral
+
+                    If the action is #35 for some reason different logic:
+                        a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
+                        i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
+                    If length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4),
+                        c = k === 0 ? "Reserve" : "Hand",
+                        // something about IsRandomRule(15)
+                        // basically it was successful
+                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
+                    break;
+        ```
+        """
+        # Prepare for data/string decoupling with an enum
+        Outcome = Enum('Outcome', 'SUCCESS NO_TARGET BLOCKED UNKNOWN')
+        outcome_char = detail_code[1]
+        outcome_dict = {
+            'B': Outcome.BLOCKED,
+            'C': Outcome.NO_TARGET,
+            'T': Outcome.SUCCESS,
+        }
+        try:
+            outcome = outcome_dict[outcome_char]
+        except KeyError:
+            logging.error("I don't have an outcome for this character: {}".format(outcome_char))
+            return Outcome.UNKNOWN, "Unknown outcome."
+        
+        aggressor = self.calc_loc_title(detail_code[0])
+        if outcome == Outcome.NO_TARGET:
+            return "No vulnerable target for ambush by {}. Hand shown.".format(
+                aggressor
+            )
+        if outcome == Outcome.BLOCKED:
+            return "Ambush by {} blocked by {}".format(
+                aggressor, self.calc_loc_title(detail_code[2],
+                                               reverse=True)
+            )
+        assert outcome == Outcome.SUCCESS
+        reserve_or_hand = self.decode(detail_code[3])
+        return "Ambush by {} succeeded against {} (from {})".format(
+            aggressor,
+            self.calc_loc_title(detail_code[2], reverse=True),
+            'reserve' if reserve_or_hand == 0 else 'hand'
+        )
+
+    def priest(self, detail_code):
+        return """DETAIL CODE={}
+        
+        
+        
+        
+        """.format(detail_code)
+
+    def pass_action(self, detail_code):
+        assert detail_code[0] == 'P'
+        return "Passed"
 
     def simple_cards(self, detail_code, ):
         cards_list, offset = {
@@ -54,10 +133,11 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         for c in detail_code:
             try:
                 proposed_str = self.calc_loc_title(c)
-                logging.debug("ordinal {} and proposed{}".format(
+                logging.debug("ordinal {}; calc_loc_title returned {}".format(
                     ord(c), proposed_str))
                 cards_strs.append(proposed_str)
             except IndexError:
+                logging.warning("THIS CODE SHOULD PROBABLY BE ELIMINATED (but not yet)")
                 logging.warning("empire card not identified for {} -> {}".format(
                     ord(c), ord(c) - 176))
                 reduced = ord(c) - 176
@@ -85,11 +165,12 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             offset = 33
             return self.UK_CARDS[ord(a_char) - 176 - offset]
         else:
-            offset = 27
+            offset = 27 # or is this 26? Elsewhere seems to be 26
             return self.FR_CARDS[a_char]   #for now....
 
     def any_card(self, a_char):
-        """This may be too fancy -- can we just concat LOCATIONS and the empire cards to one list?"""
+        """This is largely subsumed by calc_loc_title"""
+        raise DeprecationWarning
         try:
             return self.location(a_char)
         except:
@@ -109,8 +190,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         how the two are distinguished."""
         target = self.location(detail_code[0])
         launch = self.location(detail_code[1])
-        transport = self.any_card(detail_code[2])
-        military = self.any_card(detail_code[3])
+        transport = self.calc_loc_title(detail_code[2])
+        military = self.calc_loc_title(detail_code[3])
         # This clearly can't be right because sometimes transport isn't a location.
         return "on {} from {}; transport is {}; military is {}.".format(target, launch, transport, military)
 
@@ -119,12 +200,56 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             return "No empire cards for the losing side to relinquish"
         return "TODO: figure out what this means: <{}>".format(detail_code)
 
-    def merchant(self, detail):
-        return "Merchant can't yet deal with {}".format(detail)
-        rv = "; ".join([cards_dict[c] if c in cards_dict.keys()
-                           else c for c in detail_code
-                           ])
+    def win_siege_cant_settle(self, detail_code):
+        assert len(detail_code) == 1, """win_siege_cant_settle (W): Only known occurrence
+        it had one apparently irrelevant card in the detail_code."""
+        location = self.LOCATIONS[self.decode(detail_code)]
+        msg = """Won siege but can't settle because no settler cards.
+        Location: {}""".format(location)
+        logging.warning("WARNING: uncertain: " + msg)
+        return msg
 
+    def withdraw_from_siege(self, detail_code):
+        """
+        ```
+    case 21:
+        f = Lang === 0 ? "Gegner zog sich von <b>Belagerung<\/b> zur&uuml;ck:" : "Opponent performed <b>Withdraw<\/b> action:";
+        i += f + "<br/>";
+        // location is the 3rd card (2nd in what we call detail_code)
+        i += locationData[Decode(r, 2)][0];
+        r.length === 4 && r.substr(3, 1) !== "-" &&
+            (d = "", p = r.substr(3, 1),
+                d = IsNeutralCard(p) ?
+                empTitles[empDataN[GetNeutralIndex(p)][2]] + " (N)" :
+                empTitles[tt[GetEmpireIndex(s, p)][2]], i += "<br/><br/>", f = Lang === 0 ? "Gegner entfernte eine Belagerungskarte:<br/>" : "Opponent removed a siege card:<br/>",
+            i += f, i += "<i>" + d + "<\/i>");
+        break;
+        ```
+        :param detail_code:
+        :return:
+        """
+        location = self.LOCATIONS[self.decode(detail_code[1])]
+        if detail_code == '0XX':
+            return "No empire cards for the losing side to relinquish"
+        if detail_code[0] != '1':
+            logging.warning("In development we only saw 0XX and 1Ì-")
+        if detail_code[2] == '-':
+            return "No empire cards for the losing side to relinquish; " \
+                   "additional info: {} {}".format(detail_code[0],
+                                                   self.calc_loc_title(detail_code[1]))
+        return """Tentative: Mystery outcome = {},
+            location = {},
+            card given back = {}""".format(
+                detail_code[0],
+                location,
+                self.calc_loc_title(detail_code[2])
+        )
+
+    def merchant(self, detail):
+        # return "Merchant can't yet deal with {}".format(detail)
+        rv = "Using vessel{}: ".format(self.calc_loc_title(detail[0]))
+        rv += "; ".join([self.calc_loc_title(c) for c in detail[1:]])
+        return rv
 
     UK_CARDS = [
         'Military leader',
@@ -162,6 +287,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Coureurs de Bois',
         'Fortification (blue)',
         'Governor',
+        'Home support',
         'Intendant',
         'Military leader',
         'Militia',
@@ -177,52 +303,37 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         'Siege artillery',
         'Trader (drafted second one)',
         ]
-    #     'Ê': 'Bateaux (huh?)',
-    #
-    #     'Ð': 'Home support',
-    #     'Priest',
-    #
-    #     'Ë': 'RegInf (free)',
-    #     'Ù': 'Regular infantry',
-    #     'Ú': 'Regular infantry',
-    #     'Û': 'Regular infantry',
-    #     'Ò': 'Military leader',
-    #
-    #     'Ó': 'Militia',
-    #     'Ö': '',
-    #     'Ì': 'Trader',
-    #
-    # }
 
     ACTIONS = {
         # Following the order in game_FewAcresOfSnow
-        0: ('settle', None,),
-        1: ('develop', None,),
-        2: ('fortify', None,),
-        3: ('besiege', besiege,),
-        4: ('reinforce siege', location_then_cards,),
-        5: ('raid', None,),
-        36: ('raid', None,),
-        6: ('ambush', None,),
-        35: ('ambush', None,),
-        7: ('played Military Leader', None,),
-        8: ('played Indian Leader/Priest', None,),
-        9: ('money from', None,),
-        10: ('merchant', merchant,),
-        11: ('trade', None,),
-        12: ('piracy', None,),
-        13: ('draft', None,),
-        14: ('discard', None,),
-        38: ('discard', None,),
-        15: ('put into reserve', None,),
-        16: ('retrieve reserve', None,),
-        17: ('govern', None,),
-        18: ('use Intendant', None,),
-        19: ('home support', None,),
-        20: ('pass', None,),
-        21: ('withrdaw from siege', None,),
-        30: ('win a siege', win_siege,),
-        35: ('free fur action', None,),  # special rules
+        0: ('settle', None),
+        1: ('develop', None),
+        2: ('fortify', None),
+        3: ('besiege', besiege),
+        4: ('reinforce siege', location_then_cards),
+        5: ('raid', raid),
+        36: ('raid', raid),
+        6: ('ambush', ambush),
+        35: ('ambush', ambush),
+        7: ('played Military Leader', None),
+        8: ('played Indian Leader/Priest', priest),
+        9: ('money from', None),
+        10: ('merchant', merchant),
+        11: ('trade', None),
+        12: ('piracy', None),
+        13: ('draft', None),
+        14: ('discard', None),
+        38: ('discard', None),
+        15: ('put into reserve', None),
+        16: ('retrieve reserve', None),
+        17: ('govern', None),
+        18: ('use Intendant', None),
+        19: ('home support', None),
+        20: ('pass', pass_action),
+        21: ('withdraw from siege', withdraw_from_siege),
+        30: ('win a siege', win_siege),
+        35: ('free fur action', None),   # special rules
+        -89: ('no card to settle after siege', win_siege_cant_settle),
 
         # From here is legacy junk, to help troubleshoot why I couldn't figure this out before.
         # '¶': 'successful ambush apparently. First card is protagonist;
@@ -275,6 +386,23 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         "Michillimackinac",
     ]
 
+    # In the Yucata JS the respective locDataEN and locDataFR structures
+    # contain a lot more stuff, which we may eventually want to pull
+    # out of there. For now it's just one more level of indirection in
+    # getting the name of the location.
+
+    # However... UK is the reference order so it's really simple.
+    UK_LOCATION_INDICES = list(range(0, 33))
+
+    FR_LOCATION_INDICES = [
+        23, 26, 33, 34, 28,
+        30, 32,  7,  9, 12,
+        13, 14, 15, 16, 17,
+        18, 19, 20, 21, 22,
+        24, 25, 35, 27, 4,
+        31
+    ]
+
     NEUTRAL_CARDS = {
         'C': 'Native Americans',
         'D': 'Native Americans',
@@ -287,12 +415,16 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
 
     def action_code_to_action(self, code):
         # action = ACTIONS[code[0]] if code[0] in .keys() else code[0]
-        char_code0 = ord(code[0]) - 176
+        char_code0 = self.decode(code[0])   #ord(code[0]) - 176
         if char_code0 in self.ACTIONS.keys():
             action, handler = self.ACTIONS[char_code0]
         else:
             action = code[0] + " -- " + str(char_code0)
             handler = None
+        if len(code) == 1:
+            raise NotImplementedError("Action {} has only one char".format(action))
+        logging.info("Move {} (+1) action is {}".format(
+            self.move_number, action))
         return "{action}: {detail}".format(
             action=action, detail=(handler(self, code[1:]) if handler else
                                    self.simple_cards(code[1:])))
@@ -302,6 +434,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return [self.action_code_to_action(ac) for ac in list_of_action_codes]
 
     def iterate_through_moves(self):
+        logging.warning("MISNOMER! iterate_through_moves is just a list.")
         for move in self.moves_list:
             self.which_side = ['uk', 'fr'][self.move_number % 2]
             self.actions_list.append((self.which_side, self.move_to_actions(move)))
@@ -311,29 +444,26 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def file_to_history(filename):
         pass
 
-    def calc_loc_title(self, char):
-        """This corresponds to the javascript function CalcLocTitle(n, t) {
-    var r = n === 0 ? locDataEN : locDataFR,
-        u = n === 0 ? empDataEN : empDataFR,
-        i = "";
-    return IsLocationCard(n, t) ? (cardIndex = Decode(t, 0), i = locationData[r[cardIndex][0][2]][0])
-        : i = IsNeutralCard(t) ? empTitles[empDataN[GetNeutralIndex(t)][2]] : empTitles[u[GetEmpireIndex(n, t)][2]], i
-}
-    ```
+    def calc_loc_title(self, char, reverse=False):
+        """This corresponds to the javascript function CalcLocTitle(n, t)
         """
-        if self.is_location_card(char):
-            return self.LOCATIONS[self.decode(char)]
+        loc_indices = self.location_indices(reverse)
+        if self.is_location_card(char, reverse):
+            decoded = self.decode(char)
+            return self.LOCATIONS[loc_indices[decoded]]
         elif self.is_neutral_card(char):
             return self.NEUTRAL_CARDS[char]
         else:
-            return self.empire_cards()[self.decode(char) - self.offset()]
+            index = self.decode(char) - self.offset(reverse)
+            cards = self.empire_cards(reverse)
+            return cards[index]
 
     @staticmethod
     def is_neutral_card(char):
         """Corresponds to javascript function IsNeutralCard"""
         return ord(char.upper()) in range(65, 74)
 
-    def is_location_card(self, char):
+    def is_location_card(self, char, reverse=False):
         """This corresponds to the javascript
             function IsLocationCard(n, t)
         In truth the actual Yucata handling seems a bit clumsy (doing
@@ -343,7 +473,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         """
         if self.is_neutral_card(char):
             return False
-        offset = {'uk': 33, 'fr': 26}[self.which_side]
+        offset = {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
         return self.decode(char) in range(0, offset)
 
     @staticmethod
@@ -356,7 +486,8 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         """
         return ord(string[index]) - 176
 
-    def empire_cards(self):
+    # Three simple helpers, just to handle asymmetrical data uk/fr
+    def empire_cards(self, reverse=False):
         """I don't think this has a JS analogue on Yucata but represents the
         recurring idiom:
         ```
@@ -366,43 +497,24 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return {
             'uk': self.UK_CARDS,
             'fr': self.FR_CARDS,
-        }[self.which_side]
+        }[self.relevant_side(reverse)]
 
-    def offset(self):
+    def location_indices(self, reverse=False):
         """Analogous to empire_cards(), just a helper method for a
         side-dependent variable.
         """
-        return {'uk': 33, 'fr': 26}[self.which_side]
+        return {'uk': self.UK_LOCATION_INDICES,
+                    'fr': self.FR_LOCATION_INDICES
+                    }[self.relevant_side(reverse)]
+
+    def offset(self, reverse=False):
+        """Analogous to empire_cards(), just a helper method for a
+        side-dependent variable.
+        """
+        return {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
 
 def main():
     pass
-
-
-def test1():
-    players = ['uk', 'fr']
-    i = 0
-    try:
-        with open('few_acres_of_snow/ph_9575653.js', 'r') as f:
-            full_html = f.read()
-    except:
-        with open('ph_9575653.js', 'r') as f:
-            full_html = f.read()
-
-    history = FewAcresOfSnowHistory(full_html)
-    print(history.basic_report())
-    # print(["****" + ms for )
-
-def test2():
-    # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:10])
-    pprint.pprint(analyzer.iterate_through_moves())
-
-def test3():
-    # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
-    s = '»Ì°²µ,½Ð'
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:10])
-    analyzer.which_side = 'fr'
-    pprint.pprint(analyzer.move_to_actions(s))
 
 
 if __name__ == "__main__":

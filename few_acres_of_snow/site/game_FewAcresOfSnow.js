@@ -3769,11 +3769,11 @@ function CreateLastMoveInfo(n, t) {
                     a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
                     i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
                     r.length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4),
-                    c = k === 0 ? "Reserve" : "Hand",
-                    IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
-                    f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
-                    i += "<br/>" + f + "<br/>",
-                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
+                        c = k === 0 ? "Reserve" : "Hand",
+                        IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
+                        f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
+                        i += "<br/>" + f + "<br/>",
+                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
                     break;
                 case 7:
                     for (f = Lang === 0 ? "Gegner spielte <span style='color:red'><b>Heerf&uuml;hrer<\/b><\/span>" : "Opponent played <span style='color:red'><b>Military Leader<\/b><\/span>",
@@ -3998,7 +3998,7 @@ var gamestatus = "",
         ["Fort&nbsp;Niagara", 0, 0, 2, !1, [12, 15, 18, 27]],
         ["Fort&nbsp;Presqu&rsquo;Isle", 0, 0, 1, !1, [12, 17, 21]],
         ["Fort&nbsp;St.&nbsp;John", 0, 0, 0, !1, [31, 32, 33]],
-        ["Fort&nbsp;Stanwix", 0, 0, 0, !1, [7, 27]],
+        ["Fort&nbsp;Stanwix", 0, 0, 0, !1, [7, 27]],    // 20
         ["Fort&nbsp;Venango", 0, 0, 0, !1, [14, 18]],
         ["Fort&nbsp;William Henry", 0, 0, 0, !1, [7, 11, 31]],
         ["Gaspe", 0, 1, 1, !0, []],
@@ -4008,7 +4008,7 @@ var gamestatus = "",
         ["Oswego", 0, 0, 2, !1, [15, 17, 20]],
         ["Port&nbsp;Royal", 0, 1, 3, !0, [13]],
         ["Richmond", 0, 0, 2, !0, [3, 10]],
-        ["Tadoussac", 0, 1, 2, !0, []],
+        ["Tadoussac", 0, 1, 2, !0, []],         //30
         ["Ticonderoga", 0, 0, 0, !1, [19, 22]],
         ["Trois&nbsp;Rivieres", 0, 0, 3, !0, [19, 33, 34]],
         ["Montreal", 1, 0, 4, !0, [15, 19, 32]],
