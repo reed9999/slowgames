@@ -30,7 +30,7 @@ def test1():
 def test2():
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
     global moves9575653_fr
-    moves9575653_fr = moves9575653_fr[82:]
+    # moves9575653_fr = moves9575653_fr[82:]
     analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr)
     all_moves = analyzer.iterate_through_moves()
     for i in range(0, len(moves9575653_fr)):
@@ -42,13 +42,16 @@ def test3():
     # s = '»Ì°²µ,½Ð'
     # Successful ambush by Rangers on free Reg Inf in reserve:
     s = '¶ãTË°'
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:20])
+    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:2])
     pprint.pprint(analyzer.move_to_actions(s))
 
 def test_priest():
     code = '¸×TC±'
     analyzer = FewAcresOfSnowAnalyzer(['', code])
     pprint.pprint(analyzer.move_to_actions(code))
+
+def test_download_games():
+
 
 def main():
     # test1()

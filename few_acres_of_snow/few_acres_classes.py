@@ -202,20 +202,47 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
     def win_siege_cant_settle(self, detail_code):
         assert len(detail_code) == 1, """win_siege_cant_settle (W): Only known occurrence
         it had one apparently irrelevant card in the detail_code."""
-        card = self.calc_loc_title(detail_code)
+        location = self.LOCATIONS[self.decode(detail_code)]
         msg = """Won siege but can't settle because no settler cards.
-        This is a bizarre action in the Yucata output in many ways. 
-        In testing we saw 'WÌ' which shouldn't be a valid action, and
-        the card should be a Trader. Is this also a trader?: 
-        {}""".format(card)
-        logging.warning(msg)
+        Location: {}""".format(location)
+        logging.warning("WARNING: uncertain: " + msg)
         return msg
 
     def withdraw_from_siege(self, detail_code):
-        # No idea how similar to win_siege
+        """
+        ```
+    case 21:
+        f = Lang === 0 ? "Gegner zog sich von <b>Belagerung<\/b> zur&uuml;ck:" : "Opponent performed <b>Withdraw<\/b> action:";
+        i += f + "<br/>";
+        // location is the 3rd card (2nd in what we call detail_code)
+        i += locationData[Decode(r, 2)][0];
+        r.length === 4 && r.substr(3, 1) !== "-" &&
+            (d = "", p = r.substr(3, 1),
+                d = IsNeutralCard(p) ?
+                empTitles[empDataN[GetNeutralIndex(p)][2]] + " (N)" :
+                empTitles[tt[GetEmpireIndex(s, p)][2]], i += "<br/><br/>", f = Lang === 0 ? "Gegner entfernte eine Belagerungskarte:<br/>" : "Opponent removed a siege card:<br/>",
+            i += f, i += "<i>" + d + "<\/i>");
+        break;
+        ```
+        :param detail_code:
+        :return:
+        """
+        location = self.LOCATIONS[self.decode(detail_code[1])]
         if detail_code == '0XX':
             return "No empire cards for the losing side to relinquish"
-        return "TODO: figure out what this means: <{}>".format(detail_code)
+        if detail_code[0] != '1':
+            logging.warning("In development we only saw 0XX and 1Ì-")
+        if detail_code[2] == '-':
+            return "No empire cards for the losing side to relinquish; " \
+                   "additional info: {} {}".format(detail_code[0],
+                                                   self.calc_loc_title(detail_code[1]))
+        return """Tentative: Mystery outcome = {},
+            location = {},
+            card given back = {}""".format(
+                detail_code[0],
+                location,
+                self.calc_loc_title(detail_code[2])
+        )
 
     def merchant(self, detail):
         # return "Merchant can't yet deal with {}".format(detail)
