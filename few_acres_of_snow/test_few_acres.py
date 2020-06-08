@@ -46,18 +46,19 @@ def test3():
     pprint.pprint(analyzer.move_to_actions(s))
 
 def test_priest():
-    code = '¸×TC±'
-    analyzer = FewAcresOfSnowAnalyzer(['', code])
+    code = '×TC±'
+    analyzer = FewAcresOfSnowAnalyzer(['°Í³¶µ,½Ø', code])
+    pprint.pprint(analyzer.move_to_actions('°Í³¶µ,½Ø'))
     pprint.pprint(analyzer.move_to_actions(code))
 
 def test_download_games():
-
+    pass
 
 def main():
     # test1()
     test_priest()
     test2()
-    test3()
+    # test3()
 
 
 if __name__ == "__main__":

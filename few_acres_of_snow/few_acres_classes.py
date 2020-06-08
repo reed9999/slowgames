@@ -17,7 +17,7 @@ import logging
 import pprint
 import sys
 
-logging.basicConfig(level=logging.INFO)
+logging.basicConfig(level=logging.DEBUG)
 from game_analyzer import GameAnalyzer, GameHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
 
@@ -112,12 +112,16 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         )
 
     def priest(self, detail_code):
-        return """DETAIL CODE={}
-        
-        
-        
-        
-        """.format(detail_code)
+        priest_card = self.calc_loc_title(detail_code[0])
+        result = detail_code[1]
+        if result == 'T':
+            converted_card = self.calc_loc_title(detail_code[2])
+        else:
+            converted_card = "Conversion failed. Hand shown."
+        mystery = self.calc_loc_title(detail_code[3])
+        msg = """Priest action: {} converted (if success) {} mystery card {}""".format(
+            priest_card, converted_card, mystery)
+        return msg
 
     def pass_action(self, detail_code):
         assert detail_code[0] == 'P'
@@ -422,7 +426,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             handler = None
         if len(code) == 1:
             raise NotImplementedError("Action {} has only one char".format(action))
-        logging.info("Move {} (+1) action is {}".format(
+        logging.debug("Move {} (+1) action is {}".format(
             self.move_number, action))
         return "{action}: {detail}".format(
             action=action, detail=(handler(self, code[1:]) if handler else
