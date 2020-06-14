@@ -46,7 +46,7 @@ def test3():
     pprint.pprint(analyzer.move_to_actions(s))
 
 def test_priest():
-    code = '×TC±'
+    code = '¸×TC±'
     analyzer = FewAcresOfSnowAnalyzer(['°Í³¶µ,½Ø', code])
     pprint.pprint(analyzer.move_to_actions('°Í³¶µ,½Ø'))
     pprint.pprint(analyzer.move_to_actions(code))

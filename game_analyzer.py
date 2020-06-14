@@ -66,9 +66,10 @@ class GameAnalyzer(object):
                  game_type='Petersburg'):
         self._game_id = game_id
         if html is None and game_id is not None:
-            html = self.html_for_id(game_id)
+            html = self.html_for_type_and_id(game_type, game_id)
         elif html is None and filename is not None:
             html = self.game_history_from_file(filename)
+        self._game_type = game_type or 'Petersburg'
         self._history = self.create_game_history_from_html(
             html, game_type=game_type)
 
@@ -82,9 +83,12 @@ class GameAnalyzer(object):
         # self._history.diag()
         self._history.basic_report()
 
+    def html(self):
+        return self.html_for_type_and_id(self._game_type, self._game_id)
+
     @staticmethod
-    def html_for_id(game_id):
-        url = "https://yucata.de/en/Game/Petersburg/{}".format(game_id)
+    def html_for_type_and_id(game_id):
+        url = f"https://yucata.de/en/Game/{game}/{game_id}".format(game_id)
         response = requests.get(url)
         return response.text
 

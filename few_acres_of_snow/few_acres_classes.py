@@ -428,9 +428,11 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
             raise NotImplementedError("Action {} has only one char".format(action))
         logging.debug("Move {} (+1) action is {}".format(
             self.move_number, action))
-        return "{action}: {detail}".format(
-            action=action, detail=(handler(self, code[1:]) if handler else
-                                   self.simple_cards(code[1:])))
+        if handler:
+            detail = handler(self, code[1:])
+        else:
+            detail = self.simple_cards(code[1:])
+        return "{action}: {detail}".format(action=action, detail=detail)
 
     def move_to_actions(self, move):
         list_of_action_codes = move.split(',')
@@ -517,12 +519,13 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
 
 def main():
-    pass
+    analyzer = FewAcresOfSnowAnalyzer()
+    return analyzer
 
 
 if __name__ == "__main__":
     main()
-    test3()
+    # test3()
 
 
 ## FUN EXPLORATORY CODE
