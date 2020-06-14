@@ -10,6 +10,11 @@ class YucataOSError(OSError):
         self._game = game
         self._state = state
 
+
+class YucataAuthenticationError(OSError):
+    pass
+
+
 class YucataDownloader(GameAnalyzer):
     game_url_name = None    # override, e.g. Petersburg or FewAcresOfSnow
     output_dir = None       # eventually, derive this from game_url_name
@@ -20,21 +25,43 @@ class YucataDownloader(GameAnalyzer):
         :param game: Must correspond to the URL name (e.g. 'Delphi', 'Petersburg') on
         Yucata for the moment. Perhaps later there could be a lookup table.
         """
-        self._game = game
+        self._game_type = game
 
-    def request_top_players(self):
-        # url = 'https://yucata.de/de/GameInfo/' + self._game
-        url = 'https://yucata.de/en/Ranking/Game/' + self._game
+    def request_top_players_anonymously(self):
+        """The limitation here is that it only lists 10 of them."""
+        url = 'https://yucata.de/de/GameInfo/' + self._game_type
         try:
             response = requests.get(url)
         except TimeoutError as e:
-            raise YucataOSError(wrapped_error=e, game=self._game)
-        # For now let's just take the top 10. We should be able to change to 25, 50,
-        # or 100 if we know how to hack the Javascript. See note at end.
-        # lines = response.text.split(sep='<tr style="background-color:white;">')
+            raise YucataOSError(wrapped_error=e, game=self._game_type)
         lines = response.text.split(sep='background-color:white')
         patt = 'User/([a-zA-Z0-9 ]*)"'
         return [re.search(patt, l).group(1) for l in lines if re.search(patt, l)]
+
+    def request_top_players_authenticated(self):
+        """Attempt to get top players from the link that's usable iff we're
+        logged in. This gives more results but requires authentication.
+        Perhaps we can find another way if we know how to hack the
+        Javascript.
+
+        """
+        # lines = response.text.split(sep='<tr style="background-color:white;">')
+        url = 'https://yucata.de/en/Ranking/Game/' + self._game_type
+        try:
+            response = requests.get(url)
+        except TimeoutError as e:
+            raise YucataOSError(wrapped_error=e, game=self._game_type)
+        if response.status_code == 200:
+            raise YucataAuthenticationError()
+        lines = response.text.split(sep='background-color:white')
+        patt = 'User/([a-zA-Z0-9 ]*)"'
+        return [re.search(patt, l).group(1) for l in lines if re.search(patt, l)]
+
+    def request_top_players(self):
+        try:
+            return self.request_top_players_authenticated()
+        except YucataAuthenticationError:
+            return self.request_top_players_anonymously()
 
     @staticmethod
     def user_id_for(name):
