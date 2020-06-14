@@ -2,13 +2,15 @@ import os
 import re
 import requests
 
+from game_analyzer import GameAnalyzer
+
 class YucataOSError(OSError):
     def __init__(self, wrapped_error, game, state='top players'):
         self._wrapped_error = wrapped_error
         self._game = game
         self._state = state
 
-class GamesFinder(object):
+class YucataDownloader(GameAnalyzer):
     game_url_name = None    # override, e.g. Petersburg or FewAcresOfSnow
     output_dir = None       # eventually, derive this from game_url_name
 
@@ -76,7 +78,7 @@ class GamesFinder(object):
 
 def main():
     # Below are some examples of games and the resulting list of top players.
-    class Temp(GamesFinder):
+    class Temp(YucataDownloader):
         game_url_name = 'FewAcresOfSnow'
         output_dir = 'few_acres_of_snow'
     finder=Temp('FewAcresOfSnow')
@@ -138,15 +140,15 @@ if __name__ == "__main__":
         # This seems to be similar code: https://gist.github.com/jeppech/4541577
 
 ### Moved from main() -- lists of top players
-    # GamesFinder('Snowdonia').find()       # ID 309
-    # GamesFinder('Petersburg').find()      # 27
-    # GamesFinder('Delphi').find()          # 324
+    # YucataDownloader('Snowdonia').find()       # ID 309
+    # YucataDownloader('Petersburg').find()      # 27
+    # YucataDownloader('Delphi').find()          # 324
     # ['JimF', 'Uli', 'JayAnthony', 'kyoysc', 'LJenkins', 'mcdoomer', 'suet63', 'Minella',
     #  'BlauerKlaus', 'sto1']
     # ['hotei11', 'thekid', 'c4dancer', 'CroOm', 'texaswer', 'oelschlegel', 'Monash',
     #  'Ostrich', 'Chrissi', 'georgedim']
     # ['Stonecrusher', 'kyoysc', 'Hircine', 'peet', 'Pompkin', 'Tintin', 'November',
     #  'Alanna', 'vospe', 'Katzenfloh']
-    # GamesFinder('RRR2').find()            # 142
+    # YucataDownloader('RRR2').find()            # 142
     # ['califax', 'Levster', 'tamihiko71b', 'Agentus', 'loulouulou', 'Gio1987', 'RobRdam',
     #  'oelschlegel', 'noblekenny', 'AndreasJ']

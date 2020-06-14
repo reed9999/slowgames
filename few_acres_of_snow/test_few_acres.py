@@ -5,6 +5,9 @@ import pprint
 from few_acres_of_snow.few_acres_classes import \
     FewAcresOfSnowAnalyzer, FewAcresOfSnowHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
+from game_analyzer import GameDownloader
+from site_yucata.classify_games import YucataDownloader
+
 
 class TestFewAcresAnalyzer():
     pass
@@ -52,13 +55,16 @@ def test_priest():
     pprint.pprint(analyzer.move_to_actions(code))
 
 def test_download_games():
-    pass
+    dl = YucataDownloader('FewAcresOfSnow')
+    rv = dl.request_top_players()
+    print(pprint.pformat(rv))
 
 def main():
     # test1()
-    test_priest()
-    test2()
+    # test_priest()
+    # test2()
     # test3()
+    test_download_games()
 
 
 if __name__ == "__main__":

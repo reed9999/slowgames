@@ -61,6 +61,17 @@ class GameHistory(object):
                 last_break = i
 
 
+class GameDownloader(object):
+    def __init__(self, game_type='Petersburg'):
+        self._game_type = game_type or 'Petersburg'
+
+    def html_for_id(self, game_id):
+        url = f"https://yucata.de/en/Game/{self._game_type}/{game_id}"
+        response = requests.get(url)
+        return response.text
+
+
+
 class GameAnalyzer(object):
     def __init__(self, game_id=None, html=None, filename=None,
                  game_type='Petersburg'):
