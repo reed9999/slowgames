@@ -11,9 +11,16 @@ class YucataOSError(OSError):
         self._state = state
 
 
-class YucataAuthenticationError(OSError):
+class YucataAuthenticationError(RuntimeError):
     pass
 
+
+class YucataAuthenticatedNyiError(YucataAuthenticationError,
+                                  NotImplementedError):
+    """Use this exception class at the beginning of methods that can't work
+    until we have a way to programmatically interact with a logged-in Yucata
+    session (e.g. Selenium, WaTiR, etc.)"""
+    pass
 
 class YucataDownloader(GameAnalyzer):
     game_url_name = None    # override, e.g. Petersburg or FewAcresOfSnow
@@ -45,6 +52,7 @@ class YucataDownloader(GameAnalyzer):
         Javascript.
 
         """
+        raise YucataAuthenticatedNyiError
         # lines = response.text.split(sep='<tr style="background-color:white;">')
         url = 'https://yucata.de/en/Ranking/Game/' + self._game_type
         try:
@@ -65,14 +73,17 @@ class YucataDownloader(GameAnalyzer):
 
     @staticmethod
     def user_id_for(name):
+        raise YucataAuthenticatedNyiError
         url = 'https://yucata.de/de/Ranking/' + name
         text = requests.get(url).text
         try:
-            # return re.search('UpdatePlayerRankingList\(([0-9]*)\)', text).group(1)
-            return re.search('UpdatePlayerRanking', text).group(1)
+            return re.search('UpdatePlayerRankingList\(([0-9]*)\)', text).group(1)
+            # return re.search('UpdatePlayerRanking', text).group(1)
         except:
             ## This might happen legitimately if the player is not found.
             # In our case, starting up, it's more likely a bad regex
+            print(text)
+            print(re.search('UpdatePlayerRankingList', text))
             raise
 
     # Originally get the ID by parsing: var profileId = 188172;  or var CurrentUserId = 188172;

@@ -59,12 +59,20 @@ def test_download_games():
     rv = dl.request_top_players()
     print(pprint.pformat(rv))
 
+def test_get_my_id():
+    id = YucataDownloader.user_id_for('philip9999')
+    assert id == 5
+
 def main():
     # test1()
     # test_priest()
     # test2()
     # test3()
-    test_download_games()
+
+    # TESTS OF DOWNLOADING GAMES
+    # test_download_games()
+    test_get_my_id()
+
 
 
 if __name__ == "__main__":
