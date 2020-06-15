@@ -16,6 +16,7 @@ from enum import Enum
 import logging
 import pprint
 import sys
+import yaml
 
 from game_analyzer import GameAnalyzer, GameHistory
 
