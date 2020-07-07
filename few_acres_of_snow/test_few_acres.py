@@ -64,7 +64,7 @@ def test_get_my_id():
     assert id == 5
 
 def main():
-    # test1()
+    test1()
     # test_priest()
     # test2()
     # test3()

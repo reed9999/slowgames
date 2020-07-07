@@ -1,0 +1,56 @@
+# Here are the top 50 players as of 2020-06-15
+
+1	us	Itzamna n-rog	2172,627	103,1443	1863
+2	ca	Itzamna Ziggyny	1773,378	40,80117	1650
+3	un	Journeyman Evan_Getting	1860,882	86,63655	1600
+4	us	Ix Chel tortoise	1949,399	121,4378	1585
+5	us	Chilan priest Dim2a	1765,296	63,27716	1575
+6	us	Itzamna chrisr	1749,073	94,69136	1464
+7	fr	Hermit Sinclair	1716,97	88,48771	1451
+8	it	Itzamna Fede	1669,892	73,28342	1450
+9	us	Itzamna aargh	1845,786	133,7757	1444
+10	un	Temple servant ashglass	1557,019	40	1437
+11	it	Ahaucan alifenorm	1523,116	40,15321	1402
+12	be	Monk Benwa	1663,511	87,30608	1401
+13	es	Toolmaker bartok	1489,686	40	1369
+14	gb	Ahaucan GedofGont	1484,471	45,60297	1347
+15	de	Chaac Midgardwanderer	1571,283	76,30305	1342
+16	de	Farmer n_guebert	1497,934	52,3242	1340
+17	de	Itzamna Crispan	1450,92	39,97892	1330
+18	fr	Weaver Dartagnan	1457,985	45,9123	1320
+19	us	Messenger BruceLeroy33	1446,201	42,04914	1320
+20	us	Chaac JayAnthony	1440,03	40	1320
+21	un	Itzamna pyr0	1815,143	165,1231	1319
+22	un	Monk aeiouy	1511,555	65,13699	1316
+23	de	Merchant Hubsi	1433,908	40	1313
+24	us	Ahaucan wolfriders	1804,407	163,6146	1313
+25	eu	Novitiate tryard	1543,589	76,99355	1312
+26	eu	Ahaucan Uli	1425,253	40,28878	1304
+27	de	Itzamna Be_Ka	1421,504	40	1301
+28	ca	Fisherman TallTom	1415,43	42,84293	1286
+29	fr	Messenger shamouel	1414,882	44,77446	1280
+30	us	Hermit Gorn	1768,586	162,9382	1279
+31	us	Mayor Chamnix318	1494,829	73,45672	1274
+32	us	Ahmakiq HighwayStar	1389,342	40	1269
+33	jp	Fisherman Ormis	1785,524	173,0278	1266
+34	hu	Ahaucan Itzla	1386,163	40,59407	1264
+35	fr	Fisherman Rexxar	1380,801	42,0726	1254
+36	ca	Macom priest Trent	1375,927	40,57182	1254
+37	us	Chilan priest estyles	1433,8	62,95242	1244
+38	us	Juror von potty	1360,563	39,02806	1243
+39	nz	Merchant gamefool	1574,937	111,5743	1240
+40	fr	Juror Polatch	1360,677	43,35646	1230
+41	us	Fisherman fendwick	1365,357	45,47806	1228
+42	us	Ahaucan Jersey_Shirt_67	1346,476	39,8372	1226
+43	es	Ahaucan Orphebus	1377,387	51,73534	1222
+44	cn	Ahaucan Alen2	1658,608	146,1084	1220
+45	de	Merchant CosiMatz	1335,647	40,13213	1215
+46	it	Messenger Diegoista	1362,714	49,31739	1214
+47	de	Weaver Zymran	1414,394	68,8479	1207
+48	fr	Architect ilsefieg	1330,671	41,01788	1207
+49	us	Treasurer scj6	1457,242	86,022	1199
+50	no	Itzamna EzeBig	1372,821	58,04469	1198
+
+- 1 70548
+- 2 66469
+- 3 65265
