@@ -23,7 +23,7 @@ from game_analyzer import GameAnalyzer, GameHistory
 logging.basicConfig(level=logging.DEBUG)
 from few_acres_of_snow.test_moves import moves9575653_fr
 
-class FewAcresOfSnowHistory(GameHistory):
+class FewAcresOfSnowHistory(Fw1GameHistory):
     pass
 
 class FewAcresOfSnowAnalyzer(GameAnalyzer):

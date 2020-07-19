@@ -10,6 +10,9 @@ import requests
 
 
 class GameHistory(object):
+    pass
+
+class Fw1GameHistory(object):
     def __init__(self, html):
         self._html = html
         self._moves = []
@@ -23,7 +26,7 @@ class GameHistory(object):
             m = re.match("\nHistoryMove.([0-9]*). = '(.*)'", line)
             if m:
                 assert len(self._moves) == int(m.group(1)), "exp.: " + str(m.group(1))
-                tup = self.move_tuple_from_code(m.group(2))
+                tup = self.get_move_tuple_from_code(m.group(2))
                 self._moves.append({
                     'move': tup,
                     'move_str': self.move_str(tup),
@@ -36,7 +39,7 @@ class GameHistory(object):
                 self._moves[-1]['status'] = str(m.group(2))
 
     @staticmethod
-    def move_tuple_from_code(code):
+    def get_move_tuple_from_code(code):
         raise NotImplementedError
 
     @staticmethod

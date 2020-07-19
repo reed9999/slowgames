@@ -17,8 +17,6 @@ class TestFewAcresHistory():
 
 
 def test1():
-    players = ['uk', 'fr']
-    i = 0
     try:
         with open('few_acres_of_snow/ph_9575653.js', 'r') as f:
             full_html = f.read()
