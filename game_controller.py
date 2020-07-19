@@ -12,7 +12,9 @@ import requests
 class GameHistory(object):
     pass
 
-class Fw1GameHistory(object):
+
+class Fw1GameHistory(GameHistory):
+    """Represents one history of one game, e.g. """
     def __init__(self, html):
         self._html = html
         self._moves = []
@@ -74,8 +76,10 @@ class GameDownloader(object):
         return response.text
 
 
-
-class GameAnalyzer(object):
+class GameController(object):
+    """Class to take the HTML downloaded by the Downloader class and turn
+    it into a game history. Sort of a controller class hence the name change.
+    Arguably a bit of overkill."""
     def __init__(self, game_id=None, html=None, filename=None,
                  game_type='Petersburg'):
         self._game_id = game_id

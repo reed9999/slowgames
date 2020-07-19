@@ -18,15 +18,20 @@ import pprint
 import sys
 import yaml
 
-from game_analyzer import GameAnalyzer, GameHistory
+from game_controller import GameController, GameHistory
 
 logging.basicConfig(level=logging.DEBUG)
 from few_acres_of_snow.test_moves import moves9575653_fr
 
 class FewAcresOfSnowHistory(Fw1GameHistory):
-    pass
+    @staticmethod
+    def get_move_tuple_from_code(code):
+        # This is supposed to exist to separate substance of the game
+        # histories from formatting (move_str()).
+        raise NotImplementedError
 
-class FewAcresOfSnowAnalyzer(GameAnalyzer):
+
+class FewAcresOfSnowController(GameController):
     # Redefine to be closer to how the JavaScript works.
     # See user-interface-notes.md or .md for a fuller explanation.
     def __init__(self, list_of_moves):
@@ -521,7 +526,7 @@ class FewAcresOfSnowAnalyzer(GameAnalyzer):
         return {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
 
 def main():
-    analyzer = FewAcresOfSnowAnalyzer()
+    analyzer = FewAcresOfSnowController()
     return analyzer
 
 

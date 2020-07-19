@@ -3,9 +3,9 @@ classes"""
 import pprint
 
 from few_acres_of_snow.few_acres_classes import \
-    FewAcresOfSnowAnalyzer, FewAcresOfSnowHistory
+    FewAcresOfSnowController, FewAcresOfSnowHistory
 from few_acres_of_snow.test_moves import moves9575653_fr
-from game_analyzer import GameDownloader
+from game_controller import GameDownloader
 from site_yucata.classify_games import YucataDownloader
 
 
@@ -32,7 +32,7 @@ def test2():
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
     global moves9575653_fr
     # moves9575653_fr = moves9575653_fr[82:]
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr)
+    analyzer = FewAcresOfSnowController(moves9575653_fr)
     all_moves = analyzer.iterate_through_moves()
     for i in range(0, len(moves9575653_fr)):
         print(i)
@@ -43,12 +43,12 @@ def test3():
     # s = '»Ì°²µ,½Ð'
     # Successful ambush by Rangers on free Reg Inf in reserve:
     s = '¶ãTË°'
-    analyzer = FewAcresOfSnowAnalyzer(moves9575653_fr[:2])
+    analyzer = FewAcresOfSnowController(moves9575653_fr[:2])
     pprint.pprint(analyzer.move_to_actions(s))
 
 def test_priest():
     code = '¸×TC±'
-    analyzer = FewAcresOfSnowAnalyzer(['°Í³¶µ,½Ø', code])
+    analyzer = FewAcresOfSnowController(['°Í³¶µ,½Ø', code])
     pprint.pprint(analyzer.move_to_actions('°Í³¶µ,½Ø'))
     pprint.pprint(analyzer.move_to_actions(code))
 

@@ -2,7 +2,7 @@ import pprint
 import re
 import requests
 
-from game_analyzer import GameHistory, GameAnalyzer
+from game_controller import GameHistory, GameController
 
 HEADER_TEMPLATE = """
 {round_name} ROUND

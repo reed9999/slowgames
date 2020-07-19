@@ -2,7 +2,7 @@ import os
 import re
 import requests
 
-from game_analyzer import GameAnalyzer
+from game_controller import GameController
 
 class YucataOSError(OSError):
     def __init__(self, wrapped_error, game, state='top players'):
@@ -22,7 +22,7 @@ class YucataAuthenticatedNyiError(YucataAuthenticationError,
     session (e.g. Selenium, WaTiR, etc.)"""
     pass
 
-class YucataDownloader(GameAnalyzer):
+class YucataDownloader(GameController):
     game_url_name = None    # override, e.g. Petersburg or FewAcresOfSnow
     output_dir = None       # eventually, derive this from game_url_name
 
