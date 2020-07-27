@@ -28,10 +28,11 @@ class Fw1GameHistory(GameHistory):
             m = re.match("\nHistoryMove.([0-9]*). = '(.*)'", line)
             if m:
                 assert len(self._moves) == int(m.group(1)), "exp.: " + str(m.group(1))
-                tup = self.get_move_tuple_from_code(m.group(2))
+                full_move_encoded = m.group(2)
                 self._moves.append({
-                    'move': tup,
+                    'move': full_move_encoded,
                     'move_str': self.move_str(tup),
+                    'status': None,
                 })
                 continue
 
@@ -39,10 +40,6 @@ class Fw1GameHistory(GameHistory):
             if m:
                 assert len(self._moves) == int(m.group(1)) + 1
                 self._moves[-1]['status'] = str(m.group(2))
-
-    @staticmethod
-    def get_move_tuple_from_code(code):
-        raise NotImplementedError
 
     @staticmethod
     def move_str(tup):
@@ -77,9 +74,11 @@ class GameDownloader(object):
 
 
 class GameController(object):
-    """Class to take the HTML downloaded by the Downloader class and turn
+    """
+    Class to take the HTML downloaded by the Downloader class and turn
     it into a game history. Sort of a controller class hence the name change.
-    Arguably a bit of overkill."""
+    Arguably a bit of overkill.
+    """
     def __init__(self, game_id=None, html=None, filename=None,
                  game_type='Petersburg'):
         self._game_id = game_id

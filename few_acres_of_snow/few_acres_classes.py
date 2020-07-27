@@ -18,7 +18,7 @@ import pprint
 import sys
 import yaml
 
-from game_controller import GameController, GameHistory
+from game_controller import GameController, Fw1GameHistory
 
 logging.basicConfig(level=logging.DEBUG)
 from few_acres_of_snow.test_moves import moves9575653_fr

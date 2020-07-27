@@ -16,7 +16,7 @@ class TestFewAcresHistory():
     pass
 
 
-def test1():
+def test_basic_report():
     try:
         with open('few_acres_of_snow/ph_9575653.js', 'r') as f:
             full_html = f.read()
@@ -57,19 +57,22 @@ def test_download_games():
     rv = dl.request_top_players()
     print(pprint.pformat(rv))
 
+
+@pytest.mark.skip("Logged in interaction may not be possible without browser-driving.")
 def test_get_my_id():
     id = YucataDownloader.user_id_for('philip9999')
     assert id == 5
 
 def main():
-    test1()
+    pass
+    # test1()
     # test_priest()
     # test2()
     # test3()
 
     # TESTS OF DOWNLOADING GAMES
     # test_download_games()
-    test_get_my_id()
+    # test_get_my_id()
 
 
 
