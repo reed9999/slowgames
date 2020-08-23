@@ -14,17 +14,19 @@ class GameHistory(object):
 
 
 class Fw1GameHistory(GameHistory):
-    """Represents one history of one game, e.g. """
+    """Represents one history of one game, e.g. one particular Saint Petersburg game.
+    """
     def __init__(self, html):
         self._html = html
         self._moves = []
-        self.init_from_html()
+        if self._html:
+            self.init_from_html()
 
     def diag(self):
         pprint.pprint([m['move_str'] for m in self._moves])
 
     def init_from_html(self):
-        for line in self._html.split(';'):
+        for line in self._html:
             m = re.match("\nHistoryMove.([0-9]*). = '(.*)'", line)
             if m:
                 assert len(self._moves) == int(m.group(1)), "exp.: " + str(m.group(1))
@@ -94,8 +96,7 @@ class GameController(object):
     @classmethod
         # Factory method
     def create_game_history_from_html(cls, html, game_type=None):
-        raise NotImplementedError
-        return GameHistory(None)
+        return Fw1GameHistory(html)
 
     def diag(self):
         # self._history.diag()

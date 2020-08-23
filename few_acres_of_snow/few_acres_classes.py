@@ -34,12 +34,17 @@ class FewAcresOfSnowHistory(Fw1GameHistory):
 class FewAcresOfSnowController(GameController):
     # Redefine to be closer to how the JavaScript works.
     # See user-interface-notes.md or .md for a fuller explanation.
-    def __init__(self, list_of_moves):
-        self.game_type='FewAcresOfSnow'
+    def __init__(self, html=None, game_id=None, moves_list=None):
+        # The superclass is not yet properly implemented (create_game_history_from_html)
+        super().__init__(game_type='FewAcresOfSnow',
+                         html=html, game_id=game_id)
         self.which_side = 'uk'
         self.move_number = 0
-        self.moves_list = list_of_moves
         self.actions_list = []
+        # moves_list was the legacy way of getting moves into the controller (known then
+        # as the analyzer), and it might be worth keeping if we don't want to keep all the
+        # HTML parsing.
+        self.moves_list = moves_list
 
     def relevant_side(self, reverse):
         reversal = {'uk': 'fr', 'fr': 'uk'}
@@ -123,11 +128,16 @@ class FewAcresOfSnowController(GameController):
         result = detail_code[1]
         if result == 'T':
             converted_card = self.calc_loc_title(detail_code[2])
+            mystery = detail_code[3]
         else:
             converted_card = "Conversion failed. Hand shown."
-        mystery = self.calc_loc_title(detail_code[3])
-        msg = """Priest action: {} converted (if success) {} mystery card {}""".format(
-            priest_card, converted_card, mystery)
+            assert detail_code[3] == 'C', 'The hypothesis was that all Native conversion ' \
+                                          f'failures have a 3rd char of "C" but this one ' \
+                f'is {detail_code[3]}'
+            mystery = None
+        msg = f"Priest action: {priest_card} converted (if success) {converted_card} "
+        if mystery:
+            msg += f"mystery card: {mystery}"
         return msg
 
     def pass_action(self, detail_code):
@@ -447,6 +457,8 @@ class FewAcresOfSnowController(GameController):
 
     def iterate_through_moves(self):
         logging.warning("MISNOMER! iterate_through_moves is just a list.")
+        if not self.moves_list:
+            raise NotImplementedError("System should parse html into move strings.")
         for move in self.moves_list:
             self.which_side = ['uk', 'fr'][self.move_number % 2]
             self.actions_list.append((self.which_side, self.move_to_actions(move)))
@@ -525,14 +537,35 @@ class FewAcresOfSnowController(GameController):
         """
         return {'uk': 33, 'fr': 26}[self.relevant_side(reverse)]
 
-def main():
-    analyzer = FewAcresOfSnowController()
-    return analyzer
+def get_a_test_controller():
+    with open('games/2020/08/10506048.js', 'r') as f:
+        html = f.readlines()
+    controller = FewAcresOfSnowController(html=html, game_id=10506048, )
+    return controller
 
+
+# Trying to move this to test_few_acres isn't working yet!
+from few_acres_of_snow.test_moves import moves9575653_fr
+def copy_of_test2():
+    # Presently failing on move 29(+1); seems to mistake intendant for priest.
+    # '¸×TC±'
+    # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
+    global moves9575653_fr
+    analyzer = FewAcresOfSnowController(moves_list=moves9575653_fr)
+    all_moves = analyzer.iterate_through_moves()
+    for i in range(0, len(moves9575653_fr)):
+        print(i)
+        pprint.pprint(all_moves[i])
+
+def copy_of_test_priest():
+    code = '¸×TC±'
+    analyzer = FewAcresOfSnowController(['°Í³¶µ,½Ø', code])
+    pprint.pprint(analyzer.move_to_actions('°Í³¶µ,½Ø'))
+    pprint.pprint(analyzer.move_to_actions(code))
 
 if __name__ == "__main__":
-    main()
-    # test3()
+    copy_of_test2()
+    # copy_of_test_priest()  # works
 
 
 ## FUN EXPLORATORY CODE
@@ -545,26 +578,3 @@ HistoryStatus[1] =
     }
 x='¿'; moo();
 """
-
-OLD_UK_CARDS = {
-
-        'Ó': 'Regular infantry',
-        'Õ': 'Regular infantry',
-        'Ö': 'Regular infantry',
-        'Ò': 'Regular infantry',
-        'Ô': 'Regular infantry',
-        'ã': 'Rangers',
-
-
-
-
-        'Ø': 'Indian leader',
-        'Ñ': 'Military leader',
-        'Ý': 'Militia',
-        'Þ': 'Militia',
-        'å': 'Governor',
-        'ä': 'Fortification (red)',
-
-        'Ù': 'Home Support',
-
-    }

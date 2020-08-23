@@ -64,10 +64,9 @@ def test_get_my_id():
     assert id == 5
 
 def main():
-    pass
     # test1()
     # test_priest()
-    # test2()
+    test2()
     # test3()
 
     # TESTS OF DOWNLOADING GAMES
