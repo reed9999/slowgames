@@ -128,17 +128,14 @@ class FewAcresOfSnowController(GameController):
         result = detail_code[1]
         if result == 'T':
             converted_card = self.calc_loc_title(detail_code[2])
-            mystery = detail_code[3]
         else:
             converted_card = "Conversion failed. Hand shown."
-            assert detail_code[3] == 'C', 'The hypothesis was that all Native conversion ' \
-                                          f'failures have a 3rd char of "C" but this one ' \
-                f'is {detail_code[3]}'
-            mystery = None
-        msg = f"Priest action: {priest_card} converted (if success) {converted_card} "
-        if mystery:
-            msg += f"mystery card: {mystery}"
-        return msg
+        msg = f"Priest action: {priest_card} converted (if success) {converted_card}. "
+        if len(detail_code) > 3:
+            mystery_msg = f"Mysterious 3rd card for priest: {detail_code[3]}"
+        else:
+            mystery_msg = f"No 3rd card for priest."
+        return msg + mystery_msg
 
     def pass_action(self, detail_code):
         assert detail_code[0] == 'P'
