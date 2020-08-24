@@ -1,7 +1,9 @@
 """Pre-parsed lists of moves for testing the FewAcresAnalyzer"""
 # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
 moves9575653_fr = [
-    # """The sequence at the end is bizarre, perhaps even a site malfunction:
+    # """The sequence at the end is an example of how the move count handles the non-move
+    # of withdrawing from a defensive siege, followed by the inability to settle.
+    # Britain's entire move gets repeated before and after France's non-settlement.
     # ```
     # HistoryMove[82] = '±¶¶°,¹±,Å1Ì-';
     # HistoryStatus[82] = '308¶Ì²°°;²²²²²²²°²°°²°°°°³°°°°°°µ´°µ°°²µ°·µ¸°;,;°²±°--±±°°°°,12,Ûä,,,ãÍ¸HØ²åÙµIÈ³»¶°±,,,±°°°°,°±°³,;±²°±--±±°°°°,1,ÐÑÙÝE,,ÏÌ,C¶Î²×DÖÍµ±³ËÒÓ,,,±°°°°,°°±²,;±¶¶°,¹±,Å1Ì-';

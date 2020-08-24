@@ -1,4 +1,17 @@
-# General UI observations
+# A few helpful hints
+These were in comments but really fit here better than anywhere else.
+
+Use this link for all philip9999's AFAoS games (player ID: 404792):
+https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=404792&GameType=90&length=-1
+or just use the UI from here (probably easier):
+https://yucata.de/en/Ranking/philip9999
+
+Earlier I thought something was changing under my feet. In
+view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
+which became TEST_BED below, 4th move switched from
+»Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
+
+# General observations on the JS UI
 The first interesting elements are naturally the top row indicators of things like fortresses left:
 ```html
 <img id="fortDisc" alt="" src="/netimages/games/FewAcresOfSnow/fortDisc.png" ...>

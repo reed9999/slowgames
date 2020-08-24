@@ -1,17 +1,7 @@
 # vim: set fileencoding=utf-8 :
 """History and Analyzer classes specific to A Few Acres of Snow
-
-Use this link for all philip9999's AFAoS games (player ID: 404792):
-https://yucata.de/data.jqdt?dataSource=RankingDetailsUser&UserID=404792&GameType=90&length=-1
-or just use the UI from here (probably easier):
-https://yucata.de/en/Ranking/philip9999
-
-Earlier I thought something was changing under my feet. In
-view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
-which became TEST_BED below, 4th move switched from
-»Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 """
-
+import time
 from enum import Enum
 import logging
 import pprint
@@ -127,14 +117,15 @@ class FewAcresOfSnowController(GameController):
         priest_card = self.calc_loc_title(detail_code[0])
         result = detail_code[1]
         if result == 'T':
-            converted_card = self.calc_loc_title(detail_code[2])
+            conversion_str = f"converted {self.calc_loc_title(detail_code[2])}"
         else:
-            converted_card = "Conversion failed. Hand shown."
-        msg = f"Priest action: {priest_card} converted (if success) {converted_card}. "
+            conversion_str = "conversion failed, hand shown"
+        msg = f"Priest action: {priest_card}; result: {conversion_str}; "
         if len(detail_code) > 3:
-            mystery_msg = f"Mysterious 3rd card for priest: {detail_code[3]}"
+            # Clearly I have no idea yet what this card is or when it shows up.
+            mystery_msg = f"3rd detail card: {detail_code[3]}"
         else:
-            mystery_msg = f"No 3rd card for priest."
+            mystery_msg = f"No 3rd detail card"
         return msg + mystery_msg
 
     def pass_action(self, detail_code):
@@ -263,8 +254,7 @@ class FewAcresOfSnowController(GameController):
         )
 
     def merchant(self, detail):
-        # return "Merchant can't yet deal with {}".format(detail)
-        rv = "Using vessel{}: ".format(self.calc_loc_title(detail[0]))
+        rv = f"Using vessel {self.calc_loc_title(detail[0])}: "
         rv += "; ".join([self.calc_loc_title(c) for c in detail[1:]])
         return rv
 
@@ -550,6 +540,7 @@ def copy_of_test2():
     global moves9575653_fr
     analyzer = FewAcresOfSnowController(moves_list=moves9575653_fr)
     all_moves = analyzer.iterate_through_moves()
+    time.sleep(0.5)  # let the debugs finish before printing out
     for i in range(0, len(moves9575653_fr)):
         print(i)
         pprint.pprint(all_moves[i])
