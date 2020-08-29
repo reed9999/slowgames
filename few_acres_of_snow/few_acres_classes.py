@@ -72,12 +72,12 @@ class FewAcresOfSnowController(GameController):
 
                     If the action is #35 for some reason different logic:
                         a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
-                        i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
+                        i += "<br/><span style='color:green'><b>" + f + "<\\/b><\\/span>"));
                     If length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4),
                         c = k === 0 ? "Reserve" : "Hand",
                         // something about IsRandomRule(15)
                         // basically it was successful
-                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
+                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\\/i>");
                     break;
         ```
         """
@@ -221,7 +221,7 @@ class FewAcresOfSnowController(GameController):
         """
         ```
     case 21:
-        f = Lang === 0 ? "Gegner zog sich von <b>Belagerung<\/b> zur&uuml;ck:" : "Opponent performed <b>Withdraw<\/b> action:";
+        f = Lang === 0 ? "Gegner zog sich von <b>Belagerung<\\/b> zur&uuml;ck:" : "Opponent performed <b>Withdraw<\\/b> action:";
         i += f + "<br/>";
         // location is the 3rd card (2nd in what we call detail_code)
         i += locationData[Decode(r, 2)][0];
@@ -230,7 +230,7 @@ class FewAcresOfSnowController(GameController):
                 d = IsNeutralCard(p) ?
                 empTitles[empDataN[GetNeutralIndex(p)][2]] + " (N)" :
                 empTitles[tt[GetEmpireIndex(s, p)][2]], i += "<br/><br/>", f = Lang === 0 ? "Gegner entfernte eine Belagerungskarte:<br/>" : "Opponent removed a siege card:<br/>",
-            i += f, i += "<i>" + d + "<\/i>");
+            i += f, i += "<i>" + d + "<\\/i>");
         break;
         ```
         :param detail_code:

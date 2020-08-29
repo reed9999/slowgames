@@ -1,6 +1,10 @@
 """Pytest-compatible classes and functions testing the Few Acres
 classes"""
 import pprint
+import re
+import time
+
+import pytest
 
 from few_acres_of_snow.few_acres_classes import \
     FewAcresOfSnowController, FewAcresOfSnowHistory
@@ -28,15 +32,20 @@ def test_basic_report():
     print(history.basic_report())
     # print(["****" + ms for )
 
-def test2():
+def test_via_stdout(capsys):
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
-    global moves9575653_fr
-    # moves9575653_fr = moves9575653_fr[82:]
-    analyzer = FewAcresOfSnowController(moves9575653_fr)
+    analyzer = FewAcresOfSnowController(moves_list=moves9575653_fr)
     all_moves = analyzer.iterate_through_moves()
+    time.sleep(0.5)  # let the debugs finish before printing out
     for i in range(0, len(moves9575653_fr)):
         print(i)
         pprint.pprint(all_moves[i])
+    captured = capsys.readouterr()
+    patt = """84
+\\('uk',
+ \\["develop: St. Mary's; St. Mary's; Boston",
+  'money from: New Haven',"""
+    assert re.search(patt, captured.out, re.MULTILINE)
 
 def test3():
     # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
@@ -66,7 +75,7 @@ def test_get_my_id():
 def main():
     # test1()
     # test_priest()
-    test2()
+    test_via_stdout()
     # test3()
 
     # TESTS OF DOWNLOADING GAMES
