@@ -5,13 +5,11 @@ import time
 from enum import Enum
 import logging
 import pprint
-import sys
-import yaml
 
 from game_controller import GameController, Fw1GameHistory
 
-logging.basicConfig(level=logging.DEBUG)
-from few_acres_of_snow.test_moves import moves9575653_fr
+logging.basicConfig(level=logging.INFO)
+
 
 class FewAcresOfSnowHistory(Fw1GameHistory):
     @staticmethod
@@ -532,7 +530,6 @@ def get_a_test_controller():
 
 
 # Trying to move this to test_few_acres isn't working yet!
-from few_acres_of_snow.test_moves import moves9575653_fr
 def copy_of_test2():
     # Presently failing on move 29(+1); seems to mistake intendant for priest.
     # '¸×TC±'

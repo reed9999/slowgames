@@ -8,8 +8,7 @@ import pytest
 
 from few_acres_of_snow.few_acres_classes import \
     FewAcresOfSnowController, FewAcresOfSnowHistory
-from few_acres_of_snow.test_moves import moves9575653_fr
-from game_controller import GameDownloader
+from few_acres_of_snow.tests.test_moves import moves9575653_fr
 from site_yucata.classify_games import YucataDownloader
 
 
@@ -30,7 +29,6 @@ def test_basic_report():
 
     history = FewAcresOfSnowHistory(full_html)
     print(history.basic_report())
-    # print(["****" + ms for )
 
 def test_via_stdout(capsys):
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
