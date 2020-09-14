@@ -11,6 +11,11 @@ view-source:https://yucata.de/en/Game/FewAcresOfSnow/9547143
 which became TEST_BED below, 4th move switched from
 »Ì°²¶,½Í   to   ½Í,»Ì°²   which is almost switching the two.
 
+Whatever it was, it seemed to parse OK as 
+
+('uk',
+ ["settle: Halifax; Pemaquid; Norfolk; St. Mary's", 'money from: New York'])
+
 # General observations on the JS UI
 The first interesting elements are naturally the top row indicators of things like fortresses left:
 ```html
