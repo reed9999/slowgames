@@ -18,6 +18,8 @@ THIS_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
 # without some special tool like Selenium that preserves sessions long enough
 # to enjoy my normal user access to player data.
 TEST_DOWNLOADS = False
+skip_login_test = pytest.mark.skipif(
+    not TEST_DOWNLOADS, reason="Not running tests requiring login at present")
 
 class TestFewAcresAnalyzer():
     pass
@@ -26,7 +28,18 @@ class TestFewAcresHistory():
     pass
 
 
-# This doesn't do anything useful yet.
+@skip_login_test
+def test_get_my_id():
+    id = YucataDownloader.user_id_for('philip9999')
+    assert id == 5
+
+@skip_login_test
+def test_download_games():
+    dl = YucataDownloader('FewAcresOfSnow')
+    rv = dl.request_top_players()
+    print(pprint.pformat(rv))
+
+@pytest.mark.skip(msg="This doesn't do anything useful yet.")
 def test_basic_report():
     fn = os.path.join(THIS_FILE_DIR, '..', 'games', '2020', 'Q1', 'ph_9575653.js')
     with open(fn, 'r') as f:
@@ -38,7 +51,11 @@ def test_basic_report():
     assert history is not None
 
 
-def test_via_stdout(capsys):
+# @pytest.fixture()
+# def foo():
+#     return 'whatever'
+
+def test_via_stdout(capsys, ):
     # https://www.yucata.de/en/Game/FewAcresOfSnow/9575653
     analyzer = FewAcresOfSnowController(moves_list=moves9575653_fr)
     all_moves = analyzer.iterate_through_moves()
@@ -52,6 +69,7 @@ def test_via_stdout(capsys):
  \\["develop: St. Mary's; St. Mary's; Boston",
   'money from: New Haven',"""
     assert re.search(patt, captured.out, re.MULTILINE)
+
 
 def test_9547143(capsys):
     """This game is interesting mostly because I was convinced one of the moves
@@ -80,6 +98,19 @@ def test_9547143(capsys):
 # (.*)"""
     assert re.search(patt, captured.out, re.MULTILINE)
 
+@pytest.fixture(params=[
+    'few_acres_of_snow/games/2020/08/10348395.js',
+    'few_acres_of_snow/games/2020/Q1/ph_9547143.js',
+])
+def game_history(request):
+    with open(os.path.join(THIS_FILE_DIR, '..', '..', request.param)) as f:
+        movelines = f.readlines()
+        # Where did I implement parsing the history? I forget....
+    return movelines
+
+def test_param_fun(game_history, ):
+    assert len(game_history) > 100
+    assert len(game_history) < 200
 
 def test3():
     # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
@@ -95,17 +126,6 @@ def test_priest():
     pprint.pprint(analyzer.move_to_actions('°Í³¶µ,½Ø'))
     pprint.pprint(analyzer.move_to_actions(code))
 
-@pytest.mark.skipif(TEST_DOWNLOADS, "Not testing while logged in at present")
-def test_download_games():
-    dl = YucataDownloader('FewAcresOfSnow')
-    rv = dl.request_top_players()
-    print(pprint.pformat(rv))
-
-
-@pytest.mark.skipif(TEST_DOWNLOADS, "Not testing while logged in at present")
-def test_get_my_id():
-    id = YucataDownloader.user_id_for('philip9999')
-    assert id == 5
 
 
 def main():
