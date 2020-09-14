@@ -25,9 +25,18 @@ class Fw1GameHistory(GameHistory):
     def diag(self):
         pprint.pprint([m['move_str'] for m in self._moves])
 
+    @staticmethod
+    def match_on_move(line):
+        return re.match("\nHistoryMove.([0-9]*). = '(.*)'", line)
+
+    @staticmethod
+    def match_on_status(line):
+        return re.match("\nHistoryStatus.([0-9]*). = '(.*)'", line)
+
+
     def init_from_html(self):
         for line in self._html:
-            m = re.match("\nHistoryMove.([0-9]*). = '(.*)'", line)
+            m = self.match_on_move(line)
             if m:
                 assert len(self._moves) == int(m.group(1)), "exp.: " + str(m.group(1))
                 full_move_encoded = m.group(2)
@@ -38,7 +47,7 @@ class Fw1GameHistory(GameHistory):
                 })
                 continue
 
-            m = re.match("\nHistoryStatus.([0-9]*). = '(.*)'", line)
+            m = self.match_on_status(line)
             if m:
                 assert len(self._moves) == int(m.group(1)) + 1
                 self._moves[-1]['status'] = str(m.group(2))
@@ -63,6 +72,9 @@ class Fw1GameHistory(GameHistory):
             if i in break_moves:
                 print(self.round_header_after(i))
                 last_break = i
+
+    def __len__(self):
+        return len(self._moves)
 
 
 class GameDownloader(object):

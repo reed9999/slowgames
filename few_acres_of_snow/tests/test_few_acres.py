@@ -10,6 +10,7 @@ import pytest
 from few_acres_of_snow.few_acres_classes import \
     FewAcresOfSnowController, FewAcresOfSnowHistory
 from few_acres_of_snow.tests.test_moves import moves9575653_fr, moves9547143
+from game_controller import Fw1GameHistory
 from site_yucata.classify_games import YucataDownloader
 
 THIS_FILE_DIR = os.path.dirname(os.path.realpath(__file__))
@@ -21,6 +22,19 @@ TEST_DOWNLOADS = False
 skip_login_test = pytest.mark.skipif(
     not TEST_DOWNLOADS, reason="Not running tests requiring login at present")
 
+
+# FIXTURES
+@pytest.fixture(params=[
+    'few_acres_of_snow/games/2020/08/10348395.js',
+    'few_acres_of_snow/games/2020/Q1/ph_9547143.js',
+])
+def game_history(request):
+    with open(os.path.join(THIS_FILE_DIR, '..', '..', request.param)) as f:
+        content_lines = f.readlines()
+    return Fw1GameHistory(html=content_lines)
+
+
+# STUB CLASSES; we might add tests here eventually, or might delete them.
 class TestFewAcresAnalyzer():
     pass
 
@@ -98,19 +112,29 @@ def test_9547143(capsys):
 # (.*)"""
     assert re.search(patt, captured.out, re.MULTILINE)
 
-@pytest.fixture(params=[
-    'few_acres_of_snow/games/2020/08/10348395.js',
-    'few_acres_of_snow/games/2020/Q1/ph_9547143.js',
-])
-def game_history(request):
-    with open(os.path.join(THIS_FILE_DIR, '..', '..', request.param)) as f:
-        movelines = f.readlines()
-        # Where did I implement parsing the history? I forget....
-    return movelines
-
 def test_param_fun(game_history, ):
     assert len(game_history) > 100
     assert len(game_history) < 200
+
+## To help understand why the previous asserts show a len of 0.
+def test_history_regex():
+    # arbitrary from 10348395
+    strs = [
+        "HistoryMove[174] = '²·ä·,¾Ô';",
+        "HistoryStatus[174] = '307°°²±°±²·;´±²±µ±±´°°²°´°²³°³³°°±°µ¸°¸±µ°¶°¶µ¶±;,;"
+        "±²±±--±±°°°°,0,ÌÕÙÚµ,IÛËÝÜ,DÒ,Þ²´ÑÐGÖ±¶Ï×ÈÄ³ÎÔÍØF,,,±°°°°,°°±²,;°²³°--±±°°°°,"
+        "5,×ÙÛ°¿,ÖÑÒÞ,³²ËØµC±å,Eãä·Ô,,,±°°°°,°°±²,;';",
+        "HistoryMove[175] = '»Ìµ,¾Ú';",
+    ]
+    h = Fw1GameHistory(html=strs)
+    h.init_from_html()
+    assert len(h._html) == 3
+    assert h.match_on_move(h._html[0]) is not None
+    assert h.match_on_move(h._html[1]) is None
+    assert h.match_on_status(h._html[1]) is not None
+    assert h.match_on_move(h._html[2]) is not None
+    assert len(h) == 3
+
 
 def test3():
     # Trader: Gaspé, Montreal, Tadoussac = 33, 30, 23
