@@ -1,0 +1,732 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head><meta http-equiv="expires" content="0" /><meta http-equiv="pragma" content="no-cache" /><link href="/bundles/gs_default_game?v=hJR3JASvF0lhQ9osdW4AKP8BXt67wFUnymd1u6Mx5Eg1" rel="stylesheet" />
+    <script src="/bundles/gamebasescripts?v=lJYj7kUVp-T2hQyF6fd6JH_d-MjuPVeM1fCCbQ9scOQ1"></script>
+<script type="text/javascript" src="/signalr/hubs"></script><script type="text/javascript">
+    //<![CDATA[
+    var StrPlayerOnTurn = 'Player on turn :';
+    var StrYourTurn = 'It is your turn';
+    var StrYourTurnButOtherGame = 'It is your turn, but you have to move in all older games first';
+    var StrOtherGameOnTurn = 'You are on turn in a different game. Do you want to switch to that game now?';
+    var StrGameFromDatabase = 'Game from game database';
+    var StrGameIsFinished = 'Game is over';
+    var BtnNextID = 'ctl05_btnNextGameHistory';
+    var NextGameRoute = '';
+    var IsActive = 'False';
+    var MayMoveInCurrent = 'False';
+    var BaseImagePath = '/netimages/';
+    var GameImagePath = '/netimages/games/FewAcresOfSnow/';
+    var BaseUrl = '/';
+    var OrigStatus = '318°°²±°;²²²²´²±²²°²´°°²¸°µ°°°°°¶¸°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,11,Úå±´¸,,¶¾ã,ÙEÜÔÑä³²µ°»Í,,,±°°°°,°³²±,59;±²±°--±±±°°°,8,ËÏÐ´C,,¶Ì±ÍH,ÚÒ³Ù¼µ¾Ä²,,,±°°°°,°°²³,51;';
+    var LastMove = '';
+    var DBCurrentMove = '';
+    var GameIsEndable = 'False';
+    var UserLogin = 'philip9999';
+    var UserHash = 'D27C7FE37C8E9C08283DC1F83E731127';
+    var UserLang = '1';
+    var SignalRDomain = '/signalr';
+    var Lang = 1;
+    var SupportsGiveUp = true;
+    var SupportsFinishTurn = true;
+    var SupportsCancelMove = true;
+    var SupportsOfferTie = false;
+    var UserID = 404792;
+    var IsHistory = true;
+    var OnTurnIndex = 1;
+    var UserIndex = 1;
+    var GameInfo = new TGameInfo(14568739,90,567461,true,false,false,false,false,-536870912,404792,567461,2);
+    var PlayerInfo = new Array(new TPlayerInfo(567461,'Storphid',13,'Builder','us'),new TPlayerInfo(404792,'philip9999',17,'Judge','us'));
+
+    //]]>
+</script>
+<script type="text/javascript">
+    var StartStatus = '308°°±-°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;±°°°--±±°°°°,5,Ì±Ë¶´,,°³²µ,,,,±°°°°,°°±²,;°°°°--±±°°°°,12,µ´³°²,,±¶,,,,±°°°°,°°±²,;';
+    var moveNr = 0;
+    var HistoryMove = new Array();
+    var HistoryStatus = new Array();
+    HistoryMove[0] = '½ä';
+    HistoryStatus[0] = '308°°±°°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,12,°²³´µ,,±¶,ä,,,±°°°°,°°±²,;±²°°--±±°°°°,5,Ì±Ë¶´,,°³²µ,,,,±°°°°,°°±²,;';
+    HistoryMove[1] = '¼±´';
+    HistoryStatus[1] = '308°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,10,°²³´µ,,±¶,ä,,,±°°°°,°°±²,;±²°°--±±°°°°,7,ËÌ²µ¶,,°³,±´,,,±°°°°,°°±²,;';
+    HistoryMove[2] = 'º³²µ,½Ù';
+    HistoryStatus[2] = '308°°²°°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,11,°±³´¶,,Ù²µä,,,,±°°°°,°°±²,;±²°°--±±°°°°,7,ËÌ²µ¶,,°³,±´,,,±°°°°,°°±²,;';
+    HistoryMove[3] = '»Ì²µ¶,½Ð';
+    HistoryStatus[3] = '308°°²±°;²±²±±±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,11,°±³´¶,,Ù²µä,,,,±°°°°,°°±²,;±²°°--±±°°°°,8,Ë°³´¶,,µ±²ÐÌ,,,,±°°°°,°°±²,;';
+    HistoryMove[4] = 'º³±°,±´´¶';
+    HistoryStatus[4] = '308°°²°°;²±²±²±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,16,Ùä²µ¶,,±´³°,,,,±°°°°,°°±²,;±²°°--±±°°°°,8,Ë°³´¶,,µ±²ÐÌ,,,,±°°°°,°°±²,;';
+    HistoryMove[5] = 'º´¶³,½Í';
+    HistoryStatus[5] = '308°°²±°;²±²±²±±°°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,16,Ùä²µ¶,,±´³°,,,,±°°°°,°°±²,;±²°°--±±°°°°,11,ËÌÐ°²,,µ±,´¶³Í,,,±°°°°,°°±²,;';
+    HistoryMove[6] = 'ÃÙ,²´´ä,°·²¶µ';
+    HistoryStatus[6] = '308°°²°°;²±²±´±±±°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,13,ä°±³´,,µ²Ù¶·,,,,±°°°°,°°±²,;±²°°--±±°°°°,11,ËÌÐ°²,,µ±,´¶³Í,,,±°°°°,°°±²,;';
+    HistoryMove[7] = '½Î,ÃÐ,»Ì°²µ';
+    HistoryStatus[7] = '308°°²±°;²±²±´±±±°°°°°°°°°°°°°°°µ°°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,13,ä°±³´,,µ²Ù¶·,,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Ë±²³µ,,¶ÍÌÎ°Ð´,,,,±°°°°,°°±²,;';
+    HistoryMove[8] = '°È´³°,½ã';
+    HistoryStatus[8] = '308°°²°°;²±²±´±±±°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,8,Ùä±¶·,,µ²,´³°Èã,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Ë±²³µ,,¶ÍÌÎ°Ð´,,,,±°°°°,°°±²,;';
+    HistoryMove[9] = '¼±³,¿Ë';
+    HistoryStatus[9] = '308°°²±°;²±²±´±±±°°°°°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,6,Ùä±¶·,,µ²,´³°Èã,,,±°°°°,°°±²,;±²°°--±±°°°°,19,Ð°²´µ,Ë,¶ÍÌÎ,±³,,,±°°°°,°°±²,;';
+    HistoryMove[10] = '°»±·¶,½Ú';
+    HistoryStatus[10] = '308°°²°°;²±²±´±±±°°°±°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,6,Ùä²µ¶,,´±·°»Ú³ãÈ,,,,±°°°°,°°±²,;±²°°--±±°°°°,19,Ð°²´µ,Ë,¶ÍÌÎ,±³,,,±°°°°,°°±²,;';
+    HistoryMove[11] = 'ÃÐ,»Ì°µ,½H';
+    HistoryStatus[11] = '308°°²±°;²±²±´±±±°°°±°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,6,Ùä²µ¶,,´±·°»Ú³ãÈ,,,,±°°°°,°°±²,;±²°°--±±°°°°,16,ÍÎ²´¶,Ë,,±³ÐÌ°µH,,,±°°°°,°°±²,;';
+    HistoryMove[12] = 'ÃÙ,°º¶·µ,±±±²';
+    HistoryStatus[12] = '308°°²°°;²²²±´±±±°°±±°°°°°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,6,ãä³´È,,°»Ú,Ù¶·µº±²,,,±°°°°,°°±²,;±²°°--±±°°°°,16,ÍÎ²´¶,Ë,,±³ÐÌ°µH,,,±°°°°,°°±²,;';
+    HistoryMove[13] = '°¿²¶,µÈÍRÈ';
+    HistoryStatus[13] = '308°°²±°;²²²±´±±±°°±±°°°µ°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,6,ãä³´,,°»Ú,Ù¶·µº±²È,,,±°°°°,°°±²,;±²°°--±±°°°°,16,ÌÎ´µ¶,Ë,Ð³¼±²H°Í,,,,±°°°°,°°±²,;';
+    HistoryMove[14] = '¹³,½E';
+    HistoryStatus[14] = '308°°²°°;²²²±´±±±°°±±°°°µ°°°°°°°µ±°µ°µ°µ°µµ¶°;,;°²°°--±±°°°°,8,Úãä´»,,°,Ù¶·µº±²È³E,,,±°°°°,°°±²,;±²°°--±±°°°°,16,ÌÎ´µ¶,Ë,Ð³¼±²H°Í,,,,±°°°°,°°±²,;';
+    HistoryMove[15] = '²ÌÎ´,»Ìµ¶';
+    HistoryStatus[15] = '308°°²±°;²²²±´±±±°°±±°°°µ°°°°°°°µ±°µ°·°µ°µµ¶°;,;°²°°--±±°°°°,8,Úãä´»,,°,Ù¶·µº±²È³E,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Í°±²H,Ë,Ð³¼,Î´Ìµ¶,,,±°°°°,°°±²,;';
+    HistoryMove[16] = '²»»ä,»Ú´';
+    HistoryStatus[16] = '308°°²°°;²²²±´±±±°°±³°°°µ°°°°°°°µ±°µ°·°µ°µµ¶°;,;°²°°--±±°°°°,7,Úã°±·,,¶³Eµ»äÈºÙ²´,,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Í°±²H,Ë,Ð³¼,Î´Ìµ¶,,,±°°°°,°°±²,;';
+    HistoryMove[17] = 'µÈÍRã,±Ñ²H';
+    HistoryStatus[17] = '308°°²±°;²²²±´±±±°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,;°²°°--±±°°°°,7,Ú°±·,,¶³Eµ»äÈºÙ²´,ã,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Ð°±³¼,Ë,,Î´Ìµ¶Í²H,,,±°°°°,°°±²,;';
+    HistoryMove[18] = '±··°,¹±';
+    HistoryStatus[18] = '308°°²°°;²²²±´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,;°²°°--±±°°°°,9,ÙÚ²´º,,¶³Eµ»äÈ,ã·°±,,,±°°°°,°°±²,;±²°°--±±°°°°,17,Ð°±³¼,Ë,,Î´Ìµ¶Í²H,,,±°°°°,°°±²,;';
+    HistoryMove[19] = 'ÀË,³È±³Ë,½Ù';
+    HistoryStatus[19] = '308°°²±°;²²²±´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,9,ÙÚ²´º,,¶³Eµ»äÈ,ã·°±,,,±°°°°,°°±²,;±²°°--±±°°°°,9,ÍÐ°´¼,,²¶µ³ÎÙÌH±,,,Ë,±°°°°,°°±²,;';
+    HistoryMove[20] = 'ÃÙ,¶EC,±³³¶';
+    HistoryStatus[20] = '308°°²°°;²²²²´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,8,Ú²´ºÈ,,µ»ä,ã·°±ÙE³¶,,,±°°°°,°°±²,;±²°°--±±°°°°,9,ÍÐ°´¼,,²¶µ³ÎÙÌH±,,,Ë,±°°°°,°°±²,;';
+    HistoryMove[21] = 'ÃÐ,º´¶,´È²';
+    HistoryStatus[21] = '308°°²±°;²²²²´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,8,Ú²´ºÈ,,µ»ä,ã·°±ÙE³¶,,,±°°°°,°°±²,;±²°°--±±°°°°,10,Í°±µ¼,,³ÎÙÌH,Ð´¶,,Ë²,±°°°°,°°±²,;';
+    HistoryMove[22] = '´È²,»Ú´';
+    HistoryStatus[22] = '308°°²°°;²²²²´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,10,äµº»È,,,ã·°±ÙE³¶Ú´,,²,±°°°°,°°±²,;±²°°--±±°°°°,10,Í°±µ¼,,³ÎÙÌH,Ð´¶,,Ë²,±°°°°,°°±²,;';
+    HistoryMove[23] = '´È±,¾¼µ';
+    HistoryStatus[23] = '308°°²±°;²²²²´±±²°°±³°°°µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,10,äµº»È,,,ã·°±ÙE³¶Ú´,,²,±°°°°,°°±²,;±²°°--±±°°°°,9,ÌÍÙ°H,,³Î,Ð´¶¼µ,,Ë²±,±°°°°,°°±²,;';
+    HistoryMove[24] = '°¾ºµ,´Èä';
+    HistoryStatus[24] = '308°°²°°;²²²²´±±²°°±³°°±µ°°°°°°°µ±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,10,Úº»¾È,,¶±ÙµE´·ã°³,,,²ä,±°°°°,°°±²,;±²°°--±±°°°°,9,ÌÍÙ°H,,³Î,Ð´¶¼µ,,Ë²±,±°°°°,°°±²,;';
+    HistoryMove[25] = '´ÈÙ,±Ç°H';
+    HistoryStatus[25] = '308°°²±°;²²²²´±±²°°±³°°±µ°°°°°°°¶±°µ°·°µ°µ¶¶°;,È;°²°°--±±°°°°,10,Úº»¾È,,¶±ÙµE´·ã°³,,,²ä,±°°°°,°°±²,;±²°°--±±°°°°,9,ÌÍÎ³¶,,¼H´°Ðµ,,,Ë²±Ù,±°°°°,°°±²,;';
+    HistoryMove[26] = '»Ú¾,¾»Èº';
+    HistoryStatus[26] = '308°°²°°;²²²²´±±²°°±³°°±µ°°°°°°°¶±°µ°·°µ°µ¶¶°;,È;°²°°-ä±±°°°°,10,ã°³´·,,¶±ÙµE,Ú¾»Èº,,²ä,±°°°°,°°±²,;±²°°--±±°°°°,9,ÌÍÎ³¶,,¼H´°Ðµ,,,Ë²±Ù,±°°°°,°°±²,;';
+    HistoryMove[27] = 'Î1LäDB,¿Ì,¹¶';
+    HistoryStatus[27] = '308°°²±°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·°µ°µ¶¶°;,;°²°°--±±°°°°,10,ã°³´·,,¶±ÙµE,Ú¾»Èº²,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ÍÎÐ°µ,Ì,¼H´,³Ë²±ÙÄ¶,,,±°°°°,°°²³,;';
+    HistoryMove[28] = '°Í³·°,¾´';
+    HistoryStatus[28] = '308°°²°°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,10,Ùã±µE,,¶,Ú¾»Èº²³·°Í´,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ÍÎÐ°µ,Ì,¼H´,³Ë²±ÙÄ¶,,,±°°°°,°°²³,;';
+    HistoryMove[29] = 'ÃÐ,ÀÌ,»Ì°µ¼,½Ò';
+    HistoryStatus[29] = '308°°²±°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,10,Ùã±µE,,¶,Ú¾»Èº²³·°Í´,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ÍÎÙ´H,,¼ÌÒÐ°Ë±¶³²Äµ,,,,±°°°°,°°²³,;';
+    HistoryMove[30] = '¶EBÍ,¶ãTÙ±';
+    HistoryStatus[30] = '308°°²°°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,9,ÙÚ±µ¶,,º°E·Í³»ã¾´²È,,,,±°°°°,°°±²,;±²±°--±±°°°°,10,Î´H,,¼ÌÒÐ°Ë±¶³²Äµ,Í,,,±°°°°,°°²³,;';
+    HistoryMove[31] = '¾H,½Ï';
+    HistoryStatus[31] = '308°°²±°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,9,ÙÚ±µ¶,,º°E·Í³»ã¾´²È,,,,±°°°°,°°±²,;±²±°--±±°°°°,10,Î²´µÄ,,¼ÌÒÐ°Ë±¶³,ÍHÏ,,,±°°°°,°°²³,;';
+    HistoryMove[32] = 'ÃÙ,º±°µ,½å';
+    HistoryStatus[32] = '308°°²°°;²²²²´±±²°°±³°°±µ°°°°°°°¶µ°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,15,Ú¶ºÈE,,·Í³»ã¾´²,Ù±°µå,,,±°°°°,°°±²,;±²±°--±±°°°°,10,Î²´µÄ,,¼ÌÒÐ°Ë±¶³,ÍHÏ,,,±°°°°,°°²³,;';
+    HistoryMove[33] = '²ÈÎÄ,¾µ';
+    HistoryStatus[33] = '308°°²±°;²²²²´±±²°°±³°°±µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,15,Ú¶ºÈE,,·Í³»ã¾´²,Ù±°µå,,,±°°°°,°°±²,;±²±°--±±°°°°,7,±²³´¶,,¼ÌÒÐ°Ë,ÍHÏÎÄµ,,,±°°°°,°°²³,;';
+    HistoryMove[34] = '±ºº¶,¾ÈE';
+    HistoryStatus[34] = '308°°²°°;²²²²´±±²°°²³°°±µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,14,Úã²´¾,,·Í³»,Ù±°µåº¶ÈE,,,±°°°°,°°±²,;±²±°--±±°°°°,7,±²³´¶,,¼ÌÒÐ°Ë,ÍHÏÎÄµ,,,±°°°°,°°²³,;';
+    HistoryMove[35] = '¼±³,¹¶';
+    HistoryStatus[35] = '308°°²±°;²²²²´±±²°°²³°°±µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,12,Úã²´¾,,·Í³»,Ù±°µåº¶ÈE,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ËÐ°²´,,¼ÌÒ,ÍHÏÎÄµ±³¶,,,±°°°°,°°²³,;';
+    HistoryMove[36] = '±¾¾²,½Ü';
+    HistoryStatus[36] = '308°°²°°;²²²²´±±²°°²³°°²µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,4,Úã³´»,,·Í,Ù±°µåº¶ÈE¾²Ü,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ËÐ°²´,,¼ÌÒ,ÍHÏÎÄµ±³¶,,,±°°°°,°°²³,;';
+    HistoryMove[37] = 'ÃÐ,»Ì°²¼,½C';
+    HistoryStatus[37] = '308°°²±°;²²²²´±±²°°²³°°²µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,4,Úã³´»,,·Í,Ù±°µåº¶ÈE¾²Ü,,,±°°°°,°°±²,;±²±°--±±°°°°,16,ËÎÒ´C,,H²Ïµ³¶°ÐÌÍÄ±¼,,,,±°°°°,°°²³,;';
+    HistoryMove[38] = '¿ã,¹³';
+    HistoryStatus[38] = '308°°²°°;²²²²´±±²°°²³°°²µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,6,Ú´·»Í,ã,,Ù±°µåº¶ÈE¾²Ü³,,,±°°°°,°°±²,;±²±°--±±°°°°,16,ËÎÒ´C,,H²Ïµ³¶°ÐÌÍÄ±¼,,,,±°°°°,°°²³,;';
+    HistoryMove[39] = '¿Ò,¿Ë';
+    HistoryStatus[39] = '308°°²±°;²²²²´±±²°°²³°°²µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,6,Ú´·»Í,ã,,Ù±°µåº¶ÈE¾²Ü³,,,±°°°°,°°±²,;±²±°--±±°°°°,16,Î±´¼C,ÒË,H²Ïµ³¶°ÐÌÍÄ,,,,±°°°°,°°²³,;';
+    HistoryMove[40] = '»Ú´·,½ä';
+    HistoryStatus[40] = '308°°²°°;²²²²´±±²°°²³°°²µ°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,10,å±µ»Í,ã,°ºÙ¾È·E¶Ü´ä³Ú²,,,,±°°°°,°°±²,;±²±°--±±°°°°,16,Î±´¼C,ÒË,H²Ïµ³¶°ÐÌÍÄ,,,,±°°°°,°°²³,;';
+    HistoryMove[41] = '²¿Î¼,¶CC';
+    HistoryStatus[41] = '308°°²±°;²²²²´±±²°°²³°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,10,å±µ»Í,ã,°ºÙ¾È·E¶Ü´ä³Ú²,,,,±°°°°,°°±²,;±²±°--±±°°°°,12,ÌÍ±´Ä,ÒË,H²Ïµ³¶°Ð,Î¼C,,,±°°°°,°°²³,;';
+    HistoryMove[42] = '±»»µ,¿å';
+    HistoryStatus[42] = '308°°²°°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,10,Ú±²³Í,ãå,°ºÙ¾È·E¶Ü´ä,»µ,,,±°°°°,°°±²,;±²±°--±±°°°°,12,ÌÍ±´Ä,ÒË,H²Ïµ³¶°Ð,Î¼C,,,±°°°°,°°²³,;';
+    HistoryMove[43] = 'ÀÒË,³´´±Ë,·´Ò,´´Ä';
+    HistoryStatus[43] = '308°°²±°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,´;°²°°--±±°°°°,10,Ú±²³Í,ãå,°ºÙ¾È·E¶Ü´ä,»µ,,,±°°°°,°°±²,;±²±°--±±°°°°,10,ÌÍÐ°¶,,H²Ïµ³,Î¼C´±,,ËÒÄ,±°°°°,°°²³,;';
+    HistoryMove[44] = 'º³²Í,´´±';
+    HistoryStatus[44] = '308°°²°°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,´;°²°°--±±°°°°,15,ÚÜä´¶,ãå,°ºÙ¾È·E,»µ³²Í,,±,±°°°°,°°±²,;±²±°--±±°°°°,10,ÌÍÐ°¶,,H²Ïµ³,Î¼C´±,,ËÒÄ,±°°°°,°°²³,;';
+    HistoryMove[45] = 'ÃÐ,´´²,»Ì°¶';
+    HistoryStatus[45] = '308°°²±°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,´;°²°°--±±°°°°,15,ÚÜä´¶,ãå,°ºÙ¾È·E,»µ³²Í,,±,±°°°°,°°±²,;±²±°--±±°°°°,14,ÍÏ³µH,,,Î¼C´±ÐÌ°¶,,ËÒÄ²,±°°°°,°°²³,;';
+    HistoryMove[46] = '´´Ü,´´ä';
+    HistoryStatus[46] = '308°°²°°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,´;°²°°--±±°°°°,12,Ú´¶·E,ãå,°ºÙ¾È,»µ³²Í,,±Üä,±°°°°,°°±²,;±²±°--±±°°°°,14,ÍÏ³µH,,,Î¼C´±ÐÌ°¶,,ËÒÄ²,±°°°°,°°²³,;';
+    HistoryMove[47] = 'Å1´Ë,½Ë,½Ù';
+    HistoryStatus[47] = '308°°²±°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,12,Ú´¶·E,ãå,°ºÙ¾È,»µ³²Í±Üä,,,±°°°°,°°±²,;±²±°--±±°°°°,7,ÍÏ³µH,,,Î¼C´±ÐÌ°¶ÒÄ²ËÙ,,,±°°°°,°°²³,;';
+    HistoryMove[48] = '»Ú´·,½Ô';
+    HistoryStatus[48] = '308°°²°°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±µ°µ¶¶°;,;°²°°--±±°°°°,9,Ù¶¾ÈE,ãå,°º,»µ³²Í±ÜäÚ´·Ô,,,±°°°°,°±²°,;±²±°--±±°°°°,7,ÍÏ³µH,,,Î¼C´±ÐÌ°¶ÒÄ²ËÙ,,,±°°°°,°°²³,;';
+    HistoryMove[49] = '±ÎµH,½Ó';
+    HistoryStatus[49] = '308°°²±°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±¶°µ¶¶°;,;°²°°--±±°°°°,9,Ù¶¾ÈE,ãå,°º,»µ³²Í±ÜäÚ´·Ô,,,±°°°°,°±²°,;±²±°--±±°°°°,5,ÍÏÐÙ³,,Ì¶´²°ÄÎH¼±CÒËµÓ,,,,±°°°°,°°²³,;';
+    HistoryMove[50] = '¶EBÍ,¾È¾';
+    HistoryStatus[50] = '308°°²°°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±¶°µ¶¶°;,;°²°°--±±°°°°,7,Ùä°¶º,ãå,Í·Ô»³´Ü²ÈÚ¾E±µ,,,,±°°°°,°±²³,;±²±°--±±°°°°,5,ÏÐÙ³,,Ì¶´²°ÄÎH¼±CÒËµÓ,Í,,,±°°°°,°°²³,;';
+    HistoryMove[51] = 'ÃÐ,¿Ù,¿Ï';
+    HistoryStatus[51] = '308°°²±°;²²²²´±±²°°²´°°²·°°°°°°°¶·°µ°·±¶°µ¶¶°;,;°²°°--±±°°°°,7,Ùä°¶º,ãå,Í·Ô»³´Ü²ÈÚ¾E±µ,,,,±°°°°,°±²³,;±²±°--±±°°°°,5,ÌÓ³´¶,ÙÏ,²°ÄÎH¼±CÒËµ,ÍÐ,,,±°°°°,°°²³,;';
+    HistoryMove[52] = 'Àãå,ÃÙ,°¸¶·°,Áåº';
+    HistoryStatus[52] = '308°°²°°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·±¶°µ¶¶°;,;°²°°--±±°°°°,5,ÔãäµÍ,,»³´Ü²ÈÚ¾E±,Ù¶·°¸å,,,±°°°°,°±²³,;±²±°--±±°°°°,5,ÌÓ³´¶,ÙÏ,²°ÄÎH¼±CÒËµ,ÍÐ,,,±°°°°,°°²³,;';
+    HistoryMove[53] = '¹³,¹¶';
+    HistoryStatus[53] = '308°°²±°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·±¶°µ¶¶°;,;°²°°--±±°°°°,5,ÔãäµÍ,,»³´Ü²ÈÚ¾E±,Ù¶·°¸å,,,±°°°°,°±²³,;±²±°--±±°°°°,8,ËÌÓ´µ,ÙÏ,²°ÄÎH¼±CÒ,ÍÐ³¶,,,±°°°°,°°²³,;';
+    HistoryMove[54] = '±ÍÍµ,¿Ô';
+    HistoryStatus[54] = '308°°²°°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,;°²°°--±±°°°°,5,ãä±¾E,Ô,»³´Ü²ÈÚ,Ù¶·°¸åÍµ,,,±°°°°,°³²±,;±²±°--±±°°°°,8,ËÌÓ´µ,ÙÏ,²°ÄÎH¼±CÒ,ÍÐ³¶,,,±°°°°,°°²³,;';
+    HistoryMove[55] = '¿Ë,»Ìµ';
+    HistoryStatus[55] = '308°°²±°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,;°²°°--±±°°°°,5,ãä±¾E,Ô,»³´Ü²ÈÚ,Ù¶·°¸åÍµ,,,±°°°°,°³²±,;±²±°--±±°°°°,10,ÒÓ±´C,ÙÏË,²°ÄÎH¼,ÍÐ³¶Ìµ,,,±°°°°,°°²³,;';
+    HistoryMove[56] = '¶EBC,¶ãBÓ';
+    HistoryStatus[56] = '308°°²°°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,;°²°°--±±°°°°,4,Úä±¾È,Ô,»³´Ü²,Ù¶·°¸åÍµEã,,,±°°°°,°³²±,;±²±°--±±°°°°,10,Ò±´,ÙÏË,²°ÄÎH¼,ÍÐ³¶ÌµCÓ,,,±°°°°,°°²³,;';
+    HistoryMove[57] = 'ÀÙÏË,³´´±Ë,´´Ù,·´Ò';
+    HistoryStatus[57] = '308°°²±°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,4,Úä±¾È,Ô,»³´Ü²,Ù¶·°¸åÍµEã,,,±°°°°,°³²±,;±²±°--±±°°°°,7,ÎÏ¼ÄH,,²°,ÍÐ³¶ÌµCÓ´±,,ËÙÒ,±°°°°,°°²³,;';
+    HistoryMove[58] = '´´ä,ÀÔ,´´Ô';
+    HistoryStatus[58] = '308°°²°°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,3,Ú±²¾È,,»³´Ü,Ù¶·°¸åÍµEã,,äÔ,±°°°°,°³²±,;±²±°--±±°°°°,7,ÎÏ¼ÄH,,²°,ÍÐ³¶ÌµCÓ´±,,ËÙÒ,±°°°°,°°²³,;';
+    HistoryMove[59] = '´´Ä,½Ú';
+    HistoryStatus[59] = '308°°²±°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,3,Ú±²¾È,,»³´Ü,Ù¶·°¸åÍµEã,,äÔ,±°°°°,°³²±,;±²±°--±±°°°°,0,ÎÏ°¼H,,²,ÍÐ³¶ÌµCÓ´±Ú,,ËÙÒÄ,±°°°°,°°²³,;';
+    HistoryMove[60] = '»Ú¾,½Ñ';
+    HistoryStatus[60] = '308°°²°°;²²²²´±±²±°²´°°²·°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,0,Ü±²´È,,»³,Ù¶·°¸åÍµEãÚ¾Ñ,,äÔ,±°°°°,°³²±,;±²±°--±±°°°°,0,ÎÏ°¼H,,²,ÍÐ³¶ÌµCÓ´±Ú,,ËÙÒÄ,±°°°°,°°²³,;';
+    HistoryMove[61] = '±¿¼H,ÁÏ°Î';
+    HistoryStatus[61] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,0,Ü±²´È,,»³,Ù¶·°¸åÍµEãÚ¾Ñ,,äÔ,±°°°°,°³²±,;±²±°--±±°°°°,0,ÌÏÓ²C,,¼±Ð³µÚÍ´¶H,,,ËÙÒÄ,±°°°°,°°²³,;';
+    HistoryMove[62] = '¹²,´´Ü';
+    HistoryStatus[62] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°µ¶¶°;,´;°²°°--±±°°°°,0,±³´»È,,,Ù¶·°¸åÍµEãÚ¾Ñ²,,äÔÜ,±°°°°,°³²±,;±²±°--±±°°°°,0,ÌÏÓ²C,,¼±Ð³µÚÍ´¶H,,,ËÙÒÄ,±°°°°,°°²³,;';
+    HistoryMove[63] = 'Å1´Ë,¹²,¿Ó';
+    HistoryStatus[63] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°µ¶¶°;,;°²°°--±±°°°°,0,±³´»È,,,Ù¶·°¸åÍµEãÚ¾Ñ²äÔÜ,,,±°°°°,°³²±,;±²±°--±±°°°°,1,ÌÏ¶CH,Ó,¼±Ð³µÚÍ´,ÙÒÄ²,,,±°°°°,°°²³,;';
+    HistoryMove[64] = 'º±³»,¾È';
+    HistoryStatus[64] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°µ¶¶°;,;°²°°--±±°°°°,4,Ù³´µÍ,,±äÑ»Ü²°¾¶Ôã¸ÚÈ·åE,,,,±°°°°,°³²±,;±²±°--±±°°°°,1,ÌÏ¶CH,Ó,¼±Ð³µÚÍ´,ÙÒÄ²,,,±°°°°,°°²³,;';
+    HistoryMove[65] = '±Ð¶H,½Ë';
+    HistoryStatus[65] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,4,Ù³´µÍ,,±äÑ»Ü²°¾¶Ôã¸ÚÈ·åE,,,,±°°°°,°³²±,;±²±°--±±°°°°,1,ÌÍÏ´C,Ó,¼±Ð³µÚ,ÙÒÄ²¶HË,,,±°°°°,°°²³,;';
+    HistoryMove[66] = 'ÃÙ,º³±Í,¾´';
+    HistoryStatus[66] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,8,ÑäåµE,,»Ü²°¾¶Ôã¸ÚÈ·,Ù³±Í´,,,±°°°°,°³²±,;±²±°--±±°°°°,1,ÌÍÏ´C,Ó,¼±Ð³µÚ,ÙÒÄ²¶HË,,,±°°°°,°°²³,;';
+    HistoryMove[67] = '¶ÍC,¹´';
+    HistoryStatus[67] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,8,ÑäåµE,,»Ü²°¾¶Ôã¸ÚÈ·,Ù³±Í´,,,±°°°°,°³²±,;±²±°--±±°°°°,2,ÌÏÚµC,Ó,¼±Ð³,ÙÒÄ²¶HËÍ´,,,±°°°°,°°²³,;';
+    HistoryMove[68] = '¶EBC,¿Ñ';
+    HistoryStatus[68] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,7,äåµ·È,Ñ,»Ü²°¾¶Ôã¸Ú,Ù³±Í´E,,,±°°°°,°³²±,;±²±°--±±°°°°,2,ÌÏÚµ,Ó,¼±Ð³,ÙÒÄ²¶HËÍ´C,,,±°°°°,°°²³,;';
+    HistoryMove[69] = '»Ìµ,¾Ï';
+    HistoryStatus[69] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,7,äåµ·È,Ñ,»Ü²°¾¶Ôã¸Ú,Ù³±Í´E,,,±°°°°,°³²±,;±²±°--±±°°°°,4,ÐÚ±³¼,Ó,,ÙÒÄ²¶HËÍ´CÌµÏ,,,±°°°°,°°²³,;';
+    HistoryMove[70] = 'Áå·È,¿ä';
+    HistoryStatus[70] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,7,ÔÚãµ¸,Ñä,»Ü²°¾¶,Ù³±Í´Eå,,,±°°°°,°³²±,;±²±°--±±°°°°,4,ÐÚ±³¼,Ó,,ÙÒÄ²¶HËÍ´CÌµÏ,,,±°°°°,°°²³,;';
+    HistoryMove[71] = '¼±³,¿Ú';
+    HistoryStatus[71] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,5,ÔÚãµ¸,Ñä,»Ü²°¾¶,Ù³±Í´Eå,,,±°°°°,°³²±,;±²±°--±±°°°°,6,ËÐ±´¼,ÓÚ,Ï³ÒÍC²µÙÄHÌ¶,,,,±°°°°,°°²³,;';
+    HistoryMove[72] = '¶ãTË±,¿Ô';
+    HistoryStatus[72] = '308°°²°°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,5,Úµ¶¸¾,ÑäÔ,»Ü²°,Ù³±Í´Eåã,,,±°°°°,°³²±,;±²±°--±±°°°°,6,Ð±´¼,ÓÚ,Ï³ÒÍC²µÙÄHÌ¶,,,,±°°°°,°°²³,;';
+    HistoryMove[73] = 'ÃÐ,ÀÓÚ,³´´±Ú,·´Ò,´´Ó';
+    HistoryStatus[73] = '308°°²±°;²²²²´±±²±°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,5,Úµ¶¸¾,ÑäÔ,»Ü²°,Ù³±Í´Eåã,,,±°°°°,°³²±,;±²±°--±±°°°°,4,ÌÏ³¶¼,,ÍC²µÙÄH,Ð´±,,ÚÒÓ,±°°°°,°°²³,;';
+    HistoryMove[74] = '±¸¸¶,»Ú¾';
+    HistoryStatus[74] = '308°°²°°;²²²²´±±²²°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,7,Ü°²µ»,ÑäÔ,,Ù³±Í´Eåã¸¶Ú¾,,,±°°°°,°³²±,;±²±°--±±°°°°,4,ÌÏ³¶¼,,ÍC²µÙÄH,Ð´±,,ÚÒÓ,±°°°°,°°²³,;';
+    HistoryMove[75] = '´´³,»Ì¶¼';
+    HistoryStatus[75] = '308°°²±°;²²²²´±±²²°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,7,Ü°²µ»,ÑäÔ,,Ù³±Í´Eåã¸¶Ú¾,,,±°°°°,°³²±,;±²±°--±±°°°°,8,ÏÙµÄH,,ÍC²,Ð´±Ì¶¼,,ÚÒÓ³,±°°°°,°°²³,;';
+    HistoryMove[76] = '±µµ²,´´Ü';
+    HistoryStatus[76] = '308°°²°°;²²²²´²±²²°²´°°²¸°°°°°°°¶·°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,4,Ù°³»E,ÑäÔ,Íµ²¶¾ãÚ±å´¸,,,Ü,±°°°°,°³²±,;±²±°--±±°°°°,8,ÏÙµÄH,,ÍC²,Ð´±Ì¶¼,,ÚÒÓ³,±°°°°,°°²³,;';
+    HistoryMove[77] = '´´Ù,±ÈÄH';
+    HistoryStatus[77] = '308°°²±°;²²²²´²±²²°²´°°²¸°°°°°°°¶¸°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,4,Ù°³»E,ÑäÔ,Íµ²¶¾ãÚ±å´¸,,,Ü,±°°°°,°³²±,;±²±°--±±°°°°,8,ÍÏ²µC,,,Ð´±Ì¶¼ÄH,,ÚÒÓ³Ù,±°°°°,°°²³,;';
+    HistoryMove[78] = 'ÃÙ,ÀÑäÔ,´´Ô,·´Ñ,´´ä';
+    HistoryStatus[78] = '308°°²°°;²²²²´²±²²°²´°°²¸°°°°°°°¶¸°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,1,°²³µ»ÍE,,¶¾ãÚ±å´¸,Ù,,ÜÔÑä,±°°°°,°³²±,;±²±°--±±°°°°,8,ÍÏ²µC,,,Ð´±Ì¶¼ÄH,,ÚÒÓ³Ù,±°°°°,°°²³,;';
+    HistoryMove[79] = 'µ·ÍCRE,½Ë';
+    HistoryStatus[79] = '308°°²±°;²²²²´²±²²°²´°°²¸°°°°°°°¶¸°µ°·²¶°¶¶¶°;,´;°²°°--±±°°°°,1,°²³µ»Í,,¶¾ãÚ±å´¸,ÙE,,ÜÔÑä,±°°°°,°³²±,;±²±°-Ó±±°°°°,7,Ï²µ¼Ä,,¶Ì±ÍHËCÐ´,,,ÚÒÓ³Ù,±°°°°,°°²³,;';
+    HistoryMove[80] = 'Î1LÓ,º³²µ,º°»Í';
+    HistoryStatus[80] = '308°°²°°;²²²²´²±²²°²´°°²¸°°°°°°°¶¸°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,11,Úå±´¸,,¶¾ã,ÙEÜÔÑä³²µ°»Í,,,±°°°°,°³²±,;±²±°--±±°°°°,7,Ï²µ¼Ä,,¶Ì±ÍHËCÐ´,ÚÒ³Ù,,,±°°°°,°°²³,;';
+    HistoryMove[81] = '°Á¼µ,ºÄ²';
+    HistoryStatus[81] = '318°°²±°;²²²²´²±²²°²´°°²¸°µ°°°°°¶¸°µ°·²¶°¶¶¶°;,;°²°°--±±°°°°,11,Úå±´¸,,¶¾ã,ÙEÜÔÑä³²µ°»Í,,,±°°°°,°³²±,59;±²±°--±±±°°°,8,ËÏÐ´C,,¶Ì±ÍH,ÚÒ³Ù¼µ¾Ä²,,,±°°°°,°°²³,51;';
+    var MoveCount = 82;
+
+    var GlobalStatus = OrigStatus;
+    var MovesDone = "";
+
+    var StrWaitForNextTurn = '+++ Wait for your next turn +++';
+    var StrGameOver = 'Game finished!';
+    var StrGameOverByGiveUp = 'Game finished: One player gave up!';
+    var StrGameFromDB = 'Game from database';
+    var StrPublisher = 'Click to open publisher website';
+
+    var StrLoc0 = 'Boston';
+    var StrLoc1 = 'New Haven';
+    var StrLoc2 = 'New York';
+    var StrLoc3 = 'Norfolk';
+    var StrLoc4 = 'Pemaquid';
+    var StrLoc5 = 'Philadelphia';
+    var StrLoc6 = 'St. Mary\'s';
+    var StrLoc7 = 'Albany';
+    var StrLoc8 = 'Baltimore';
+    var StrLoc9 = 'Canso';
+    var StrLoc10 = 'Cumberland';
+    var StrLoc11 = 'Deerfield';
+    var StrLoc12 = 'Detroit';
+    var StrLoc13 = 'Fort Beausejour';
+    var StrLoc14 = 'Fort Duquesne';
+    var StrLoc15 = 'Fort Frontenac';
+    var StrLoc16 = 'Fort Halifax';
+    var StrLoc17 = 'Fort Niagara';
+    var StrLoc18 = 'Fort Presqu\'île';
+    var StrLoc19 = 'Fort St. John';
+    var StrLoc20 = 'Fort Stanwix';
+    var StrLoc21 = 'Fort Venango';
+    var StrLoc22 = 'Fort William Henry';
+    var StrLoc23 = 'Gaspe';
+    var StrLoc24 = 'Halifax';
+    var StrLoc25 = 'Kennebec';
+    var StrLoc26 = 'Louisbourg';
+    var StrLoc27 = 'Oswego';
+    var StrLoc28 = 'Port Royal';
+    var StrLoc29 = 'Richmond';
+    var StrLoc30 = 'Tadoussac';
+    var StrLoc31 = 'Ticonderoga';
+    var StrLoc32 = 'Trois Rivieres';
+    var StrLoc33 = 'Montreal';
+    var StrLoc34 = 'Quebec';
+    var StrLoc35 = 'Michillimackinac';
+
+    var StrSettle = 'Settle';
+    var StrDevelop = 'Develop';
+    var StrFortify = 'Fortify';
+    var StrBesiege = 'Besiege';
+    var StrReinforce = 'Reinforce a siege';
+    var StrRaid = 'Raid';
+    var StrAmbush = 'Ambush';
+    var StrMLeader = 'Military leader';
+    var StrPriest = 'Priest';
+
+    var StrBateaux = 'Bateaux';
+    var StrFortification = 'Fortification';
+    var StrGovernorString = 'Governor';
+    var StrHomeSupport = 'Home Support';
+    var StrIndianLeader = 'Indian Leader';
+    var StrMilitia = 'Militia';
+    var StrRangers = 'Rangers';
+    var StrInfantry = 'Regular Infantry';
+    var StrSettlers = 'Settlers';
+    var StrShips = 'Ships';
+    var StrArtillery = 'Siege Artillery';
+    var StrTrader = 'Trader';
+    var StrCoureurs = 'Coureurs de Bois';
+    var StrIntendant = 'Intendant';
+    var StrNativesString = 'Native Americans';
+
+    var StrSiegeAbbr = 'Siege';
+    var StrActions = 'Actions';
+    var StrFirstAction = 'Perform first action.';
+    var StrSecondAction = 'Perform second action.';
+    var StrFinishTurnFree = 'Finish your turn / free actions.';
+    var StrPPreview = 'Points preview';
+    var StrPPreviewO = 'Points preview (opponent)';
+    var StrVPoints = 'Victory points';
+    var StrCDPoints = 'Sum cube/disc points';
+    var StrBPoints = 'Sum bonus points (locations)';
+    var StrCPoints = 'Points for captured cubes';
+    var StrDPoints = 'Points for captured discs';
+    var StrCPointsInfo = '(2 pts/cube)';
+    var StrDPointsInfo = '(4 pts/disc)';
+    var StrLBonus = 'loc. bonus';
+
+    var StrClose = 'Close';
+    var StrCloseInfo = 'Close info above.';
+    var StrRefillInfo = 'You have fewer than 5 cards in your hand. Please click the button below to draw new cards.';
+    var StrDrawCards = 'Draw new cards';
+    var StrWithdraw = 'Withdraw';
+    var StrSurrender = 'Surrender';
+    var StrMap = 'Map';
+    var StrAvLocCards = 'Available location cards';
+    var StrAvEmpCards = 'Available empire cards';
+    var StrHandCards = 'Hand cards';
+    var StrDiscardPile = 'Discard pile';
+    var StrDrawingPile = 'Drawing pile';
+    var StrIsEmpty = 'is empty!';
+    var StrHiddenInfo = 'These cards are hidden!';
+    var StrHiddenInfo2 = 'Information is available in history games only.';
+    var StrDraftInfo = 'Click one card in order to place it onto your discard pile.';
+    var StrNatives = 'Natives';
+    var StrInf = 'Infantry';
+    var StrArt = 'Artillery';
+    var StrLocCard = 'Location card';
+    var StrNatives2 = 'Native Am.';
+    var StrOpponent = 'opponent';
+    var StrOppHand = 'Opponent&rsquo;s hand cards';
+    var StrOppHandInfo = 'Opponent has no vulnerable card in hand or reserve.';
+    var StrOppHandInfo2 = 'Opponent has no neutral Native Americans in hand or reserve.';
+    var StrPriestSuccess = 'Priest action successful!';
+    var StrILSuccess = 'Indian leader action successful!';
+    var StrASuccess = 'Ambush successful!';
+    var StrFrom = 'from';
+    var StrOppCard = 'Opponent&rsquo;s card';
+    var StrPlacedDiscard = 'is placed onto your discard pile.';
+    var StrRaidBlocked = 'Raid has been blocked!';
+    var StrRaidBlockInfo = 'Raid has been blocked by this card:';
+    var StrAmbushBlocked = 'Ambush has been blocked!';
+    var StrAmbushBlockInfo = 'Ambush has been blocked by this card:';
+    var StrSiegeWon = 'You won a siege';
+    var StrWonDef = 'You are the defender. Click the location to finish the siege.';
+    var StrSiegeCheck = '++ Siege Check ++';
+    var StrHide = 'Hide';
+    var StrOppLostCardInfo = 'Opponent puts card back to the available empire cards:';
+    var StrFinishTurn = 'Finish your turn.';
+    var StrRefillFree = 'Refill hand / Use free act.';
+    var StrTop = 'Top';
+    var StrBottom = 'Bottom';
+    var StrSorted = 'Sorted by internal index';
+    var StrOppTurn = 'Opponent&rsquo;s turn.';
+    var StrOppLastMove = 'Opponent&rsquo;s last move';
+    var StrNewYorkSettled = 'You settled New York!';
+    var StrBostonSettled = 'You settled Boston!';
+    var StrQuebecSettled = 'You settled Quebec!';
+    var StrDuquesneSettled = 'You settled Ft. Duquesne!';
+    var StrChooseCard = 'Choose one card.';
+    var StrAddStartCard = 'Add one empire card to the starting deck.';
+    var StrConfirmDiscard = 'Scenario rule:\nDo you want to discard one card and draw a new one?\n\n(Click a hand card in order to discard it. A new card will be drawn immediately, no reset possible.)';
+    var StrConfirmWithdraw = 'Warning:\nThis move cannot be reset because the information, whether or not your opponent will place a cube on the location, will be revealed.\n\nDo you want to continue?';
+    var StrWithdrawCB = 'settle if opp. surrenders';
+    var StrPreferVulnSiege = 'Prefer vulnerable card from Siege';
+    var StrSelectSide = 'Your opponent created this scenario game (rules listed below) and wants you to choose your side. Please choose your campaign and finish the turn.';
+
+    var s0 = 'PayReshuffling';
+    var s1 = 'FortLouisbourg';
+    var s2 = 'FtDuqesneWin';
+    var s3 = 'VulnSiegeCard';
+    var s4 = 'Rem3BritsRI';
+    var s5 = 'FrSiegeDiscard';
+    var s6 = 'ReserveLoc';
+    var s7 = 'BrStartBateaux';
+    var s8 = 'BlockAmbFree';
+    var s9 = 'BlockRaidFree';
+    var s10 = 'FortQuebec';
+    var s11 = 'FreeFurAction';
+    var s12 = 'NoDiscardCost';
+    var s13 = 'FrStartEmpCard';
+    var s14 = 'GovLocNoCtrl';
+    var s15 = 'NativeSiege';
+    var s16 = 'LtdSiegeStart';
+    var s17 = 'RemLostLoc';
+    var s18 = 'NoGovStartLoc';
+    var s19 = 'NoGov';
+    var s20 = 'ResLostLoc';
+    var s21 = 'FrenchBateaux';
+    var s22 = 'FirstEditionBat';
+    var s23 = 'FirstEditionHS';
+    var s24 = 'FirstEditionRaid';
+    var s25 = 'PenalizeThinDeck';
+
+    var Scen0 = 'Pay 1 coin when reshuffling your deck. (If you cannot, discard 2 cards after refilling the hand to 5.)';
+    var Scen1 = 'One fortification disc in Louisbourg during setup.';
+    var Scen2 = 'French instant win by building a city in Fort Duquesne.';
+    var Scen3 = 'If you do not block an ambush, remove a vulnerable card from your hand, reserve or siege (in the last case, modify siege track accordingly).';
+    var Scen4 = '3 Regular Infantry cards are removed from the British available Empire cards (they cannot be bought).';
+    var Scen5 = 'French player can discard a card from hand and draw a new one whenever a siege is resolved (before taking any action).';
+    var Scen6 = 'Location cards can be put in Reserve.';
+    var Scen7 = 'British player adds &quot;Bateaux&quot; card to the starting deck.';
+    var Scen8 = 'A blocked ambush is not considered an action.';
+    var Scen9 = 'A blocked pillage is not considered an action.';
+    var Scen10 = 'One fortification disc in Quebec during setup.';
+    var Scen11 = 'Both players can play a card with a &quot;Fur&quot; as a free action to gain 1 coin.';
+    var Scen12 = 'When you discard, you may discard how many cards you like (for free).';
+    var Scen13 = 'French player adds any one card from the French Empire deck to the starting deck.';
+    var Scen14 = 'If you put a location card back into the available cards, then you lose control of that location.';
+    var Scen15 = 'Natives have a military power of 1 and can be used during sieges.';
+    var Scen16 = 'British player cannot start a siege until the French player starts one OR Britain has 25 Victory Points.';
+    var Scen17 = 'If you lose control of a location, you may remove its card from your hand as a free action.';
+    var Scen18 = 'Governor may not be used on starting locations (unless they have been lost to raid or siege).';
+    var Scen19 = 'The game is played without governor cards.';
+    var Scen20 = 'Lost locations can be put in Reserve.';
+    var Scen21 = 'French Bateaux card is available (but not part of the starting deck).';
+    var Scen22 = 'French Bateaux card in starting deck (First-Edition-Rule - officially obsolete!)';
+    var Scen23 = 'Home Support allows reshuffling (First-Edition-Rule - officially obsolete!)';
+    var Scen24 = 'Raid distance: 1 per card (First-Edition-Rule - officially obsolete!)';
+    var Scen25 = 'When the Draw pile runs out (by Home Support or normal refills of hand) do not shuffle the Discard pile until the very end of your turn as the final thing you do. If there are less cards available in the Draw pile than you are eligible for then you only draw as many as are available.';
+
+    var StrOutdatedStatusString = 'An error occurred while saving the game status. The connection to the server might have been lost. Please check that you have only one game window open. Close all windows and reopen one. This should fix the issue.';
+
+</script>
+<script src="/bundles/game_FewAcresOfSnow?v=KSYzNjl3JNQXYfjqs70iWR1Jk0npYU8li--PAGvZtew1"></script>
+<title>
+    A Few Acres of Snow (Random) #14568739
+</title></head>
+<body>
+<form method="post" action="/en/Game/FewAcresOfSnow/14568739" id="frmGame">
+    <div>
+        <input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="rVlYf+U99WZTRL2azrJjEh3DqlEa2ChEqvuzQAm4pPAJ1RdSpQOCq+9kl/DgvzBRBWbzw3lzEfq1qfIQF1OUl6BUpQk=" />
+    </div>
+    <script type="text/javascript">//<![CDATA[
+        var emoticons={':)':'sm_happy.gif',':-)':'sm_happy.gif',';)':'sm_twinkling.gif',';-)':'sm_twinkling.gif',':ouch:':'sm_desperate.gif',':(':'sm_unhappy.gif',':-(':'sm_unhappy.gif',':wow:':'sm_cantbelieve.gif',':sleepy:':'sm_sleepy.gif',':mad:':'sm_angry.gif',':xmassmile:':'xmassmile.gif',':-D':'bigsmile.gif',':p':'sm_aetsch.gif',':P':'sm_aetsch.gif',':blush:':'blushing.gif',':confused:':'sm_lost.gif',':angel:':'sm_angel.gif',':stupid:':'sm_hitme.gif',':sail:':'sm_holiday.gif',':alleswirdgut:':'alleswirdgut.gif',':cheers:':'cheers.gif',':dagegen:':'dagegen.gif',':engarde:':'engarde.gif',':gutenacht:':'gutenacht.gif',':keks:':'keks.gif',':kiss:':'kiss.gif',':nein:':'nein.gif',':rtfm:':'rtfm.gif',':sofa:':'sofa.gif',':titanic:':'titanic.gif',':welcome:':'welcome.gif',':isagnix:':'ichsagnix.gif',':brujita:':'witch.gif',':firefox:':'firefox.gif',':littleangel:':'littleangel.gif',':fbshark:':'shark.gif',':wallbash:':'wallbash.gif',':ohnein:':'ohnein.gif',':hug:':'hug.gif',':clueless:':'clueless.gif',':rofl:':'rofl.gif',':moderator:':'police.gif',':gaga:':'gaga.gif',':bahnhof:':'bahnhof.gif',':bath:':'bath.gif',':wash:':'wash.gif',':danke:':'danke.gif',':dafuer:':'dafuer.gif',':bitte:':'bitte.gif',':naund:':'naund.gif',':ichwarsnich:':'ichwarsnich.gif',':jimboom:':'tomate.gif',':giveup:':'giveup.gif',':grumbel:':'grumbel.gif',':hooray:':'hooray.gif',':verschwörung:':'verschwoerung.gif',':dance:':'dance.gif',':carrot:':'dance2.gif',':merryxmas:':'happyxmas.gif',':gift:':'gift.gif',':xmastree:':'xmastree.gif',':xmascandle:':'xmascandle.gif',':yucata:':'sm_yucata.gif',':yucatalove:':'sm_yucata_love.gif',':yucataparty:':'sm_yucata_party.gif',':wannkommtdasnaechstespiel:':'wannkommtdasnaechstespiel.gif',':gefudel:':'gefudel.gif',':mediocrelympics:':'sm_mediocrelympics.gif',':wintermediocre:':'sm_wintermediocrelympics.gif',':mysticvale:':'mysticvale.gif',':dragon:':'firedragon_wotd.gif',':easteregg:':'easteregg.gif',':greenegg:':'easteregg_green.gif',':blueegg:':'easteregg_blue.gif',':redegg:':'easteregg_red.gif',':roseegg:':'easteregg_pink.gif',':whiteegg:':'easteregg_white.gif',':stripeegg:':'easteregg_striped.gif',':dotegg:':'easteregg_dots.gif',':zigzagegg:':'easteregg_zigzag.gif',':ooommm:':'ooommm.gif',':lemming:':'lemming.gif',':troest:':'troest.gif',':monster:':'sm_monster.gif',':cubird:':'cubird.gif',':mountaingoat:':'goat.gif',':rollecate:':'rollecate.gif',':emma:':'rollecate.gif',':sagani:':'sagani_water.gif',':waterspirit:':'sagani_water.gif',':earthspirit:':'sagani_earth.gif',':firespirit:':'sagani_fire.gif',':airspirit:':'sagani_air.gif',':renature:':'renature_butterflutter.gif',':butterfly:':'renature_butterfly.gif',':frog:':'renature_frog.gif',':squirrel:':'renature_squirrel.gif',':turtle:':'renature_turtle.gif',':salamander:':'renature_salamander.gif',':bat:':'renature_bat.gif',':snail:':'renature_snail.gif',':bulb:':'innovation_bulb.gif',':clock:':'innovation_clock.gif',':crown:':'innovation_crown.gif',':factory:':'innovation_factory.gif',':leaf:':'innovation_leaf.gif',':tower:':'innovation_tower.gif',':avatar:':'innovation_avatar.gif',':food:':'innovation_food.gif'};
+        const emoji_regex=/:\)|:-\)|;\)|;-\)|:ouch:|:\(|:-\(|:wow:|:sleepy:|:mad:|:xmassmile:|:-D|:p|:P|:blush:|:confused:|:angel:|:stupid:|:sail:|:alleswirdgut:|:cheers:|:dagegen:|:engarde:|:gutenacht:|:keks:|:kiss:|:nein:|:rtfm:|:sofa:|:titanic:|:welcome:|:isagnix:|:brujita:|:firefox:|:littleangel:|:fbshark:|:wallbash:|:ohnein:|:hug:|:clueless:|:rofl:|:moderator:|:gaga:|:bahnhof:|:bath:|:wash:|:danke:|:dafuer:|:bitte:|:naund:|:ichwarsnich:|:jimboom:|:giveup:|:grumbel:|:hooray:|:verschwörung:|:dance:|:carrot:|:merryxmas:|:gift:|:xmastree:|:xmascandle:|:yucata:|:yucatalove:|:yucataparty:|:wannkommtdasnaechstespiel:|:gefudel:|:mediocrelympics:|:wintermediocre:|:mysticvale:|:dragon:|:easteregg:|:greenegg:|:blueegg:|:redegg:|:roseegg:|:whiteegg:|:stripeegg:|:dotegg:|:zigzagegg:|:ooommm:|:lemming:|:troest:|:monster:|:cubird:|:mountaingoat:|:rollecate:|:emma:|:sagani:|:waterspirit:|:earthspirit:|:firespirit:|:airspirit:|:renature:|:butterfly:|:frog:|:squirrel:|:turtle:|:salamander:|:bat:|:snail:|:bulb:|:clock:|:crown:|:factory:|:leaf:|:tower:|:avatar:|:food:/gi
+        //]]></script>
+    <div>
+        <input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="1004B011" />
+    </div>
+    <div>
+        <div id="divPostback" class="Postback">The page is being sent to the server. Please wait a moment...</div>
+        <script type="text/javascript">
+            $(document).ready(function () {
+            UpdateChat();
+        }
+            );
+        </script>
+        <div id="divChatContainer" title="Chat" style="padding-bottom:20px;overflow:hidden;">
+            <div id="divChat" style="height:304px;"></div>
+            <div style="width:100%;height:22px;margin-bottom:5px;">
+                <input id="edtChatMsg" maxlength="200" autocomplete="off" onfocus="document.onkeypress=ChatHandleReturn;" onblur="document.onkeypress='';" style="vertical-align:middle;float:left;" />
+                <input type="image" src="/netimages/c/go5.gif" id="lnkSendChat" onclick="javascript:PostChatMessage();return false;" style="vertical-align: middle;float:left;margin-left:5px;" alt="Send" title="Sends a chat message to the server" />
+                <input type="image" src="/netimages/c/emojis.gif" id="lnkEmojis" onclick="javascript: $('#emojisList').toggle(); return false;" style="vertical-align: middle; float: left; margin-left: 5px;" alt="emoji-list" title="Display emoji list" />
+                <input type="image" src="/netimages/c/nomojis.gif" id="lnkNoEmojis" onclick="javascript: ToggleEmojiDisplay(); return false;" style="vertical-align: middle; float: left; margin-left: 5px;" alt="Toggle emojis" title="Toggle emojis in chat" />
+                <span id="ChatButtonContainer">
+<a href="/en/ChatHelp" target="_blank"><img style="vertical-align: middle;float:right;margin-left:5px;padding-right:4px;" src="/netimages/c/hilfe2.gif" alt="Chat help" title="Opens the chat help where e.g. the emoticons are explained" /></a>
+<a href="/en/ChatSkript" target="_blank"><img style="vertical-align: middle;float:right;margin-left:5px;padding-right:4px;" src="/netimages/c/script.gif" alt="Chat-Script" title="Opens an additional window where you can read the chat without being disturbed" /></a>
+</span>
+            </div>
+            <div id="emojisList" style="padding-left: 5px; display:none; width:100%;">
+                <img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:)&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_happy.gif" title=":)" alt=":)" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;;)&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_twinkling.gif" title=";)" alt=";)" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:ouch:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_desperate.gif" title=":ouch:" alt=":ouch:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:(&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_unhappy.gif" title=":(" alt=":(" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wow:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_cantbelieve.gif" title=":wow:" alt=":wow:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sleepy:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_sleepy.gif" title=":sleepy:" alt=":sleepy:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:mad:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_angry.gif" title=":mad:" alt=":mad:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmassmile:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmassmile.gif" title=":xmassmile:" alt=":xmassmile:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:-D&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bigsmile.gif" title=":-D" alt=":-D" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:p&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_aetsch.gif" title=":p" alt=":p" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:blush:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/blushing.gif" title=":blush:" alt=":blush:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:confused:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_lost.gif" title=":confused:" alt=":confused:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:angel:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_angel.gif" title=":angel:" alt=":angel:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:kiss:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/kiss.gif" title=":kiss:" alt=":kiss:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:ohnein:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/ohnein.gif" title=":ohnein:" alt=":ohnein:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:hug:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/hug.gif" title=":hug:" alt=":hug:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:clueless:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/clueless.gif" title=":clueless:" alt=":clueless:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:rofl:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/rofl.gif" title=":rofl:" alt=":rofl:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:hooray:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/hooray.gif" title=":hooray:" alt=":hooray:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:yucata:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_yucata.gif" title=":yucata:" alt=":yucata:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:yucataparty:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_yucata_party.gif" title=":yucataparty:" alt=":yucataparty:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:easteregg:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/easteregg.gif" title=":easteregg:" alt=":easteregg:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:lemming:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/lemming.gif" title=":lemming:" alt=":lemming:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:troest:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/troest.gif" title=":troest:" alt=":troest:" />&nbsp;
+                <img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:stupid:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_hitme.gif" title=":stupid:" alt=":stupid:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sail:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_holiday.gif" title=":sail:" alt=":sail:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:alleswirdgut:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/alleswirdgut.gif" title=":alleswirdgut:" alt=":alleswirdgut:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:cheers:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/cheers.gif" title=":cheers:" alt=":cheers:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dagegen:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dagegen.gif" title=":dagegen:" alt=":dagegen:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:engarde:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/engarde.gif" title=":engarde:" alt=":engarde:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gutenacht:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gutenacht.gif" title=":gutenacht:" alt=":gutenacht:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:keks:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/keks.gif" title=":keks:" alt=":keks:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:nein:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/nein.gif" title=":nein:" alt=":nein:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:rtfm:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/rtfm.gif" title=":rtfm:" alt=":rtfm:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sofa:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sofa.gif" title=":sofa:" alt=":sofa:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:titanic:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/titanic.gif" title=":titanic:" alt=":titanic:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:welcome:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/welcome.gif" title=":welcome:" alt=":welcome:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:isagnix:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/ichsagnix.gif" title=":isagnix:" alt=":isagnix:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:firefox:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/firefox.gif" title=":firefox:" alt=":firefox:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wallbash:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/wallbash.gif" title=":wallbash:" alt=":wallbash:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gaga:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gaga.gif" title=":gaga:" alt=":gaga:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bahnhof:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bahnhof.gif" title=":bahnhof:" alt=":bahnhof:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bath:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bath.gif" title=":bath:" alt=":bath:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wash:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/wash.gif" title=":wash:" alt=":wash:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:danke:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/danke.gif" title=":danke:" alt=":danke:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dafuer:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dafuer.gif" title=":dafuer:" alt=":dafuer:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bitte:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bitte.gif" title=":bitte:" alt=":bitte:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:naund:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/naund.gif" title=":naund:" alt=":naund:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:giveup:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/giveup.gif" title=":giveup:" alt=":giveup:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:grumbel:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/grumbel.gif" title=":grumbel:" alt=":grumbel:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dance:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dance.gif" title=":dance:" alt=":dance:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:merryxmas:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/happyxmas.gif" title=":merryxmas:" alt=":merryxmas:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gift:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gift.gif" title=":gift:" alt=":gift:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmastree:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmastree.gif" title=":xmastree:" alt=":xmastree:" />&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmascandle:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmascandle.gif" title=":xmascandle:" alt=":xmascandle:" />&nbsp;
+            </div>
+        </div>
+        <div style="display: none">
+            <div id="notesWindowContainer" title="Notes">
+                <textarea id="edtNotes" cols="40" rows="10" onblur="document.onkeypress='';" onfocus="document.onkeypress=HandleNoteText;"></textarea><br/>
+            </div>
+        </div>
+        <script type="text/javascript">
+            ServiceGetNote(GameInfo.ID, UserID, GetNoteCB, null);
+        </script>
+        <script type="text/javascript">
+            var MsgRemisDeclined = 'Your opponent declined the draw.';
+            var MsgConfirmRemis = 'Do you really want to offer a draw?';
+            var MsgConfirmFinish = 'If you confirm this, you will lose the game. You should do this only if you want to give up or if you cannot move anymore.';
+        </script>
+        <div id="tableFooter" style="z-index: 8000; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0;">
+            <div id="divNavigation" class="fg-toolbar ui-widget-header ui-corner-all" style="display: none; padding-left: 10px; height: 20px; width: 100%; ">
+                &nbsp;
+                <a href="javascript:GoFirst();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="First"><span class="ui-icon ui-icon-arrowthickstop-1-w"></span>First</a>
+                <a href="javascript:GoBack();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Back"><span class="ui-icon ui-icon-arrowthick-1-w"></span>Back</a>
+                <a href="javascript:GoNext();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Forward"><span class="ui-icon ui-icon-arrowthick-1-e"></span>Forward</a>
+                <a href="javascript:GoLast();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Last"><span class="ui-icon ui-icon-arrowthickstop-1-e"></span>Last</a>&nbsp;&nbsp;
+                <span id="divNavigationText"></span>
+                <input name="ctl05$btnNextGameHistory" type="button" id="ctl05_btnNextGameHistory" class="button bulletgobutton" style="z-index: 5001;" onclick="javascript: CheckForNextGame();" value="Go to next game" />
+            </div>
+            <div id="divFooterBucket" class style="z-index: 1001; padding-left: 5px;">
+                <input class="button hidebuttonsbutton" id="btnToggleButtons" style="z-index: 5001;" onclick="javascript: if (this.value == '<<') { this.value = '>>'; } else { this.value = '<<'; } this.classList.toggle('hidebuttonsbutton'); this.classList.toggle('showbuttonsbutton'); $('#divFooterButtons').toggle();" type="button" value="<<" title="Toggle Buttons" name="btnToggleButtons" />
+                <div id="divFooterButtons" class style="display: inline-block; z-index: 1001; padding-left: 5px;">
+                    <input name="ctl05$btnNextGame" type="button" id="ctl05_btnNextGame" class="button bulletgobutton" style="z-index: 5001;" onclick="javascript: CheckForNextGame();" value="Go to next game" />
+                    <input class="button commentsbutton" id="btnShowChat" style="z-index: 5002; margin-left: 10px" onclick="javascript: OpenChat();" type="button" value="Chat" name="btnShowChat" />
+                    <input name="ctl05$btnShowNotes" type="button" id="btnShowNotes" class="button textbutton" style="z-index: 5003; margin-left: 10px" onclick="javascript: OpenNotes();" value="Notes" />
+                    <input name="ctl05$btnGiveUp" type="button" id="ctl05_btnGiveUp" class="button crossbutton" style="z-index: 5004; margin-left: 10px; display: none" onclick="javascript: ConfirmGiveUp();" value="Give up" />
+                    <input name="ctl05$btnBaseFinishTurn" type="button" id="ctl05_btnBaseFinishTurn" class="button acceptbutton" style="z-index: 5007; margin-left: 10px; display: none" onclick="javascript: FinishMove();" value="Finish move" />
+                    <input name="ctl05$btnBaseCancelMove" type="button" id="ctl05_btnBaseCancelMove" class="button crossbutton" style="z-index: 5008; margin-left: 10px; display: none" onclick="javascript: CancelMove();" value="Reset move" />
+                    <input name="ctl05$btnRemis" type="button" id="ctl05_btnRemis" class="button" style="z-index: 5005; margin-left: 10px; display: none;" onclick="javascript: OfferRemis();" value="Offer a draw" />
+                    <input name="ctl05$btnFinishGame" type="button" id="ctl05_btnFinishGame" class="button" style="z-index: 5006; margin-left: 10px; display: none;" onclick="javascript: ConfirmFinish();" value="Finish game" />
+                    <input name="ctl05$btnTie" type="button" id="ctl05_btnTie" class="button" style="z-index: 5006; margin-left: 10px; display: none;" onclick="javascript: OfferTie();" value="Offer a draw" />
+                    <input name="ctl05$btnBaseArchiveGame" type="button" id="ctl05_btnBaseArchiveGame" class="button acceptbutton" style="z-index: 5007; margin-left: 10px; display: none" onclick="javascript: ArchiveGame();" value="Archive Game" />
+                </div>
+            </div>
+        </div>
+        <script type="text/javascript">
+            //<![CDATA[
+
+            function ShowRules()
+            {
+                var url = '/en/Rules/FewAcresOfSnow';
+                window.open(url, "rules");
+            }
+            //]]>
+
+        </script>
+        <div id="GameHeader" class="fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix" style="width:100%;border:0px;z-Index:8000;margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+            <span class="fg-buttonset ui-helper-clearfix" style="width:85px;vertical-align:middle;padding-right:10px" id="GameInfo"></span>
+            <span id="ctl06_GameTitle" class="fg-buttonset ui-helper-clearfix">A Few Acres of Snow (Random)</span>
+            <span class="fg-buttonset ui-helper-clearfix" id="PlayerOnTurn"></span>
+            <span class="fg-buttonset ui-helper-clearfix" id="GameStatus"></span>
+            <span class="fg-buttonset ui-helper-clearfix;" style="float:right;margin-right:5px;">
+<a href="javascript:ShowRules();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Rules"><span class="ui-icon ui-icon-script"></span> Rules</a>
+</span>
+        </div>
+        <input name="MoveInfo" type="hidden" id="MoveInfo" /><input name="MoveCount" type="hidden" id="MoveCount" value="82" /><input name="NewStatus" type="hidden" id="NewStatus" /><input name="SaveStatusFailed" type="hidden" id="SaveStatusFailed" value="False" /><input name="Archive" type="hidden" id="Archive" value="False" /><input name="windowwidth" type="hidden" id="windowwidth" value="980" /><input name="windowheight" type="hidden" id="windowheight" value="1997" /><script type="text/javascript">$(document).ready(function(){SetClientSize(980,1997);
+        InitGameBase();})</script>
+        <input type="hidden" name="NextPlayer" />
+        <input type="hidden" name="lastSaveStatus" />
+    </div>
+    <div id="mainDiv" style="position:absolute;top:3px;left:3px;width:10px;height:10px; visibility:hidden;overflow:hidden;background-color:#DDC79D">
+        <div id="oppResponseDiv" style="position:absolute;overflow:auto;padding:5px 5px 5px;width:450px;height:400px;top:-370px;left:500px;background-color:#DDC79D;z-index:12;border:1px solid black">
+        </div>
+        <div id="lastMoveDiv" style="position:absolute;overflow:hidden;padding:5px 5px 5px;width:400px;height:220px;top:-370px;left:560px;background-color:#DDC79D;z-index:15;border:1px solid black">
+        </div>
+        <div id="draftDiv" style="position:absolute;overflow:auto;padding:5px 5px 5px;width:450px;height:400px;top:-370px;left:500px;background-color:#DDC79D;z-index:12;border:1px solid black">
+        </div>
+        <div id="siegeLostDiv" style="position:absolute;overflow:auto;padding:5px 5px 5px;width:450px;height:400px;top:-370px;left:500px;background-color:#DDC79D;z-index:13;border:1px solid black">
+        </div>
+        <div id="siegeCheckDiv" style="position:absolute;overflow:auto;padding:5px 5px 5px;width:450px;height:150px;top:-370px;left:500px;background-color:#DDC79D;z-index:14;border:1px solid black">
+        </div>
+        <div id="cardInfoDiv" style="position:absolute;overflow:auto;padding:5px 5px 5px;width:450px;height:400px;top:-370px;left:500px;background-color:#DDC79D;z-index:17;border:1px solid black">
+        </div>
+        <div id="refillDiv" style="text-align:center;position:absolute;overflow:auto;padding:5px 5px 5px;width:250px;height:200px;top:-370px;left:500px;background-color:#DDC79D;z-index:16;border:1px solid black">
+        </div>
+        <div id="scenRulesDiv" style="display:none;overflow:hidden;padding:2px 2px 2px;border:1px solid #C80;position:absolute;left:3px;top:49px;width:220px;height:58px;background-color:#DDC79D;z-index:650;">
+        </div>
+        <div id="aOptDiv" style="position:absolute;overflow:hidden;padding:5px 5px 5px;width:320px;height:420px;top:200px;left:500px;background-color:#DDC79D;z-index:22;border:1px solid black">
+            <b>Ambush response:</b><br/><br/>
+            <input id="ambushOpt0" type="radio" name="aMaster" value="0" onclick="CheckOptions();" /> Always block<br/>
+            <input id="ambushOpt1" type="radio" name="aMaster" value="1" onclick="CheckOptions();" /> Only block, if target card(s) available.<br/>
+            <input id="ambushOpt2" type="radio" name="aMaster" value="2" onclick="CheckOptions();" /> Never block<br/><hr/>
+            <span><i>Priority of blocking cards:</i></span><br/><br/>
+            <span id="aBlockString"></span><br/><br/>
+            <input type="button" id="ambushBlocks" name="btnAmbush0" onfocus="blur(this)" style="visibility:visible;z-index:10;width:80px;padding:0px;font-size:12px;position:relative" value="Change" onclick="ChangeAmbushBlockOpt();" />
+            <hr/>
+            <span><i>Priority of target cards:</i></span><br/><br/>
+            <span id="aTargetString"></span><br/><br/>
+            <input type="button" id="ambushTargets" name="btnAmbush1" onfocus="blur(this)" style="visibility:visible;z-index:10;width:80px;padding:0px;font-size:12px;position:relative" value="Change" onclick="ChangeAmbushTargetOpt();" />
+            <hr/>
+            <input id="ambushOpt3" type="radio" name="aHandRes" value="5" onclick="CheckOptions();" /> Prefer target card from reserve<br/>
+            <input id="ambushOpt4" type="radio" name="aHandRes" value="6" onclick="CheckOptions();" /> Prefer target card from hand<hr/>
+            <b>Priest / Indian leader</b><br/><br/>
+            <input id="pilOpt0" type="radio" name="pil" value="0" onclick="CheckOptions();" /> Prefer target card from reserve<br/>
+            <input id="pilOpt1" type="radio" name="pil" value="1" onclick="CheckOptions();" /> Prefer target card from hand
+        </div>
+        <div id="rOptDiv" style="position:absolute;overflow:hidden;padding:5px 5px 5px;width:320px;height:420px;top:200px;left:500px;background-color:#DDC79D;z-index:24;border:1px solid black">
+            <b>Raid response:</b><br/><br/>
+            <input id="raidOpt0" type="radio" name="rMaster" value="0" onclick="CheckOptions();" /> Block<br/>
+            <input id="raidOpt1" type="radio" name="rMaster" value="1" onclick="CheckOptions();" /> Do not block<br/>
+            <hr/>
+            <span><i>Priority of blocking cards:</i></span><br/><br/>
+            <span id="rBlockString0"></span><br/><br/>
+            <input type="button" id="rBlockA" name="btnRaidA" onfocus="blur(this)" style="visibility:visible;z-index:10;width:80px;padding:0px;font-size:12px;position:relative" value="Change" onclick="ChangeRaidBlock(0);" />
+            <hr/>
+            <span id="rBlockString1"></span><br/><br/>
+            <input type="button" id="rBlockB" name="btnRaidB" onfocus="blur(this)" style="visibility:visible;z-index:10;width:80px;padding:0px;font-size:12px;position:relative" value="Change" onclick="ChangeRaidBlock(1);" />
+            <hr/>
+            <span id="rBlockString2"></span><br/><br/>
+            <input type="button" id="rBlockC" name="btnRaidC" onfocus="blur(this)" style="visibility:visible;z-index:10;width:80px;padding:0px;font-size:12px;position:relative" value="Change" onclick="ChangeRaidBlock(2);" />
+            <hr/><br/>
+            <input type="button" id="closeAmbush" name="btnCloseAmbush" onfocus="blur(this)" style="visibility:visible;z-index:15;width:120px;padding:0px;font-size:12px;position:relative" value="Close" onclick="ShowAutoOptions();" />
+        </div>
+        <div id="mapDiv" style="position:absolute;top:0px;left:0px;width:2px;height:2px;overflow:auto;border-color:#C80 #FFF #FFF #C80;border-width:1px;border-style:solid;z-index:10">
+            <img id="board" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;z-index:10" />
+            <div id="tokenContainer"></div>
+            <div id="hoverContainer"></div>
+            <div id="actionRingContainer"></div>
+            <div id="locMarkerContainer"></div>
+        </div>
+        <img id="acresTitle" alt title="Click to open publisher website" src="/netimages/games/FewAcresOfSnow/tflogo2.png" style="position:absolute;left:2px;top:2px;cursor:pointer" onclick="GoToTreefrog();" />
+        <img id="fortDisc" alt src="/netimages/games/FewAcresOfSnow/fortDisc.png" style="position:absolute;left:70px;top:-2px;z-index:6" />
+        <img id="fortCross" alt src="/netimages/games/FewAcresOfSnow/crossMarker.gif" style="position:absolute;left:78px;top:5px;z-index:100;visibility:hidden" />
+        <div id="numForts" style="text-align:center;position:absolute;top:8px;left:76px;width:30px;height:18px;z-index:60;overflow:hidden;cursor:default;font-size:15px;font-weight:bold;color:white"></div>
+        <div id="nFort" style="text-align:center;position:absolute;top:3px;left:112px;width:50px;height:27px;z-index:100;overflow:hidden;font-size:12px;color:black;border:3px solid #3F7529;background-image:url(/netimages/games/FewAcresOfSnow/neutralBack.png);"></div>
+        <div id="nFortTitle" style="text-align:center;position:absolute;top:6px;left:115px;width:50px;height:13px;z-index:105;overflow:hidden;font-size:12px;color:black">Fortific.</div>
+        <div id="nFortNum" style="text-align:center;position:absolute;top:18px;left:115px;width:50px;height:14px;z-index:108;overflow:hidden;font-size:12px;font-weight:bold;color:black"></div>
+        <div id="nNative" style="text-align:center;position:absolute;top:3px;left:170px;width:50px;height:27px;z-index:110;overflow:hidden;font-size:12px;color:black;border:3px solid #3F7529;background-image:url(/netimages/games/FewAcresOfSnow/neutralBack.png);"></div>
+        <div id="nNativeTitle" style="text-align:center;position:absolute;top:6px;left:173px;width:50px;height:13px;z-index:115;overflow:hidden;font-size:12px;color:black">Natives</div>
+        <div id="nNativeNum" style="text-align:center;position:absolute;top:18px;left:173px;width:50px;height:14px;z-index:118;overflow:hidden;font-size:12px;font-weight:bold;color:black"></div>
+        <div id="nSettler" style="text-align:center;position:absolute;top:3px;left:228px;width:50px;height:27px;z-index:120;overflow:hidden;font-size:12px;color:black;border:3px solid #3F7529;background-image:url(/netimages/games/FewAcresOfSnow/neutralBack.png);"></div>
+        <div id="nSettlerTitle" style="text-align:center;position:absolute;top:6px;left:231px;width:50px;height:13px;z-index:125;overflow:hidden;font-size:12px;color:black">Settlers</div>
+        <div id="nSettlerNum" style="text-align:center;position:absolute;top:18px;left:231px;width:50px;height:14px;z-index:128;overflow:hidden;font-size:12px;font-weight:bold;color:black"></div>
+        <div id="oppDiv" style="position:absolute;top:1px;left:450px;width:10px;height:45px; overflow:hidden;background-color:#DDC79D;z-index:20">
+            <img id="oppInfoDummy5" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:154px;top:19px;width:70px;height:17px;z-index:100;cursor:pointer" />
+            <img id="oppInfoDummy1" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:154px;top:1px;width:70px;height:17px;z-index:120;cursor:pointer" />
+            <img id="oppInfoDummy0" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:230px;top:19px;width:90px;height:17px;z-index:130;cursor:pointer" />
+            <img id="oppInfoDummy2" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:230px;top:1px;width:90px;height:17px;z-index:140;cursor:pointer" />
+            <img id="oppInfoDummy4" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:325px;top:19px;width:96px;height:17px;z-index:130;cursor:pointer" />
+            <img id="oppInfoDummy3" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:325px;top:1px;width:96px;height:17px;z-index:140;cursor:pointer" />
+            <img id="ambushPriestInfo" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:155px;top:-1px;z-index:500;visibility:hidden;border:1px solid black" />
+            <div id="oppName" style="text-align:left;position:absolute;top:1px;left:3px;width:155px;height:16px;z-index:3;overflow:hidden;font-weight:bold;font-size:12px"></div>
+            <img id="lmInfo" alt src="/netimages/games/FewAcresOfSnow/lmInfo2.png" style="position:absolute;left:3px;top:18px;z-index:4;border:1px solid black" />
+            <img id="oppCoinA" alt src="/netimages/games/FewAcresOfSnow/money0.png" style="position:absolute;left:72px;top:14px;z-index:12" />
+            <img id="oppCoinB" alt src="/netimages/games/FewAcresOfSnow/money1.png" style="position:absolute;left:87px;top:14px;z-index:8" />
+            <div id="oppMoney" style="text-align:left;position:absolute;top:19px;left:119px;width:35px;height:20px;z-index:30;overflow:hidden;font-size:15px;font-weight:bold;color:black"></div>
+            <div id="deckCaption" style="text-align:left;position:absolute;top:2px;left:157px;width:45px;height:16px;z-index:4;overflow:hidden;font-size:12px">Deck:</div>
+            <div id="handCaption" style="text-align:left;position:absolute;top:20px;left:157px;width:45px;height:16px;z-index:5;overflow:hidden;font-size:12px">Hand:</div>
+            <div id="oppDeck" style="text-align:left;position:absolute;top:2px;left:203px;width:23px;height:16px;z-index:6;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <div id="oppHand" style="text-align:left;position:absolute;top:20px;left:203px;width:23px;height:16px;z-index:7;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <div id="discardCaption" style="text-align:left;position:absolute;top:2px;left:235px;width:63px;height:16px;z-index:8;overflow:hidden;font-size:12px">Discard:</div>
+            <div id="reserveCaption" style="text-align:left;position:absolute;top:20px;left:235px;width:63px;height:16px;z-index:9;overflow:hidden;font-size:12px">Reserve:</div>
+            <div id="oppDiscard" style="text-align:left;position:absolute;top:2px;left:299px;width:23px;height:16px;z-index:10;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <div id="oppReserve" style="text-align:left;position:absolute;top:20px;left:299px;width:23px;height:16px;z-index:11;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <div id="locCaption" style="text-align:left;position:absolute;top:2px;left:331px;width:68px;height:16px;z-index:12;overflow:hidden;font-size:12px">Location:</div>
+            <div id="empCaption" style="text-align:left;position:absolute;top:20px;left:331px;width:68px;height:16px;z-index:13;overflow:hidden;font-size:12px">Empire:</div>
+            <div id="oppLoc" style="text-align:left;position:absolute;top:2px;left:400px;width:23px;height:16px;z-index:14;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <div id="oppEmp" style="text-align:left;position:absolute;top:20px;left:400px;width:23px;height:16px;z-index:15;overflow:hidden;font-size:12px;font-weight:bold"></div>
+            <img id="oppCubesPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:420px;top:-4px;z-index:4" />
+            <div id="oppCubes" style="text-align:center;position:absolute;top:9px;left:430px;width:24px;height:18px;z-index:40;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+            <img id="oppDiscsPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:460px;top:-2px;z-index:5" />
+            <div id="oppDiscs" style="text-align:center;position:absolute;top:9px;left:466px;width:30px;height:18px;z-index:50;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+            <img id="oppCollCubesPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:500px;top:-4px;z-index:4" />
+            <div id="oppCollCubes" style="text-align:center;position:absolute;top:9px;left:510px;width:24px;height:18px;z-index:40;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+            <img id="oppCollDiscsPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:540px;top:-2px;z-index:5" />
+            <div id="oppCollDiscs" style="text-align:center;position:absolute;top:9px;left:546px;width:30px;height:18px;z-index:50;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+            <div id="oppPoints" style="text-align:center;position:absolute;top:2px;left:579px;width:46px;height:18px;z-index:80;overflow:hidden;font-size:16px;font-weight:bold;color:black"></div>
+            <div id="oppSinglePoints" style="text-align:center;position:absolute;top:21px;left:579px;width:46px;height:14px;z-index:80;overflow:hidden;font-size:12px;color:black"></div>
+            <img id="oppPointsDummy" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:579px;top:1px;width:44px;height:39px;z-index:180;cursor:pointer" />
+            <img id="oppHover" alt src="/netimages/games/FewAcresOfSnow/infoBox.gif" style="position:absolute;left:627px;top:2px;border:1px solid gray" />
+        </div>
+        <div id="masterDiv" style="position:absolute;top:1px;left:2px;width:10px;height:10px;z-index:30;overflow:hidden;background-color:#DDC79D;">
+
+            <div id="controlDiv" style="position:absolute;top:0px;left:0px;width:10px;height:10px;z-index:50;overflow:hidden">
+                <div id="infoDiv" style="text-align:left;position:absolute;border:1px solid gray;top:0px;left:1px;width:494px;height:32px;z-index:20;overflow:hidden;background-color:silver;font-size:12px">
+                    <input type="button" id="cardSizeBtn" name="btnCardSize" onfocus="blur(this)" style="visibility:visible; z-index:50;left:443px;top:1px;width:25px;position:absolute;font-size:12px;padding:0px" value="C" />
+                    <input type="button" id="locNameBtn" name="btnLocName" onfocus="blur(this)" style="visibility:visible; z-index:60;left:468px;top:1px;width:25px;position:absolute;font-size:12px;padding:0px" value="N" />
+                    <div id="siegeInfo" style="text-align:left;position:absolute;overflow:hidden;left:3px;top:0px;height:14px;width:330px;font-size:12px;z-index:5"></div>
+                    <div id="numActionInfo" style="text-align:left;position:absolute;overflow:hidden;left:345px;top:0px;height:14px;width:90px;font-size:12px;z-index:15"></div>
+                    <div id="actionInfo" style="text-align:left;position:absolute;overflow:hidden;left:3px;top:16px;height:14px;width:210px;font-size:12px;z-index:25"></div>
+                    <div id="orderInfo" style="text-align:right;position:absolute;overflow:hidden;left:216px;top:16px;height:14px;width:222px;font-size:12px;font-weight:bold;color:#005F0E;z-index:35"></div>
+                </div>
+                <div id="playerName" style="text-align:right;position:absolute;top:35px;left:342px;width:155px;height:16px;z-index:80;overflow:hidden;font-weight:bold;font-size:12px"></div>
+                <img id="playerCubesPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:420px;top:55px;z-index:4" />
+                <div id="playerCubes" style="text-align:center;position:absolute;top:68px;left:430px;width:24px;height:18px;z-index:40;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+                <img id="playerDiscsPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:458px;top:57px;z-index:5" />
+                <div id="playerDiscs" style="text-align:center;position:absolute;top:68px;left:464px;width:30px;height:18px;z-index:50;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+                <img id="playerCollCubesPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:420px;top:94px;z-index:4" />
+                <div id="playerCollCubes" style="text-align:center;position:absolute;top:107px;left:430px;width:24px;height:18px;z-index:40;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+                <img id="playerCollDiscsPic" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:458px;top:96px;z-index:5" />
+                <div id="playerCollDiscs" style="text-align:center;position:absolute;top:107px;left:464px;width:30px;height:18px;z-index:50;overflow:hidden;font-size:14px;font-weight:bold;color:white"></div>
+                <img id="coinA" alt src="/netimages/games/FewAcresOfSnow/money0.png" style="position:absolute;left:347px;top:51px;z-index:12" />
+                <img id="coinB" alt src="/netimages/games/FewAcresOfSnow/money1.png" style="position:absolute;left:362px;top:51px;z-index:8" />
+                <div id="playerMoney" style="text-align:left;position:absolute;top:56px;left:394px;width:33px;height:20px;z-index:30;overflow:hidden;font-size:15px;font-weight:bold;color:black"></div>
+                <div id="playerPoints" style="text-align:center;position:absolute;top:84px;left:341px;width:38px;height:18px;overflow:hidden;font-size:16px;font-weight:bold;color:black"></div>
+                <div id="playerSinglePoints" style="text-align:left;position:absolute;top:87px;left:376px;width:48px;height:14px;overflow:hidden;font-size:12px;color:black"></div>
+                <img id="pointsDummy" alt src="/netimages/games/FewAcresOfSnow/space.gif" style="position:absolute;left:341px;top:82px;width:84px;height:22px;z-index:50;cursor:pointer" />
+                <input type="button" id="mapBtn" name="btnMap" onfocus="blur(this)" style="z-index:22;left:343px;top:108px;width:40px;position:absolute;padding:0px;font-size:13px" value="Map" />
+                <input type="button" id="autoBtn" name="btnAuto" onfocus="blur(this)" style="z-index:23;left:384px;top:108px;width:40px;position:absolute;padding:0px;font-size:13px" value="Auto" />
+                <div id="Div11" style="text-align:left;position:absolute;top:35px;left:230px;width:63px;height:16px;z-index:8;overflow:hidden;font-size:12px">Hand:</div>
+                <div id="Div12" style="text-align:left;position:absolute;top:52px;left:230px;width:63px;height:16px;z-index:9;overflow:hidden;font-size:12px">Reserve:</div>
+                <div id="playerHand" style="text-align:left;position:absolute;top:35px;left:294px;width:23px;height:16px;z-index:10;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <div id="playerReserve" style="text-align:left;position:absolute;top:52px;left:294px;width:23px;height:16px;z-index:11;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <div id="Div15" style="text-align:left;position:absolute;top:69px;left:230px;width:63px;height:16px;z-index:8;overflow:hidden;font-size:12px">Deck:</div>
+                <div id="Div16" style="text-align:left;position:absolute;top:86px;left:230px;width:63px;height:16px;z-index:9;overflow:hidden;font-size:12px">Discard:</div>
+                <div id="playerDeck" style="text-align:left;position:absolute;top:69px;left:294px;width:23px;height:16px;z-index:10;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <div id="playerDiscard" style="text-align:left;position:absolute;top:86px;left:294px;width:23px;height:16px;z-index:11;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <div id="Div19" style="text-align:left;position:absolute;top:103px;left:230px;width:63px;height:16px;z-index:8;overflow:hidden;font-size:12px">Location:</div>
+                <div id="Div20" style="text-align:left;position:absolute;top:120px;left:230px;width:63px;height:16px;z-index:9;overflow:hidden;font-size:12px">Empire:</div>
+                <div id="playerLoc" style="text-align:left;position:absolute;top:103px;left:294px;width:23px;height:16px;z-index:10;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <div id="playerEmp" style="text-align:left;position:absolute;top:120px;left:294px;width:23px;height:16px;z-index:11;overflow:hidden;font-size:12px;font-weight:bold"></div>
+                <input type="button" id="handBtn" name="btnHand" onfocus="blur(this)" style="visibility:visible; z-index:22;left:316px;top:33px;width:25px;padding:0px;font-size:9px;position:absolute" value="<>" />
+                <input type="button" id="infoBtn0" name="btnRes" onfocus="blur(this)" style="visibility:visible; z-index:23;left:316px;top:50px;width:25px;padding:0px;font-size:9px;position:absolute" value="..." />
+                <input type="button" id="infoBtn1" name="btnDisc" onfocus="blur(this)" style="visibility:visible; z-index:24;left:316px;top:67px;width:25px;padding:0px;font-size:9px;position:absolute" value="..." />
+                <input type="button" id="infoBtn2" name="btnDeck" onfocus="blur(this)" style="visibility:visible; z-index:25;left:316px;top:84px;width:25px;padding:0px;font-size:9px;position:absolute" value="..." />
+                <input type="button" id="infoBtn3" name="btnLoc" onfocus="blur(this)" style="visibility:visible; z-index:26;left:316px;top:101px;width:25px;padding:0px;font-size:9px;position:absolute" value="..." />
+                <input type="button" id="infoBtn4" name="btnEmp" onfocus="blur(this)" style="visibility:visible; z-index:27;left:316px;top:118px;width:25px;padding:0px;font-size:9px;position:absolute" value="..." />
+                <input type="button" id="actionBtn9" name="btnA9" onfocus="blur(this)" style="visibility:visible; z-index:60;left:3px;top:36px;width:74px;position:absolute;font-size:13px;padding:1px" value="Money" />
+                <input type="button" id="actionBtn10" name="btnA10" onfocus="blur(this)" style="visibility:visible; z-index:61;left:3px;top:61px;width:74px;position:absolute;font-size:13px;padding:1px" value="Merchant" />
+                <input type="button" id="actionBtn11" name="btnA11" onfocus="blur(this)" style="visibility:visible; z-index:61;left:3px;top:86px;width:74px;position:absolute;font-size:13px;padding:1px" value="Trader" />
+                <input type="button" id="actionBtn12" name="btnA12" onfocus="blur(this)" style="visibility:visible; z-index:61;left:3px;top:111px;width:74px;position:absolute;font-size:13px;padding:1px" value="Piracy" />
+                <input type="button" id="actionBtn13" name="btnA13" onfocus="blur(this)" style="visibility:visible; z-index:60;left:77px;top:36px;width:74px;position:absolute;font-size:13px;padding:1px" value="Emp.card" />
+                <input type="button" id="actionBtn14" name="btnA14" onfocus="blur(this)" style="visibility:visible; z-index:61;left:77px;top:61px;width:74px;position:absolute;font-size:13px;padding:1px" value="Discard" />
+                <input type="button" id="actionBtn15" name="btnA15" onfocus="blur(this)" style="visibility:visible; z-index:61;left:77px;top:86px;width:74px;position:absolute;font-size:13px;padding:1px" value="in Res." />
+                <input type="button" id="actionBtn16" name="btnA16" onfocus="blur(this)" style="visibility:visible; z-index:61;left:77px;top:111px;width:74px;position:absolute;font-size:13px;padding:1px" value="Res.(f)" />
+                <input type="button" id="actionBtn17" name="btnA17" onfocus="blur(this)" style="visibility:visible; z-index:60;left:151px;top:36px;width:74px;position:absolute;font-size:13px;padding:1px" value="Governor" />
+                <input type="button" id="actionBtn18" name="btnA18" onfocus="blur(this)" style="visibility:visible; z-index:61;left:151px;top:61px;width:74px;position:absolute;font-size:13px;padding:1px" value="Intendant" />
+                <input type="button" id="actionBtn19" name="btnA19" onfocus="blur(this)" style="visibility:visible; z-index:61;left:151px;top:86px;width:74px;position:absolute;font-size:13px;padding:1px" value="H.Supp.(f)" />
+                <input type="button" id="actionBtn20" name="btnA20" onfocus="blur(this)" style="visibility:visible; z-index:61;left:151px;top:111px;width:74px;position:absolute;font-size:13px;padding:1px" value="Pass" />
+            </div>
+        </div>
+        <div id="handDiv" style="position:absolute;top:576px;left:0px;width:5px;height:5px;z-index:200;overflow:auto;background-image:url(/netimages/games/FewAcresOfSnow/transBack.png);border:1px solid gray">
+        </div>
+        <div id="boardContainer"></div>
+        <div id="playerContainer"></div>
+        <div id="infoContainer"></div>
+        <div id="selectContainer"></div>
+        <div id="mapContainer"></div>
+        <div id="lastMoveContainer"></div>
+    </div>
+</form>
+<script type="text/javascript">
+
+    var a = 0;
+    $(document).ready
+    {
+        //IE9 Beta bugfix
+        var field = document.getElementsByName("NextPlayer")[0];
+        field.setAttribute("value", "-1");
+
+        HandleAllPNG();
+        HandleResize();
+
+        // Set header viewport to follow viewport scroll on x axis
+
+
+        InitBoard();
+        UpdatePlayerDisplay();
+    }
+
+    function GoToTreefrog()
+    {
+        window.open("http://www.treefroggames.com", "treefrog");
+    }
+
+</script>
+</body>
+</html>
