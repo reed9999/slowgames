@@ -94,7 +94,7 @@ There are other functions about settlers and natives but frankly, aside from con
 are C through G, they don't tell me much because they're so hard to debug.
 
 empTitles on 4352 looks important. I believe the titles are set in the page itself, but knowing 
-the order here probably refers to other things. grep empTitles site/game_FewAcresOfSnow.js|grep Decode is 
+the order here probably refers to other things. grep empTitles site/game_FewAcresOfSnow-orig.js|grep Decode is 
 potentially useful. So is GetEmpireIndex. Apparently we deduct 176 from the ord(), then another 33 or 26 depending
 on the player, and there we are.
 
