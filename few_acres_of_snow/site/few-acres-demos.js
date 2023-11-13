@@ -218,15 +218,15 @@ function doLine309(o, e, f, l, p, s) {
     return {o, l, p};
 }
 
-function doLine309(oneWeirdChar, weirdString, sequence, l, whichSide, hereIsAlways1) {
-    oneWeirdChar = weirdString.substr(sequence, 1), IsNeutralCard(oneWeirdChar) ? (l = oneWeirdChar, whichSide = "Neutral") : (l = Decode(weirdString, sequence), whichSide = hereIsAlways1 === 0 ? "British" : "French"), $("#ciCard" + sequence).mouseover(function (n, t) {
+function doLine3161(oneWeirdChar, weirdString, sequence, cardNumber, whichSide, hereIsAlways1) {
+    oneWeirdChar = weirdString.substr(sequence, 1), IsNeutralCard(oneWeirdChar) ? (cardNumber = oneWeirdChar, whichSide = "Neutral") : (cardNumber = Decode(weirdString, sequence), whichSide = hereIsAlways1 === 0 ? "British" : "French"), $("#ciCard" + sequence).mouseover(function (n, t) {
         return function () {
             ShowCardInfoCard(n, t)
         }
-    }(l, whichSide))
-    console.log(`********* [o, e, f, l, p, s] ${[oneWeirdChar, weirdString, sequence, l, whichSide, hereIsAlways1]}`)
+    }(cardNumber, whichSide))
+    console.log(`********* [o, e, f, l, p, s] ${[oneWeirdChar, weirdString, sequence, cardNumber, whichSide, hereIsAlways1]}`)
 
-    return {o: oneWeirdChar, l, p: whichSide};
+    return {o: oneWeirdChar, l: cardNumber, p: whichSide};
 }
 
 function PJRCreateCardInfo(pile, isOpponent, i, r) {
@@ -326,7 +326,7 @@ function PJRCreateCardInfo(pile, isOpponent, i, r) {
                 }
             ), p = "", f = 0; f < e.length; f++
     ) {
-        const __ret = doLine309(o, e, f, l, p, s);
+        const __ret = doLine3161(o, e, f, l, p, s);
         o = __ret.o;
         l = __ret.l;
         p = __ret.p;
