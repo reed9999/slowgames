@@ -1,3 +1,4 @@
+// Beautified and refactored version of  https://yucata.de/bundles/game_FewAcresOfSnow
 // beautified at https://beautifier.io/ version 1.10.3
 function GameBoard() {
     this.scenario = -1;
@@ -91,7 +92,7 @@ function SetNumStockForts() {
 
 function SetNeutralCards() {
     for (var r = "", i = !1, t, n = 0; n < empDataN.length; n++) {
-        for (i = !1, t = 0; t < players.length; t++)(players[t].HasCard(empDataN[n][0], !0) || players[t].IsSiegeCard(empDataN[n][0])) && (i = !0);
+        for (i = !1, t = 0; t < players.length; t++) (players[t].HasCard(empDataN[n][0], !0) || players[t].IsSiegeCard(empDataN[n][0])) && (i = !0);
         i || (r += empDataN[n][0])
     }
     this.neutralCards = r
@@ -188,11 +189,11 @@ function ShowLocMarkers(n) {
             u += 1
     }
     CreateImage("locMarker" + n, "absolute", 1e3, u, r, 44, 43, "", GameImagePath + "space.gif", "locMarkerContainer", locStrings[n]);
-    $("#locMarker" + n).mouseover(function(n) {
-        return function() {
+    $("#locMarker" + n).mouseover(function (n) {
+        return function () {
             ShowConnections(n)
         }
-    }(n)).mouseout(function() {
+    }(n)).mouseout(function () {
         HideHovers()
     })
 }
@@ -370,7 +371,8 @@ function CalcEmpPile() {
             }
             i = Encode(t[n][0]);
             this.HasHandCard(i) || this.HasReserveCard(i) || this.HasDeckCard(i) || this.HasDiscardCard(i) || this.IsSiegeCard(i) || (r += i)
-        } return r
+        }
+    return r
 }
 
 function CalcNumTokens(n) {
@@ -407,7 +409,8 @@ function CalcPoints(n) {
                     (t === 5 || t === 7) && (i += r);
                     (t === 6 || t === 8) && (i += r * 2)
             }
-        } return !IsFirstFrenchSiege() && IsRandomRule(16) && this.campaign === 0 && i >= 25 && SetFirstFrenchSiege(), i
+        }
+    return !IsFirstFrenchSiege() && IsRandomRule(16) && this.campaign === 0 && i >= 25 && SetFirstFrenchSiege(), i
 }
 
 function HasHandCard(n) {
@@ -470,7 +473,8 @@ function SortHandCards() {
                     if (i = this.hand.substr(t, 1), IsEmpireCard(this.campaign, i)) {
                         if (IsNeutralCard(i)) continue;
                         Decode(this.hand, t) === n && (r[0] += i)
-                    } for (n = 0; n < u.length; n++)
+                    }
+            for (n = 0; n < u.length; n++)
                 for (t = 0; t < this.hand.length; t++) i = this.hand.substr(t, 1), i === u[n] && (r[2] += i);
             break;
         case 1:
@@ -481,7 +485,8 @@ function SortHandCards() {
                     if (i = this.hand.substr(t, 1), IsEmpireCard(this.campaign, i)) {
                         if (IsNeutralCard(i)) continue;
                         Decode(this.hand, t) === n && (r[0] += i)
-                    } for (n = 0; n < u.length; n++)
+                    }
+            for (n = 0; n < u.length; n++)
                 for (t = 0; t < this.hand.length; t++) i = this.hand.substr(t, 1), i === u[n] && (r[2] += i)
     }
     for (f = "", n = 0; n < r.length; n++) f += r[n];
@@ -498,12 +503,12 @@ function ShowHandCards(n) {
         a = i === 0 ? 135 : 100,
         v = i === 0 ? 170 : 129,
         y = i === 0 ? 263 : 200;
-    for (this.SortHandCards(), t = 0; t < this.hand.length; t++) cardID = this.hand.substr(t, 1), h = i === 0 ? "" : "small/", o = IsCardActive(cardID) ? "H" : "", s = CheckLocValidity(this.campaign, cardID) ? "" : "X", f = "", IsNeutralCard(cardID) ? (u = "Neutral", r = cardID) : (u = this.campaign === 0 ? "British" : "French", r = Decode(this.hand, t), IsRandomRule(22) && r === 26 && this.campaign === 1 && (f = "F")), n ? ($("#handCard" + t).attr("src", GameImagePath + "cards/" + h + "card" + u + s + o + r + f + ".jpg?v=3").css("left", t * e + "px").css("width", v).css("height", y), $("#handHoverDummy" + t).css("left", t * e + "px").css("top", c + "px").css("width", l).css("height", a + "px")) : (CreateImage("handCard" + t, "absolute", 5 + t * 5, 6, t * e, v, y, "1px solid black", GameImagePath + "cards/" + h + "card" + u + s + o + r + f + ".jpg?v=3", "handDiv", ""), CreateImage("handHoverDummy" + t, "absolute", 7 + t * 5, c, t * e, l, a, "", GameImagePath + "space.gif", "handDiv", ""), $("#handHoverDummy" + t).mouseover(function(n, t) {
-        return function() {
+    for (this.SortHandCards(), t = 0; t < this.hand.length; t++) cardID = this.hand.substr(t, 1), h = i === 0 ? "" : "small/", o = IsCardActive(cardID) ? "H" : "", s = CheckLocValidity(this.campaign, cardID) ? "" : "X", f = "", IsNeutralCard(cardID) ? (u = "Neutral", r = cardID) : (u = this.campaign === 0 ? "British" : "French", r = Decode(this.hand, t), IsRandomRule(22) && r === 26 && this.campaign === 1 && (f = "F")), n ? ($("#handCard" + t).attr("src", GameImagePath + "cards/" + h + "card" + u + s + o + r + f + ".jpg?v=3").css("left", t * e + "px").css("width", v).css("height", y), $("#handHoverDummy" + t).css("left", t * e + "px").css("top", c + "px").css("width", l).css("height", a + "px")) : (CreateImage("handCard" + t, "absolute", 5 + t * 5, 6, t * e, v, y, "1px solid black", GameImagePath + "cards/" + h + "card" + u + s + o + r + f + ".jpg?v=3", "handDiv", ""), CreateImage("handHoverDummy" + t, "absolute", 7 + t * 5, c, t * e, l, a, "", GameImagePath + "space.gif", "handDiv", ""), $("#handHoverDummy" + t).mouseover(function (n, t) {
+        return function () {
             FocusHandCard(n, t)
         }
-    }(this.index, t)).mouseout(function(n) {
-        return function() {
+    }(this.index, t)).mouseout(function (n) {
+        return function () {
             UnfocusHandCard(n)
         }
     }(t)))
@@ -694,50 +699,55 @@ function HidePlayers() {
     $("#handDiv").html("")
 }
 
-function HideInfos() {}
+function HideInfos() {
+}
 
-function HideSelections() {}
+function HideSelections() {
+}
 
-function ClearAllDivContainers() {}
+function ClearAllDivContainers() {
+}
 
 function ToggleHand() {
     handUp = handUp ? !1 : !0;
     var n = players[UserIndex].cardSize === 0 ? "160" : "97";
     handUp ? $("#handDiv").animate({
         top: "-=" + n
-    }, 300, function() {}) : $("#handDiv").animate({
+    }, 300, function () {
+    }) : $("#handDiv").animate({
         top: "+=" + n
-    }, 300, function() {})
+    }, 300, function () {
+    })
 }
 
 function InitializeButtons() {
-    if (IsHistory || $("#lmInfo").css("cursor", "pointer").unbind().click(function() {
-            ShowLastMoveInfo()
-        }), $("#actionBtn9").attr("disabled", !0).click(function() {
-            ExecuteMoneyAction(9)
-        }), $("#actionBtn10").attr("disabled", !0).click(function() {
-            ExecuteMerchantAction(10)
-        }), $("#actionBtn11").attr("disabled", !0).click(function() {
-            ExecuteTraderAction(11)
-        }), $("#actionBtn12").attr("disabled", !0).click(function() {
-            ExecutePiracyAction(12)
-        }), $("#actionBtn13").attr("disabled", !0).click(function() {
-            ExecuteDraftAction(13)
-        }), $("#actionBtn14").attr("disabled", !0).click(function() {
-            ExecuteDiscardAction(14)
-        }), $("#actionBtn15").attr("disabled", !0).click(function() {
-            ExecuteReserveAction(15)
-        }), $("#actionBtn16").attr("disabled", !0).click(function() {
-            ExecuteFreeReserveAction(16)
-        }), $("#actionBtn17").attr("disabled", !0).click(function() {
-            ExecuteGovernorAction(17)
-        }), $("#actionBtn18").attr("disabled", !0).click(function() {
-            ExecuteIntendantAction(18)
-        }), $("#actionBtn19").attr("disabled", !0).click(function() {
-            ExecuteHomeSupportAction(19)
-        }), $("#actionBtn20").attr("disabled", !0).click(function() {
-            ExecutePassAction(20)
-        }), campaignSelectionActive) {
+    if (IsHistory || $("#lmInfo").css("cursor", "pointer").unbind().click(function () {
+        ShowLastMoveInfo()
+    }), $("#actionBtn9").attr("disabled", !0).click(function () {
+        ExecuteMoneyAction(9)
+    }), $("#actionBtn10").attr("disabled", !0).click(function () {
+        ExecuteMerchantAction(10)
+    }), $("#actionBtn11").attr("disabled", !0).click(function () {
+        ExecuteTraderAction(11)
+    }), $("#actionBtn12").attr("disabled", !0).click(function () {
+        ExecutePiracyAction(12)
+    }), $("#actionBtn13").attr("disabled", !0).click(function () {
+        ExecuteDraftAction(13)
+    }), $("#actionBtn14").attr("disabled", !0).click(function () {
+        ExecuteDiscardAction(14)
+    }), $("#actionBtn15").attr("disabled", !0).click(function () {
+        ExecuteReserveAction(15)
+    }), $("#actionBtn16").attr("disabled", !0).click(function () {
+        ExecuteFreeReserveAction(16)
+    }), $("#actionBtn17").attr("disabled", !0).click(function () {
+        ExecuteGovernorAction(17)
+    }), $("#actionBtn18").attr("disabled", !0).click(function () {
+        ExecuteIntendantAction(18)
+    }), $("#actionBtn19").attr("disabled", !0).click(function () {
+        ExecuteHomeSupportAction(19)
+    }), $("#actionBtn20").attr("disabled", !0).click(function () {
+        ExecutePassAction(20)
+    }), campaignSelectionActive) {
         $("#handBtn").attr("disabled", !0);
         $("#infoBtn0").attr("disabled", !0);
         $("#infoBtn1").attr("disabled", !0);
@@ -748,35 +758,35 @@ function InitializeButtons() {
         $("#autoBtn").attr("disabled", !0);
         return
     }
-    $("#handBtn").unbind().click(function() {
+    $("#handBtn").unbind().click(function () {
         ToggleHand()
     });
-    $("#cardSizeBtn").unbind().click(function() {
+    $("#cardSizeBtn").unbind().click(function () {
         SwitchCardSize()
     });
-    $("#locNameBtn").unbind().click(function() {
+    $("#locNameBtn").unbind().click(function () {
         SwitchLocNames()
     });
-    $("#mapBtn").unbind().click(function() {
+    $("#mapBtn").unbind().click(function () {
         SwitchMap()
     });
-    $("#autoBtn").unbind().click(function() {
+    $("#autoBtn").unbind().click(function () {
         ShowAutoOptions()
     });
     $("#mapBtn").attr("disabled", !0);
     (IsHistory || IsActive === "False") && $("#autoBtn").attr("disabled", !0);
-    $("#pointsDummy").unbind().click(function() {
+    $("#pointsDummy").unbind().click(function () {
         ShowMainInfo(7, !1, -1, -1)
     });
-    $("#oppPointsDummy").unbind().click(function() {
+    $("#oppPointsDummy").unbind().click(function () {
         ShowMainInfo(7, !0, -1, -1)
     });
-    for (var n = 0; n < 6; n++) $("#oppInfoDummy" + n).unbind().click(function(n, t, i, r) {
-        return function() {
+    for (var n = 0; n < 6; n++) $("#oppInfoDummy" + n).unbind().click(function (n, t, i, r) {
+        return function () {
             ShowMainInfo(n, t, i, r)
         }
-    }(n, !0, -1, -1)), n < 5 && $("#infoBtn" + n).unbind().click(function(n, t, i, r) {
-        return function() {
+    }(n, !0, -1, -1)), n < 5 && $("#infoBtn" + n).unbind().click(function (n, t, i, r) {
+        return function () {
             ShowMainInfo(n, t, i, r)
         }
     }(n, !1, -1, -1));
@@ -794,13 +804,15 @@ function SwitchCardSize() {
                 $("#handDiv").css("height", "298px");
                 handUp && $("#handDiv").animate({
                     top: "-=63"
-                }, 300, function() {});
+                }, 300, function () {
+                });
                 break;
             case 1:
                 $("#handDiv").css("height", "235px");
                 handUp && $("#handDiv").animate({
                     top: "+=63"
-                }, 300, function() {})
+                }, 300, function () {
+                })
         }
     }
 }
@@ -830,13 +842,17 @@ function ShowAutoOptions() {
     optionsVisible = optionsVisible ? !1 : !0;
     optionsVisible ? (InitOptionChecks(), handUp && ToggleHand(), $("#aOptDiv").animate({
         top: "-=480"
-    }, 300, function() {}), $("#rOptDiv").animate({
+    }, 300, function () {
+    }), $("#rOptDiv").animate({
         top: "-=480"
-    }, 300, function() {})) : (handUp || ToggleHand(), $("#aOptDiv").animate({
+    }, 300, function () {
+    })) : (handUp || ToggleHand(), $("#aOptDiv").animate({
         top: "+=480"
-    }, 300, function() {}), $("#rOptDiv").animate({
+    }, 300, function () {
+    }), $("#rOptDiv").animate({
         top: "+=480"
-    }, 300, function() {}))
+    }, 300, function () {
+    }))
 }
 
 function InitOptionChecks() {
@@ -844,19 +860,23 @@ function InitOptionChecks() {
         if (t === n) {
             $("#ambushOpt" + n).attr("checked", !0);
             break
-        } for (t = Decode(i, 3), n = 3; n < 5; n++)
+        }
+    for (t = Decode(i, 3), n = 3; n < 5; n++)
         if (t === n - 3) {
             $("#ambushOpt" + n).attr("checked", !0);
             break
-        } for (t = Decode(i, 4), n = 0; n < 2; n++)
+        }
+    for (t = Decode(i, 4), n = 0; n < 2; n++)
         if (t === n) {
             $("#pilOpt" + n).attr("checked", !0);
             break
-        } for (t = Decode(u, 0), n = 0; n < 2; n++)
+        }
+    for (t = Decode(u, 0), n = 0; n < 2; n++)
         if (t === n) {
             $("#raidOpt" + n).attr("checked", !0);
             break
-        } for (t = Decode(i, 1), r = players[UserIndex].campaign === 0 ? blockStringsA_EN : blockStringsA_FR, $("#aBlockString").html("#" + (t + 1) + ": " + r[t]), t = Decode(i, 2), f = players[UserIndex].campaign === 0 ? targetStringsA_EN : targetStringsA_FR, $("#aTargetString").html("#" + (t + 1) + ": " + f[t]), r = players[UserIndex].campaign === 0 ? blockStringsR_EN : blockStringsR_FR, n = 0; n < 3; n++) t = Decode(u, n + 1), $("#rBlockString" + n).html(n + 1 + ".: " + r[t])
+        }
+    for (t = Decode(i, 1), r = players[UserIndex].campaign === 0 ? blockStringsA_EN : blockStringsA_FR, $("#aBlockString").html("#" + (t + 1) + ": " + r[t]), t = Decode(i, 2), f = players[UserIndex].campaign === 0 ? targetStringsA_EN : targetStringsA_FR, $("#aTargetString").html("#" + (t + 1) + ": " + f[t]), r = players[UserIndex].campaign === 0 ? blockStringsR_EN : blockStringsR_FR, n = 0; n < 3; n++) t = Decode(u, n + 1), $("#rBlockString" + n).html(n + 1 + ".: " + r[t])
 }
 
 function CheckOptions() {
@@ -989,16 +1009,18 @@ function SetupActionInterface() {
             try {
                 t = Lang === 0 ? "Ausserplanmaessiger Zug:\nGegner zog sich von Belagerung zurueck. Klicke eine Handkarte mit Siedler-Symbol an, um sie zu spielen und zu siedeln." : "Out-of-turn-action:\nOpponent performed withdraw action. Click a card with settler symbol in order to settle, otherwise finish your turn.";
                 alert(t)
-            } catch (a) {}
+            } catch (a) {
+            }
             for (var o = players[UserIndex].hand, r = players[UserIndex].campaign, l = r === 0 ? locDataEN : locDataFR, u, s, h, n = 0; n < o.length; n++)
                 if (u = o.substr(n, 1), HasSymbol(r, 4, u)) {
                     if (IsLocationCard(r, u) && (s = Decode(o, n), h = l[s][0][2], !IsLocCardValid(r, h))) continue;
-                    $("#handCard" + n).click(function(n, t) {
-                        return function() {
+                    $("#handCard" + n).click(function (n, t) {
+                        return function () {
                             SettleWithdrawLocation(n, t)
                         }
                     }(n, u)).css("cursor", "pointer")
-                } SetGamePhase(7);
+                }
+            SetGamePhase(7);
             SetFinishButton(!0);
             break;
         default:
@@ -1022,8 +1044,8 @@ function SettleWithdrawLocation(n, t) {
 }
 
 function EnableHandCards(n) {
-    for (var r = players[UserIndex].campaign, i = "", t = 0; t < players[UserIndex].hand.length; t++)(i = players[UserIndex].hand.substr(t, 1), !n || IsFreeActionCard(r, i)) && $("#handCard" + t).click(function(n, t) {
-        return function() {
+    for (var r = players[UserIndex].campaign, i = "", t = 0; t < players[UserIndex].hand.length; t++) (i = players[UserIndex].hand.substr(t, 1), !n || IsFreeActionCard(r, i)) && $("#handCard" + t).click(function (n, t) {
+        return function () {
             ActivateHandCard(n, t)
         }
     }(t, i)).css("cursor", "pointer")
@@ -1058,7 +1080,7 @@ function ActivateHandCard(n, t) {
         players[UserIndex].AddActiveCard(t);
         EnableActions(!0);
         $("#handCard" + n).unbind();
-        $("#handCard" + n).attr("src", o).click(function() {
+        $("#handCard" + n).attr("src", o).click(function () {
             DeactivateHandCard(n, t)
         })
     }
@@ -1076,7 +1098,7 @@ function DeactivateHandCard(n, t) {
         players[UserIndex].RemoveActiveCard(t);
         EnableActions(GetNumActions() < GetMultiFuncFlag());
         $("#handCard" + n).unbind();
-        $("#handCard" + n).attr("src", o).click(function() {
+        $("#handCard" + n).attr("src", o).click(function () {
             ActivateHandCard(n, t)
         })
     }
@@ -1290,7 +1312,7 @@ function EnableActions(n) {
                 if (t === 21)
                     for (i = 0; i < 2; i++) gameBoard.IsSiegeActive(i) && $("#withdrawBtn" + i).attr("disabled", !1);
                 else $("#actionBtn" + t).attr("disabled", !1);
-    else EnableMapAction(t), r += u ? ",&nbsp;" : "<b>" + StrMap + ": <\/b>", f = t !== 8 ? mapActionStrings[t] : o[e], r += "<i>" + f + "<\/i>", u = !0;
+            else EnableMapAction(t), r += u ? ",&nbsp;" : "<b>" + StrMap + ": <\/b>", f = t !== 8 ? mapActionStrings[t] : o[e], r += "<i>" + f + "<\/i>", u = !0;
     ShowInfoMessage(2, r)
 }
 
@@ -1419,7 +1441,8 @@ function CheckValidConns(n, t) {
             if (IsHomeLoc(n, r[i])) {
                 validTarget = r[i];
                 return
-            } for (i = 0; i < r.length; i++) IsValidChecked(r[i]) || gameBoard.GetLocOwner(r[i]) === n && (validChecks.push(r[i]), CheckValidConns(n, r[i]))
+            }
+        for (i = 0; i < r.length; i++) IsValidChecked(r[i]) || gameBoard.GetLocOwner(r[i]) === n && (validChecks.push(r[i]), CheckValidConns(n, r[i]))
     }
 }
 
@@ -1507,7 +1530,7 @@ function ShowWithdrawCheckBox(n, t, i) {
     r += StrWithdrawCB;
     r += "<\/div>";
     $("#wdDiv").append(r);
-    $("#cbxWithdraw").unbind().click(function() {
+    $("#cbxWithdraw").unbind().click(function () {
         SwitchDefenderWithdraw()
     });
     IsActive == "False" && $("#cbxWithdraw").attr("disabled", !0);
@@ -1534,7 +1557,7 @@ function ShowVulnSiegeCheckBox(n, t, i) {
     r += StrPreferVulnSiege;
     r += "<\/div>";
     $("#vulnSiegeDiv" + n).append(r);
-    $("#cbxVulnSiege" + n).unbind().click(function() {
+    $("#cbxVulnSiege" + n).unbind().click(function () {
         SwitchVulnSiegePrio(n)
     });
     IsActive == "False" && $("#cbxVulnSiege" + n).attr("disabled", !0);
@@ -1558,7 +1581,7 @@ function ShowWithdrawButton(n, t, i) {
         e = "<input id='withdrawBtn" + n + "' type='button' name='wdBtn" + n + "' value='" + o + "'";
     e += " style='position:absolute;left:" + r + "px;top:" + u + "px;width:90px;padding:0px;font-size:13px;z-index:520'/>";
     $("#tokenContainer").append(e);
-    $("#withdrawBtn" + n).attr("disabled", !0).unbind().click(function() {
+    $("#withdrawBtn" + n).attr("disabled", !0).unbind().click(function () {
         ExecuteWithdrawAction(21, n, f)
     })
 }
@@ -1576,13 +1599,13 @@ function ShowSiegeCards(n, t, i) {
     CreateDiv("britsCards" + n, "absolute", 175, "hidden", u, r, 50, 22, "#D9C58A", "", o, "tokenContainer", "center");
     $("#britsCards" + n).css("fontSize", "13px");
     CreateImage("siegeDummyBr" + n, "absolute", 185, u, r, 50, 22, "", GameImagePath + "space.gif", "tokenContainer", "");
-    $("#siegeDummyBr" + n).css("cursor", "pointer").click(function() {
+    $("#siegeDummyBr" + n).css("cursor", "pointer").click(function () {
         ShowMainInfo(6, !1, n, 0)
     });
     CreateDiv("frenchCards" + n, "absolute", 182, "hidden", u, r + 52, 50, 22, "#D9C58A", "", s, "tokenContainer", "center");
     $("#frenchCards" + n).css("fontSize", "13px");
     CreateImage("siegeDummyFr" + n, "absolute", 192, u, r + 52, 50, 22, "", GameImagePath + "space.gif", "tokenContainer", "");
-    $("#siegeDummyFr" + n).css("cursor", "pointer").click(function() {
+    $("#siegeDummyFr" + n).css("cursor", "pointer").click(function () {
         ShowMainInfo(6, !1, n, 1)
     })
 }
@@ -1654,15 +1677,16 @@ function ShowSiegeCardSelection(n, t) {
             u, r, c = f === n ? !1 : !0,
             o = "",
             s = "";
-        for (Lang === 0 ? (o = c ? "Du kapitulierst: " : "R&uuml;ckzug von Belagerung: ", s = t ? o : "Du verlierst eine Belagerung: ") : (o = c ? "surrender" : "withdraw from siege", s = t ? "You " + o + ": " : "You will lose a Siege: "), i += "<h3 align='center'>" + s + locationData[a][0] + "<\/h3>", i += t ? Lang === 0 ? "<p style='text-align:center'>Klicke eine Karte an, um sie zu entfernen.<\/p>" : "<p style='text-align:center'>Click one card, it will be removed.<\/p>" : Lang === 0 ? "<p style='text-align:center'>Klicke eine Karte an. Sie wird im n&auml;. Gegnerzug entfernt.<\/p>" : "<p style='text-align:center'>Click one card. It will be removed on your opponent&rsquo;s turn.<\/p>", i += "<div style='position:absolute;top:90px;left:10px;width:220px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", i += "<table border='1' cellpadding='4' style='width:100%'>", r = 0; r < e.length; r++)(u = e.substr(r, 1), IsLocationCard(f, u)) || (h = IsNeutralCard(u) ? "#9DCC4D" : f === 0 ? "#EF9D77" : "#9DD7F2", i += "<tr style='background-color:" + h + "'>", i += "<td id='slCard" + r + "'>", i += IsNeutralCard(u) ? empTitles[empDataN[GetNeutralIndex(u)][2]] : empTitles[l[GetEmpireIndex(f, u)][2]], i += "<\/td>", i += IsNeutralCard(u) ? "<td style='cursor:default;text-align:center' onmouseover='ShowSiegeLostCard(true,0," + f + ")' onmouseout='HideSiegeLostCard()'>" : "<td style='cursor:default;text-align:center' onmouseover='ShowSiegeLostCard(false," + Decode(e, r) + "," + f + ")' onmouseout='HideSiegeLostCard()'>", i += " <img id='slCardHelp" + r + "' src='" + BaseImagePath + "c/help.png'/>", i += "<\/td/>", i += "<\/tr>");
-        for (i += "<\/table>", i += "<\/div>", i += " <img id='sLostCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", i += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", $("#siegeLostDiv").append(i), r = 0; r < e.length; r++) u = e.substr(r, 1), $("#slCard" + r).css("cursor", "pointer").click(function(n, t, i) {
-            return function() {
+        for (Lang === 0 ? (o = c ? "Du kapitulierst: " : "R&uuml;ckzug von Belagerung: ", s = t ? o : "Du verlierst eine Belagerung: ") : (o = c ? "surrender" : "withdraw from siege", s = t ? "You " + o + ": " : "You will lose a Siege: "), i += "<h3 align='center'>" + s + locationData[a][0] + "<\/h3>", i += t ? Lang === 0 ? "<p style='text-align:center'>Klicke eine Karte an, um sie zu entfernen.<\/p>" : "<p style='text-align:center'>Click one card, it will be removed.<\/p>" : Lang === 0 ? "<p style='text-align:center'>Klicke eine Karte an. Sie wird im n&auml;. Gegnerzug entfernt.<\/p>" : "<p style='text-align:center'>Click one card. It will be removed on your opponent&rsquo;s turn.<\/p>", i += "<div style='position:absolute;top:90px;left:10px;width:220px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", i += "<table border='1' cellpadding='4' style='width:100%'>", r = 0; r < e.length; r++) (u = e.substr(r, 1), IsLocationCard(f, u)) || (h = IsNeutralCard(u) ? "#9DCC4D" : f === 0 ? "#EF9D77" : "#9DD7F2", i += "<tr style='background-color:" + h + "'>", i += "<td id='slCard" + r + "'>", i += IsNeutralCard(u) ? empTitles[empDataN[GetNeutralIndex(u)][2]] : empTitles[l[GetEmpireIndex(f, u)][2]], i += "<\/td>", i += IsNeutralCard(u) ? "<td style='cursor:default;text-align:center' onmouseover='ShowSiegeLostCard(true,0," + f + ")' onmouseout='HideSiegeLostCard()'>" : "<td style='cursor:default;text-align:center' onmouseover='ShowSiegeLostCard(false," + Decode(e, r) + "," + f + ")' onmouseout='HideSiegeLostCard()'>", i += " <img id='slCardHelp" + r + "' src='" + BaseImagePath + "c/help.png'/>", i += "<\/td/>", i += "<\/tr>");
+        for (i += "<\/table>", i += "<\/div>", i += " <img id='sLostCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", i += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", $("#siegeLostDiv").append(i), r = 0; r < e.length; r++) u = e.substr(r, 1), $("#slCard" + r).css("cursor", "pointer").click(function (n, t, i) {
+            return function () {
                 LooseEmpireCard(n, t, i)
             }
         }(n, u, t));
         $("#siegeLostDiv").animate({
             top: "-=480"
-        }, 300, function() {})
+        }, 300, function () {
+        })
     }
 }
 
@@ -1681,7 +1705,7 @@ function HideSiegeLostCard() {
 function LooseEmpireCard(n, t, i) {
     siegeLostVisible && (siegeLostVisible = !1, SetLostSiegeCard(UserIndex, n, t), $("#siegeLostDiv").animate({
         top: "+=480"
-    }, 300, function() {
+    }, 300, function () {
         var e;
         if (i) {
             var r = Decode(gameBoard.sieges[n], 0),
@@ -1702,7 +1726,8 @@ function LooseEmpireCard(n, t, i) {
                 e = Lang === 0 ? "Dein Gegner muss entscheiden, ob er eine Karte mit Siedler-Symbol spielt, um den Ort zu besiedeln.\n\nBeende den Zug." : "Your opponent may decide whether or not to play a card with a settler symbol in order to settle the location.\n\nFinish your turn!";
                 try {
                     alert(e)
-                } catch (o) {}
+                } catch (o) {
+                }
                 DisableActions();
                 ShowUI();
                 SetGamePhase(6);
@@ -1746,16 +1771,17 @@ function ShowSiegeCheckInfo(n) {
                     if (cardID = e.substr(r, 1), HasSymbol(i, 4, cardID)) {
                         if (IsLocationCard(i, cardID) && (cardIndex = Decode(e, r), locIndex = s[cardIndex][0][2], !IsLocCardValid(i, locIndex))) continue;
                         o = !0;
-                        $("#handCard" + r).click(function(n, t, i) {
-                            return function() {
+                        $("#handCard" + r).click(function (n, t, i) {
+                            return function () {
                                 PlaySiegeSettleCard(n, t, i)
                             }
                         }(r, n, cardID)).css("cursor", "pointer")
-                    } u = o ? "Click one hand card that shows a settler symbol to settle the location. Click the button if you don&rsquo;t want to settle." : "You do not have a settler card. Click the button the button below to resolve the siege."
-            } else u = "Click the location to place a cube (settle) or click the button if you don&rsquo;t want to settle!", $("#locMarker" + f).css("cursor", "pointer").click(function() {
+                    }
+                u = o ? "Click one hand card that shows a settler symbol to settle the location. Click the button if you don&rsquo;t want to settle." : "You do not have a settler card. Click the button the button below to resolve the siege."
+            } else u = "Click the location to place a cube (settle) or click the button if you don&rsquo;t want to settle!", $("#locMarker" + f).css("cursor", "pointer").click(function () {
                 FinishSiege(n, !0)
             });
-        else i !== n ? (u = StrWonDef, $("#locMarker" + f).css("cursor", "pointer").click(function() {
+        else i !== n ? (u = StrWonDef, $("#locMarker" + f).css("cursor", "pointer").click(function () {
             HideSiegeInfo();
             FinishSiege(n, !1)
         })) : u = "No free cubes available. You may not settle!";
@@ -1763,10 +1789,10 @@ function ShowSiegeCheckInfo(n) {
         t += "<p style='text-align:center'>" + u + "<\/p>";
         i === n ? (t += "<input id='noSettle' type='button' name='nsb' value='Do not settle'", t += " style='position:absolute;left:250px;top:120px;width:150px;padding:1px;font-size:13px;z-index:20'/>", t += "<input id='hideSettle' type='button' name='hs' value='" + StrHide + "'", t += " style='position:absolute;left:60px;top:120px;width:150px;padding:1px;font-size:13px;z-index:20'/>") : (t += "<input id='hideSettle' type='button' name='hs' value='" + StrHide + "'", t += " style='position:absolute;left:160px;top:120px;width:150px;padding:1px;font-size:13px;z-index:20'/>");
         $("#siegeCheckDiv").append(t);
-        $("#hideSettle").click(function() {
+        $("#hideSettle").click(function () {
             HideSiegeInfo()
         });
-        $("#noSettle").click(function() {
+        $("#noSettle").click(function () {
             HideSiegeInfo();
             FinishSiege(n, !1)
         });
@@ -1779,7 +1805,7 @@ function ShowSiegeCheckInfo(n) {
 function HideSiegeInfo() {
     siegeCheckVisible && (siegeCheckVisible = !1, $("#siegeCheckDiv").animate({
         top: "+=210"
-    }, 300, function() {
+    }, 300, function () {
         SetResetButton(!0)
     }))
 }
@@ -1809,18 +1835,18 @@ function FinishWithdraw(n, t, i) {
                 return
             }
         } else if (u === 34) {
-        wonByHomeSurrender = !0;
-        DisableActions();
-        players[UserIndex].ClearActiveCards();
-        ShowUI();
-        o = Lang === 0 ? "Heimatort verloren!" : "You lost a home location!";
-        s = "<span style='color:red'><b>" + o + "<\/b><\/span>";
-        ShowInfoMessage(2, s);
-        ShowInfoMessage(3, StrFinishTurn);
-        SetResetButton(!0);
-        SetFinishButton(!0);
-        return
-    }
+            wonByHomeSurrender = !0;
+            DisableActions();
+            players[UserIndex].ClearActiveCards();
+            ShowUI();
+            o = Lang === 0 ? "Heimatort verloren!" : "You lost a home location!";
+            s = "<span style='color:red'><b>" + o + "<\/b><\/span>";
+            ShowInfoMessage(2, s);
+            ShowInfoMessage(3, StrFinishTurn);
+            SetResetButton(!0);
+            SetFinishButton(!0);
+            return
+        }
 }
 
 function FinishSiege(n, t) {
@@ -1836,7 +1862,8 @@ function FinishSiege(n, t) {
         s = IsNeutralCard(r) ? empTitles[empDataN[GetNeutralIndex(r)][2]] + " (N)" : empTitles[a[GetEmpireIndex(l, r)][2]];
         try {
             alert(StrOppLostCardInfo + "\n\n" + s)
-        } catch (y) {}
+        } catch (y) {
+        }
     } else u += "XX";
     for (c = players[i].siegeCards[n], o = 0; o < c.length; o++) h = c.substr(o, 1), h !== r && (players[i].discardPile += h);
     if (players[i].siegeCards[n] = "", gameBoard.sieges[n] = "", IsRandomRule(3) && (SetVulnSiegePrio(UserIndex, n, 0), SetVulnSiegePrio(i, n, 0)), IsNeutralCard(r) ? gameBoard.SetNeutralCards() : players[i].empPile = players[i].CalcEmpPile(), players[UserIndex].campaign === n && (f = gameBoard.GetLocation(e), f === 2 || f === 4 || f === 6 || f === 8 ? (players[UserIndex].oppTokens[1]++, u += "C") : (players[UserIndex].oppTokens[0]++, u += "D"), t ? (gameBoard.SetLocation(e, 1 + players[UserIndex].campaign * 4), players[UserIndex].tokens[0]--, players[UserIndex].TakeLocCard(e), u += "B") : (gameBoard.SetLocation(e, 0), u += "N")), AddMovesDoneAction(u), ShowUI(), players[UserIndex].campaign === 1 && IsRandomRule(5) && (HideActionRings(), v = window.confirm(StrConfirmDiscard), v)) {
@@ -1864,12 +1891,12 @@ function EnableMapAction(n) {
                 c = -1,
                 l = -1;
             for (i = 0; i < h.length; i++)
-                for (o = h[i], c = o[0], e = 1; e < o.length; e++)(t = o[e], l = gameBoard.GetLocOwner(t), l !== a && (l !== r || players[UserIndex].HasLocCard(GetCardIDByLoc(r, t)))) && HasSymbol(r, c, u.substr(1, 1)) && (locationData[t][4] ? u.length === 3 && HasSymbol(r, 4, u.substr(2, 1)) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function(n, t) {
-                    return function() {
+                for (o = h[i], c = o[0], e = 1; e < o.length; e++) (t = o[e], l = gameBoard.GetLocOwner(t), l !== a && (l !== r || players[UserIndex].HasLocCard(GetCardIDByLoc(r, t)))) && HasSymbol(r, c, u.substr(1, 1)) && (locationData[t][4] ? u.length === 3 && HasSymbol(r, 4, u.substr(2, 1)) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function (n, t) {
+                    return function () {
                         SettleLocation(n, t)
                     }
-                }(n, t))) : u.length === 2 && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function(n, t) {
-                    return function() {
+                }(n, t))) : u.length === 2 && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function (n, t) {
+                    return function () {
                         SettleLocation(n, t)
                     }
                 }(n, t))));
@@ -1878,7 +1905,7 @@ function EnableMapAction(n) {
             f = Decode(u, 0);
             t = s[f][0][2];
             ShowLocRing(t, 0, !1);
-            $("#locMarker" + t).css("cursor", "pointer").click(function() {
+            $("#locMarker" + t).css("cursor", "pointer").click(function () {
                 DevelopLocation(n, t)
             });
             break;
@@ -1886,7 +1913,7 @@ function EnableMapAction(n) {
             f = IsLocationCard(r, u.substr(0, 1)) ? Decode(u, 0) : Decode(u, 1);
             t = s[f][0][2];
             ShowLocRing(t, 0, !1);
-            $("#locMarker" + t).css("cursor", "pointer").click(function() {
+            $("#locMarker" + t).css("cursor", "pointer").click(function () {
                 FortifyLocation(n, t)
             });
             break;
@@ -1897,8 +1924,8 @@ function EnableMapAction(n) {
                 c = -1,
                 a = (r + 1) % 2;
             for (i = 0; i < h.length; i++)
-                for (o = h[i], c = o[0], e = 1; e < o.length; e++)(t = o[e], gameBoard.GetLocOwner(t) === a) && HasSymbol(r, c, u.substr(1, 1)) && (HasSymbol(r, 6, u.substr(2, 1)) || IsRandomRule(15) && IsNativeCard(r, u.substr(2, 1)) || locationData[t][2] > 0 && HasSymbol(r, 2, u.substr(2, 1))) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function(n, t) {
-                    return function() {
+                for (o = h[i], c = o[0], e = 1; e < o.length; e++) (t = o[e], gameBoard.GetLocOwner(t) === a) && HasSymbol(r, c, u.substr(1, 1)) && (HasSymbol(r, 6, u.substr(2, 1)) || IsRandomRule(15) && IsNativeCard(r, u.substr(2, 1)) || locationData[t][2] > 0 && HasSymbol(r, 2, u.substr(2, 1))) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function (n, t) {
+                    return function () {
                         BesiegeLocation(n, t)
                     }
                 }(n, t)));
@@ -1908,15 +1935,16 @@ function EnableMapAction(n) {
                 if (gameBoard.sieges[i].length === 1) {
                     if (IsFortificationCard(r, u.substr(0, 1)) && i === r) continue;
                     if (t = Decode(gameBoard.sieges[i], 0), gameBoard.GetLocOwner(t) === r && (validTarget = -1, validChecks = [], validChecks.push(t), CheckValidConns(r, t), !IsHomeLoc(r, validTarget))) continue;
-                    (HasSymbol(r, 6, u.substr(0, 1)) || IsRandomRule(15) && IsNativeCard(r, u.substr(0, 1)) || locationData[t][2] > 0 && HasSymbol(r, 2, u.substr(0, 1))) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function(n, t, i) {
-                        return function() {
+                    (HasSymbol(r, 6, u.substr(0, 1)) || IsRandomRule(15) && IsNativeCard(r, u.substr(0, 1)) || locationData[t][2] > 0 && HasSymbol(r, 2, u.substr(0, 1))) && (ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function (n, t, i) {
+                        return function () {
                             ReinforceSiege(n, t, i)
                         }
                     }(n, t, i)))
-                } break;
+                }
+            break;
         case 5:
-            for (i = 0; i < raidTargets.length; i++) ShowLocRing(raidTargets[i], 0, !1), $("#locMarker" + raidTargets[i]).css("cursor", "pointer").click(function(n, t) {
-                return function() {
+            for (i = 0; i < raidTargets.length; i++) ShowLocRing(raidTargets[i], 0, !1), $("#locMarker" + raidTargets[i]).css("cursor", "pointer").click(function (n, t) {
+                return function () {
                     ExecuteRaid(n, t)
                 }
             }(n, raidTargets[i]));
@@ -1925,8 +1953,8 @@ function EnableMapAction(n) {
             ShowAmbushInfo(n);
             break;
         case 7:
-            for (i = 0; i < gameBoard.sieges.length; i++) gameBoard.sieges[i].length === 1 && (t = Decode(gameBoard.sieges[i], 0), ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function(n, t, i) {
-                return function() {
+            for (i = 0; i < gameBoard.sieges.length; i++) gameBoard.sieges[i].length === 1 && (t = Decode(gameBoard.sieges[i], 0), ShowLocRing(t, 0, !1), $("#locMarker" + t).css("cursor", "pointer").click(function (n, t, i) {
+                return function () {
                     ReinforceSiege(n, t, i)
                 }
             }(n, t, i)));
@@ -1954,11 +1982,11 @@ function DisableMapActions() {
     raidChecks = [];
     raidTargets = [];
     ShowInfoMessage(2, "");
-    for (var n = 0; n < locationData.length; n++) $("#locMarker" + n).unbind().css("cursor", "default"), $("#locMarker" + n).mouseover(function(n) {
-        return function() {
+    for (var n = 0; n < locationData.length; n++) $("#locMarker" + n).unbind().css("cursor", "default"), $("#locMarker" + n).mouseover(function (n) {
+        return function () {
             ShowConnections(n)
         }
-    }(n)).mouseout(function() {
+    }(n)).mouseout(function () {
         HideHovers()
     })
 }
@@ -2134,15 +2162,16 @@ function ShowRaidBlocker(n, t, i) {
     r += "<input id='closeAmbResp2' type='button' name='closeAR2' value='X'";
     r += " style='position:absolute;left:5px;top:5px;width:30px;font-size:12px'/>";
     $("#oppResponseDiv").append(r);
-    $("#closeAmbResp").click(function() {
+    $("#closeAmbResp").click(function () {
         CloseOppResponse()
     });
-    $("#closeAmbResp2").click(function() {
+    $("#closeAmbResp2").click(function () {
         CloseOppResponse()
     });
     $("#oppResponseDiv").animate({
         top: "+=440"
-    }, 300, function() {})
+    }, 300, function () {
+    })
 }
 
 function RaidLocation(n, t) {
@@ -2173,7 +2202,7 @@ function ShowAmbushInfo(n) {
     $("#oppCollDiscs").css("display", "none");
     $("#ambushPriestInfo").attr("src", GameImagePath + "ambushEN0.jpg");
     $("#ambushPriestInfo").css("visibility", "visible").css("cursor", "pointer");
-    $("#ambushPriestInfo").click(function() {
+    $("#ambushPriestInfo").click(function () {
         ExecuteAmbush(n)
     })
 }
@@ -2334,15 +2363,16 @@ function ShowAmbushBlocker(n, t, i) {
     r += "<input id='closeAmbResp2' type='button' name='closeAR2' value='X'";
     r += " style='position:absolute;left:5px;top:5px;width:30px;font-size:12px'/>";
     $("#oppResponseDiv").append(r);
-    $("#closeAmbResp").click(function() {
+    $("#closeAmbResp").click(function () {
         CloseOppResponse()
     });
-    $("#closeAmbResp2").click(function() {
+    $("#closeAmbResp2").click(function () {
         CloseOppResponse()
     });
     $("#oppResponseDiv").animate({
         top: "+=440"
-    }, 300, function() {})
+    }, 300, function () {
+    })
 }
 
 function ShowAmbushTarget(n, t, i, r) {
@@ -2364,10 +2394,10 @@ function ShowAmbushTarget(n, t, i, r) {
         u += "<input id='closeAmbResp2' type='button' name='closeAR2' value='X'";
         u += " style='position:absolute;left:5px;top:5px;width:30px;font-size:12px'/>";
         $("#oppResponseDiv").append(u);
-        $("#closeAmbResp").click(function() {
+        $("#closeAmbResp").click(function () {
             CloseOppResponse()
         });
-        $("#closeAmbResp2").click(function() {
+        $("#closeAmbResp2").click(function () {
             CloseOppResponse()
         });
         $("#oppResponseDiv").animate({
@@ -2386,20 +2416,21 @@ function ShowOppHand(n, t) {
         l = e === 0 ? empDataEN : empDataFR,
         u, o, r;
     for (i += "<h2 align='center'>" + StrOppHand + "<\/h2>", i += t === 6 ? "<p style='text-align:center'>" + StrOppHandInfo + "<\/p>" : "<p style='text-align:center'>" + StrOppHandInfo2 + "<\/p>", i += "<div style='position:absolute;top:90px;left:10px;width:200px;height:263px;border:1px solid black;overflow:auto;background-color:silver'>", i += "<table border='1' cellpadding='4' style='width:100%'>", r = 0; r < f.length; r++) u = f.substr(r, 1), h = IsNeutralCard(u) ? "#9DCC4D" : e === 0 ? "#EF9D77" : "#9DD7F2", i += "<tr style='background-color:" + h + "'>", i += "<td>", IsLocationCard(e, u) ? (o = Decode(f, r), i += locationData[c[o][0][2]][0]) : i += IsNeutralCard(u) ? empTitles[empDataN[GetNeutralIndex(u)][2]] : empTitles[l[GetEmpireIndex(e, u)][2]], i += "<\/td>", i += "<td id='oppCardHelp" + r + "'>", i += " <img src='" + BaseImagePath + "c/help.png'/>", i += "<\/td/>", i += "<\/tr>";
-    for (i += "<\/table><\/div>", i += " <img id='oppCardView' style='position:absolute;left:245px;top:90px;width:170px;height:263px;", i += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", i += "<input id='closeAmbResp' type='button' name='closeAR' value='" + StrClose + "'", i += " style='position:absolute;left:263px;top:370px;width:140px;padding:2px;font-size:14px'/>", i += "<input id='closeAmbResp2' type='button' name='closeAR2' value='X'", i += " style='position:absolute;left:5px;top:5px;width:30px;font-size:12px'/>", $("#oppResponseDiv").append(i), $("#closeAmbResp").click(function() {
-            CloseOppResponse()
-        }), $("#closeAmbResp2").click(function() {
-            CloseOppResponse()
-        }), r = 0; r < f.length; r++) u = f.substr(r, 1), IsNeutralCard(u) ? (o = u, s = "Neutral") : (o = Decode(f, r), s = e === 0 ? "British" : "French"), $("#oppCardHelp" + r).mouseover(function(n, t) {
-        return function() {
+    for (i += "<\/table><\/div>", i += " <img id='oppCardView' style='position:absolute;left:245px;top:90px;width:170px;height:263px;", i += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", i += "<input id='closeAmbResp' type='button' name='closeAR' value='" + StrClose + "'", i += " style='position:absolute;left:263px;top:370px;width:140px;padding:2px;font-size:14px'/>", i += "<input id='closeAmbResp2' type='button' name='closeAR2' value='X'", i += " style='position:absolute;left:5px;top:5px;width:30px;font-size:12px'/>", $("#oppResponseDiv").append(i), $("#closeAmbResp").click(function () {
+        CloseOppResponse()
+    }), $("#closeAmbResp2").click(function () {
+        CloseOppResponse()
+    }), r = 0; r < f.length; r++) u = f.substr(r, 1), IsNeutralCard(u) ? (o = u, s = "Neutral") : (o = Decode(f, r), s = e === 0 ? "British" : "French"), $("#oppCardHelp" + r).mouseover(function (n, t) {
+        return function () {
             ShowOppCard(n, t)
         }
-    }(o, s)).mouseout(function() {
+    }(o, s)).mouseout(function () {
         HideOppCard()
     });
     $("#oppResponseDiv").animate({
         top: "+=440"
-    }, 300, function() {})
+    }, 300, function () {
+    })
 }
 
 function ShowOppCard(n, t) {
@@ -2415,7 +2446,8 @@ function HideOppCard() {
 function CloseOppResponse() {
     $("#oppResponseDiv").animate({
         top: "-=440"
-    }, 300, function() {});
+    }, 300, function () {
+    });
     oppResponseShown = !1;
     FinishAction()
 }
@@ -2431,7 +2463,7 @@ function ShowPriestInfo(n) {
     $("#oppCollDiscs").css("display", "none");
     $("#ambushPriestInfo").attr("src", GameImagePath + "priest" + t + ".jpg");
     $("#ambushPriestInfo").css("visibility", "visible").css("cursor", "pointer");
-    $("#ambushPriestInfo").click(function() {
+    $("#ambushPriestInfo").click(function () {
         ExecutePriest(n)
     })
 }
@@ -2516,12 +2548,13 @@ function ShowPriestTarget(n, t, i, r) {
         u += "<input id='closePriestResp' type='button' name='closeAR' value='" + StrClose + "'";
         u += " style='position:absolute;left:164px;top:370px;width:140px;padding:2px;font-size:14px'/>";
         $("#oppResponseDiv").append(u);
-        $("#closePriestResp").click(function() {
+        $("#closePriestResp").click(function () {
             CloseOppResponse()
         });
         $("#oppResponseDiv").animate({
             top: "+=440"
-        }, 300, function() {})
+        }, 300, function () {
+        })
     }
 }
 
@@ -2590,22 +2623,22 @@ function ShowDraftInfo(n) {
         u, i;
     for (t += "<h2 align='center'>" + StrAvEmpCards + "<\/h2>", t += "<p style='text-align:center'>" + StrDraftInfo + "<\/p>", t += "<div style='position:absolute;top:90px;left:10px;width:225px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", t += "<table border='1' cellpadding='3' style='width:100%'>", i = 0; i < r.length; i++) t += "<tr style='background-color:" + o + "'>", t += "<td id='draftCard" + i + "'>", u = r.substr(i, 1), t += empTitles[e[GetEmpireIndex(f, u)][2]], t += "<\/td>", t += "<td title='costs for drafting this card' style='cursor:default;text-align:center'>" + e[GetEmpireIndex(f, u)][3], t += "<\/td>", t += "<td style='cursor:default' style='text-align:center' onmouseover='ShowDraftCard(false," + Decode(r, i) + "," + f + ")' onmouseout='HideDraftCard()'>", t += " <img id='draftCardHelp" + i + "' src='" + BaseImagePath + "c/help.png'/>", t += "<\/td/>", t += "<\/tr>";
     for (r = gameBoard.neutralCards, i = 0; i < r.length; i++) t += "<tr style='background-color:#9DCC4D'>", t += "<td id='draftNCard" + i + "'>", u = r.substr(i, 1), t += empTitles[empDataN[GetNeutralIndex(u)][2]], t += "<\/td>", t += "<td title='costs for drafting this card' style='cursor:default;text-align:center'>" + empDataN[GetNeutralIndex(u)][3], t += "<\/td>", t += "<td id='nDraftHelp" + i + "' style='text-align:center'>", t += " <img id='draftNCardHelp" + i + "' src='" + BaseImagePath + "c/help.png'/>", t += "<\/td/>", t += "<\/tr>";
-    for (t += "<\/table>", t += "<\/div>", t += " <img id='draftCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", t += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", t += "<input id='closeDraftInfo' type='button' name='closeDRI' value='" + StrClose + "'", t += " style='position:absolute;left:268px;top:370px;width:140px;padding:2px;font-size:14px'/>", $("#draftDiv").append(t), $("#closeDraftInfo").click(function() {
-            CloseDraftInfo()
-        }), r = players[UserIndex].empPile, i = 0; i < r.length; i++) u = r.substr(i, 1), $("#draftCard" + i).css("cursor", "pointer").click(function(n, t, i) {
-        return function() {
+    for (t += "<\/table>", t += "<\/div>", t += " <img id='draftCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", t += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", t += "<input id='closeDraftInfo' type='button' name='closeDRI' value='" + StrClose + "'", t += " style='position:absolute;left:268px;top:370px;width:140px;padding:2px;font-size:14px'/>", $("#draftDiv").append(t), $("#closeDraftInfo").click(function () {
+        CloseDraftInfo()
+    }), r = players[UserIndex].empPile, i = 0; i < r.length; i++) u = r.substr(i, 1), $("#draftCard" + i).css("cursor", "pointer").click(function (n, t, i) {
+        return function () {
             DraftEmpireCard(n, t, i)
         }
     }(n, u, !1));
-    for (r = gameBoard.neutralCards, i = 0; i < r.length; i++) u = r.substr(i, 1), $("#draftNCard" + i).css("cursor", "pointer").click(function(n, t, i) {
-        return function() {
+    for (r = gameBoard.neutralCards, i = 0; i < r.length; i++) u = r.substr(i, 1), $("#draftNCard" + i).css("cursor", "pointer").click(function (n, t, i) {
+        return function () {
             DraftEmpireCard(n, t, i)
         }
-    }(n, u, !0)), $("#nDraftHelp" + i).mouseover(function(n, t, i) {
-        return function() {
+    }(n, u, !0)), $("#nDraftHelp" + i).mouseover(function (n, t, i) {
+        return function () {
             ShowDraftCard(n, t, i)
         }
-    }(!0, u, f)).mouseout(function() {
+    }(!0, u, f)).mouseout(function () {
         HideDraftCard()
     })
 }
@@ -2618,9 +2651,9 @@ function ShowFrenchStartDraft() {
         e = r === 0 ? empDataEN : empDataFR,
         h = r === 0 ? "#EF9D77" : "#9DD7F2",
         u, i, o, t, s = IsRandomRule(22);
-    for (n += "<h2 align='center'>" + StrAvEmpCards + "<\/h2>", n += "<p style='text-align:center'>" + StrAddStartCard + "<\/p>", n += "<div style='position:absolute;top:90px;left:10px;width:220px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", n += "<table border='1' cellpadding='4' style='width:100%'>", t = 0; t < f.length; t++)(u = f.substr(t, 1), o = GetEmpireIndex(r, u), i = e[o][0], i !== 27 && i !== 28) && (i === 26 && s || (n += "<tr style='background-color:" + h + "'>", n += "<td id='draftCard" + t + "'>", n += empTitles[e[GetEmpireIndex(r, u)][2]], n += "<\/td>", n += "<td title='costs for drafting this card' style='cursor:default;text-align:center'>" + e[GetEmpireIndex(r, u)][3], n += "<\/td>", n += "<td style='cursor:default' style='text-align:center' onmouseover='ShowDraftCard(false," + Decode(f, t) + "," + r + ")' onmouseout='HideDraftCard()'>", n += " <img id='draftCardHelp" + t + "' src='" + BaseImagePath + "c/help.png'/>", n += "<\/td/>", n += "<\/tr>"));
-    for (n += "<\/table>", n += "<\/div>", n += " <img id='draftCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", n += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", $("#draftDiv").append(n), t = 0; t < f.length; t++)(u = f.substr(t, 1), o = GetEmpireIndex(r, u), i = e[o][0], i !== 27 && i !== 28) && (i === 26 && s || $("#draftCard" + t).css("cursor", "pointer").click(function(n) {
-        return function() {
+    for (n += "<h2 align='center'>" + StrAvEmpCards + "<\/h2>", n += "<p style='text-align:center'>" + StrAddStartCard + "<\/p>", n += "<div style='position:absolute;top:90px;left:10px;width:220px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", n += "<table border='1' cellpadding='4' style='width:100%'>", t = 0; t < f.length; t++) (u = f.substr(t, 1), o = GetEmpireIndex(r, u), i = e[o][0], i !== 27 && i !== 28) && (i === 26 && s || (n += "<tr style='background-color:" + h + "'>", n += "<td id='draftCard" + t + "'>", n += empTitles[e[GetEmpireIndex(r, u)][2]], n += "<\/td>", n += "<td title='costs for drafting this card' style='cursor:default;text-align:center'>" + e[GetEmpireIndex(r, u)][3], n += "<\/td>", n += "<td style='cursor:default' style='text-align:center' onmouseover='ShowDraftCard(false," + Decode(f, t) + "," + r + ")' onmouseout='HideDraftCard()'>", n += " <img id='draftCardHelp" + t + "' src='" + BaseImagePath + "c/help.png'/>", n += "<\/td/>", n += "<\/tr>"));
+    for (n += "<\/table>", n += "<\/div>", n += " <img id='draftCardView' style='position:absolute;left:250px;top:90px;width:170px;height:263px;", n += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", $("#draftDiv").append(n), t = 0; t < f.length; t++) (u = f.substr(t, 1), o = GetEmpireIndex(r, u), i = e[o][0], i !== 27 && i !== 28) && (i === 26 && s || $("#draftCard" + t).css("cursor", "pointer").click(function (n) {
+        return function () {
             BuildStartCards(n)
         }
     }(i)))
@@ -2634,13 +2667,14 @@ function ShowDraftCard(n, t, i) {
     }
 }
 
-function HideDraftCard() {}
+function HideDraftCard() {
+}
 
 function CloseDraftInfo() {
     draftVisible = !1;
     $("#draftDiv").animate({
         top: "+=480"
-    }, 300, function() {
+    }, 300, function () {
         $("#draftDiv").html("");
         FinishAction()
     })
@@ -2651,7 +2685,7 @@ function BuildStartCards(n) {
         draftVisible = !1;
         $("#draftDiv").animate({
             top: "+=480"
-        }, 300, function() {
+        }, 300, function () {
             $("#draftDiv").html("")
         });
         for (var u = IsRandomRule(22) ? [0, 1, 2, 3, 4, 5, 6, 26, 27, 28, n] : [0, 1, 2, 3, 4, 5, 6, 27, 28, n], i = "", r = [], t = 0; t < u.length; t++) r.push(u[t]);
@@ -2732,9 +2766,11 @@ function ExecuteGovernorAction(n) {
 function ExecuteIntendantAction(n) {
     isGameValid && (draftVisible = draftVisible ? !1 : !0, ShowIntendantInfo(n), draftVisible ? ($("#draftDiv").animate({
         top: "-=480"
-    }, 300, function() {}), DisableActions(), ShowUI()) : $("#draftDiv").animate({
+    }, 300, function () {
+    }), DisableActions(), ShowUI()) : $("#draftDiv").animate({
         top: "+=480"
-    }, 300, function() {}))
+    }, 300, function () {
+    }))
 }
 
 function ShowIntendantInfo(n) {
@@ -2748,16 +2784,16 @@ function ShowIntendantInfo(n) {
         h = f === 0 ? empDataEN : empDataFR,
         r, i;
     for (t += "<h2 align='center'>Take one card from your discard pile<\/h2>", t += "<p style='text-align:center'>Click one card title to place that card in your hand.<\/p>", t += "<div style='position:absolute;top:90px;left:10px;width:200px;height:300px;border:1px solid black;overflow:auto;background-color:silver'>", t += "<table border='1' cellpadding='5' style='background-color:#D9C58A'>", i = 0; i < u.length; i++) t += "<tr>", t += "<td id='takeCard" + i + "'>", r = u.substr(i, 1), r = u.substr(i, 1), IsLocationCard(f, r) ? (cardIndex = Decode(u, i), t += locationData[s[cardIndex][0][2]][0]) : t += IsNeutralCard(r) ? empTitles[empDataN[GetNeutralIndex(r)][2]] : empTitles[h[GetEmpireIndex(f, r)][2]], t += "<\/td>", t += "<td id='intCardHelp" + i + "'>", t += " <img id='draftCardHelp" + i + "' src='" + BaseImagePath + "c/help.png'/>", t += "<\/td/>", t += "<\/tr>";
-    for (t += "<\/table>", t += "<\/div>", t += " <img id='oppCardView' style='position:absolute;left:230px;top:90px;width:170px;height:263px;", t += "border:1px solid black' src='" + GameImagePath + "space.gif'/>", t += "<input id='closeIntInfo' type='button' name='closeDRI' value='close'", t += " style='position:absolute;left:248px;top:370px;width:140px;padding:2px;font-size:14px'/>", $("#draftDiv").append(t), $("#closeIntInfo").click(function() {
-            CloseDraftInfo()
-        }), e = !1, i = 0; i < u.length; i++) r = u.substr(i, 1), IsNeutralCard(r) ? (e = !0, cardIndex = r, o = "Neutral") : (e = !1, cardIndex = Decode(u, i), o = f === 0 ? "British" : "French"), $("#intCardHelp" + i).css("cursor", "default").mouseover(function(n, t) {
-        return function() {
+    for (t += "<\/table>", t += "<\/div>", t += " <img id='oppCardView' style='position:absolute;left:230px;top:90px;width:170px;height:263px;", t += "border:1px solid black' src='" + GameImagePath + "space.gif'/>", t += "<input id='closeIntInfo' type='button' name='closeDRI' value='close'", t += " style='position:absolute;left:248px;top:370px;width:140px;padding:2px;font-size:14px'/>", $("#draftDiv").append(t), $("#closeIntInfo").click(function () {
+        CloseDraftInfo()
+    }), e = !1, i = 0; i < u.length; i++) r = u.substr(i, 1), IsNeutralCard(r) ? (e = !0, cardIndex = r, o = "Neutral") : (e = !1, cardIndex = Decode(u, i), o = f === 0 ? "British" : "French"), $("#intCardHelp" + i).css("cursor", "default").mouseover(function (n, t) {
+        return function () {
             ShowOppCard(n, t)
         }
-    }(cardIndex, o)).mouseout(function() {
+    }(cardIndex, o)).mouseout(function () {
         HideOppCard()
-    }), $("#takeCard" + i).css("cursor", "pointer").click(function(n, t, i) {
-        return function() {
+    }), $("#takeCard" + i).css("cursor", "pointer").click(function (n, t, i) {
+        return function () {
             TakeIntendantCard(n, t, i)
         }
     }(n, r, e))
@@ -2827,7 +2863,8 @@ function CanPlaySettlerCard(n) {
         if (u = r.substr(t, 1), HasSymbol(i, 4, u)) {
             if (IsLocationCard(i, u) && (e = Decode(r, t), f = o[e][0][2], !IsLocCardValid(i, f))) continue;
             return !0
-        } return !1
+        }
+    return !1
 }
 
 function ExecuteWithdrawAction(n, t, i) {
@@ -2840,9 +2877,11 @@ function ExecuteWithdrawAction(n, t, i) {
         } else {
             try {
                 Lang === 0 ? alert("Diese Aktion muss noch weitergehend getestet werden und ist daher momentan nicht verfuegbar.\n\n/Brer Bear") : alert("This action needs some more testing and is therefore not yet available.\n\n/Brer Bear")
-            } catch (o) {}
+            } catch (o) {
+            }
             return
-        } if (refillVisible && (HideRefillHandButton(), refillVisible = !1), CanLoseSiegeCard(t)) siegesLost[t] = !0, ShowSiegeCardSelection(t, !0);
+        }
+    if (refillVisible && (HideRefillHandButton(), refillVisible = !1), CanLoseSiegeCard(t)) siegesLost[t] = !0, ShowSiegeCardSelection(t, !0);
     else {
         if (AddMovesDoneAction(Encode(n) + t + gameBoard.sieges[t].substr(0, 1) + "-"), FinishWithdraw(n, t, i), wonByHomeSurrender && SetGamePhase(4), i && !r && (HandleAntiCheat(), !isGameValid)) {
             DisableActions();
@@ -2858,7 +2897,8 @@ function ExecuteWithdrawAction(n, t, i) {
             e = Lang === 0 ? "Dein Gegner muss entscheiden, ob er eine Karte mit Siedler-Symbol spielt, um den Ort zu besiedeln.\n\nBeende den Zug." : "Your opponent may decide whether or not to play a card with a settler symbol in order to settle the location.\n\nFinish your turn!";
             try {
                 alert(e)
-            } catch (o) {}
+            } catch (o) {
+            }
             DisableActions();
             ShowUI();
             SetGamePhase(6);
@@ -2894,8 +2934,8 @@ function ShowRefillHandButton() {
     $("#refillDiv").html(n);
     $("#refillDiv").animate({
         top: "-=250"
-    }, 200, function() {
-        $("#btnRefill").click(function() {
+    }, 200, function () {
+        $("#btnRefill").click(function () {
             PerformRefilling()
         })
     })
@@ -2904,7 +2944,7 @@ function ShowRefillHandButton() {
 function HideRefillHandButton() {
     $("#refillDiv").animate({
         top: "+=250"
-    }, 200, function() {
+    }, 200, function () {
         refillVisible || $("#refillDiv").html("")
     })
 }
@@ -2941,8 +2981,8 @@ function EnableRefillDiscard() {
         PerformDiscardPenalty(!1, "");
         return
     }
-    for (i = 0; i < players[UserIndex].hand.length; i++) n = players[UserIndex].hand.substr(i, 1), $("#handCard" + i).unbind(), $("#handCard" + i).click(function(n, t) {
-        return function() {
+    for (i = 0; i < players[UserIndex].hand.length; i++) n = players[UserIndex].hand.substr(i, 1), $("#handCard" + i).unbind(), $("#handCard" + i).click(function (n, t) {
+        return function () {
             PerformDiscardPenalty(n, t)
         }
     }(!0, n)).css("cursor", "pointer");
@@ -2967,8 +3007,8 @@ function PerformDiscardPenalty(n, t) {
 }
 
 function EnablePostSiegeDiscard() {
-    for (var t, i, r, n = 0; n < players[UserIndex].hand.length; n++) t = players[UserIndex].hand.substr(n, 1), $("#handCard" + n).unbind(), $("#handCard" + n).click(function(n) {
-        return function() {
+    for (var t, i, r, n = 0; n < players[UserIndex].hand.length; n++) t = players[UserIndex].hand.substr(n, 1), $("#handCard" + n).unbind(), $("#handCard" + n).click(function (n) {
+        return function () {
             PerformPostSiegeDiscard(n)
         }
     }(t)).css("cursor", "pointer");
@@ -2992,7 +3032,8 @@ function PerformPostSiegeDiscard(n) {
 function ShowMainInfo(n, t, i, r) {
     ($("#cardInfoDiv").html(""), n !== 7 ? $("#cardInfoDiv").html(CreateCardInfo(n, t, i, r)) : $("#cardInfoDiv").html(CreatePointsInfo(t)), cardInfoVisible) || (cardInfoVisible = !0, $("#cardInfoDiv").animate({
         top: "-=480"
-    }, 300, function() {}))
+    }, 300, function () {
+    }))
 }
 
 function CreatePointsInfo(n) {
@@ -3015,7 +3056,8 @@ function CreatePointsInfo(n) {
                     (r === 6 || r === 8) && (e += i * 2, u = i * 2)
             }
             u > 0 && (t += "<tr style='background-color:" + s + "'><td>Bonus <b>" + locationData[f][0] + "<\/b>:<\/td><td>" + u + "<\/td><td>(" + StrLBonus + ": " + i + ")<\/td><\/tr>")
-        } t += "<tr style='background-color:#D9C58A'><td>" + StrBPoints + ":<\/td><td colspan='2'><b>" + e + "<\/b><\/td><\/tr>";
+        }
+    t += "<tr style='background-color:#D9C58A'><td>" + StrBPoints + ":<\/td><td colspan='2'><b>" + e + "<\/b><\/td><\/tr>";
     t += "<tr style='background-color:" + s + "'><td>" + StrCPoints + ":<\/td><td>" + h + "<\/td><td>" + StrCPointsInfo + "<\/td><\/tr>";
     t += "<tr style='background-color:" + s + "'><td>" + StrDPoints + ":<\/td><td>" + c + "<\/td><td>" + StrDPointsInfo + "<\/td><\/tr>";
     t += "<tr style='background-color:#D9C58A'><td>" + StrCDPoints + ":<\/td><td colspan='2'><b>" + l + "<\/b><\/td><\/tr>";
@@ -3026,7 +3068,7 @@ function CreatePointsInfo(n) {
     t += "<input id='closeCInfo' type='button' name='closeCI' value='" + StrClose + "'";
     t += " style='position:absolute;left:168px;top:364px;width:140px;padding:2px;font-size:14px'/>";
     $("#cardInfoDiv").append(t);
-    $("#closeCInfo").click(function() {
+    $("#closeCInfo").click(function () {
         CloseCardInfo()
     })
 }
@@ -3074,23 +3116,40 @@ function CreateCardInfo(n, t, i, r) {
         b = s === 0 ? locDataEN : locDataFR,
         y = s === 0 ? empDataEN : empDataFR,
         o, l, f;
-    if (u += "<h2 align='center'>" + c + "<\/h2>", u += "<div style='position:absolute;top:70px;left:10px;width:240px;height:320px;border:1px solid black;overflow:auto;background-color:silver'>", u += "<table border='1' cellpadding='4' style='width:100%'>", e.length === 0) u += "<tr style='background-color:" + a + "'><td><b>" + c + " " + StrIsEmpty + "<\/b><\/td><\/tr>";
-    else if (!IsHistory && (n === 1 && t || n === 5)) u += "<tr style='background-color:" + a + "'><td><b>" + StrHiddenInfo + "<\/b><br/>" + StrHiddenInfo2 + "<\/td><\/tr>";
+    if (u += "<h2 align='center'>" + c + "<\/h2>",
+        u += "<div style='position:absolute;top:70px;left:10px;width:240px;height:320px;border:1px solid black;" +
+            "overflow:auto;background-color:silver'>", u += "<table border='1' cellpadding='4' style='width:100%'>", e.length === 0) u += "<tr style='background-color:" + a + "'><td><b>" + c + " " + StrIsEmpty + "<\/b><\/td><\/tr>";
+    else if (!IsHistory && (n === 1 && t || n === 5)) u += "<tr style='background-color:" + a + "'><td><b>"
+        + StrHiddenInfo + "<\/b><br/>" + StrHiddenInfo2 + "<\/td><\/tr>";
     else if (n === 1 && IsHistory || n === 2) {
-        for (w = 1, u += "<tr style='background-color:#D9C58A'>", u += "<td colspan='3' style='text-align:center'><b>" + StrTop + "<\/b>", u += "<\/td>", u += "<\/tr>", f = e.length - 1; f >= 0; f--) o = e.substr(f, 1), a = IsNeutralCard(o) ? "#9DCC4D" : s === 0 ? "#EF9D77" : "#9DD7F2", u += "<tr style='background-color:" + a + "'>", u += "<td style='background-color:silver;text-align:right'><b>" + w + ".<\/b><\/td>", u += "<td id='ciCard" + f + "'>", IsLocationCard(s, o) ? (l = Decode(e, f), u += locationData[b[l][0][2]][0]) : u += IsNeutralCard(o) ? empTitles[empDataN[GetNeutralIndex(o)][2]] : empTitles[y[GetEmpireIndex(s, o)][2]], u += "<\/td>", n === 4 && (u += "<td title='costs for drafting this card' style='cursor:default'>" + y[GetEmpireIndex(s, o)][3], u += "<\/td>"), u += "<\/tr>", w++;
+        for (w = 1, u += "<tr style='background-color:#D9C58A'>", u += "<td colspan='3' style='text-align:center'><b>"
+            + StrTop + "<\/b>", u += "<\/td>", u += "<\/tr>", f = e.length - 1; f >= 0; f--) o = e.substr(f, 1),
+            a = IsNeutralCard(o) ? "#9DCC4D" : s === 0 ? "#EF9D77" : "#9DD7F2", u += "<tr style='background-color:" + a + "'>", u += "<td style='background-color:silver;text-align:right'><b>" + w + ".<\/b><\/td>", u += "<td id='ciCard" + f + "'>", IsLocationCard(s, o) ? (l = Decode(e, f), u += locationData[b[l][0][2]][0]) : u += IsNeutralCard(o) ? empTitles[empDataN[GetNeutralIndex(o)][2]] : empTitles[y[GetEmpireIndex(s, o)][2]], u += "<\/td>", n === 4 && (u += "<td title='costs for drafting this card' style='cursor:default'>" + y[GetEmpireIndex(s, o)][3], u += "<\/td>"), u += "<\/tr>", w++;
         u += "<tr style='background-color:#D9C58A'>";
         u += "<td colspan='3' style='text-align:center'><b>" + StrBottom + "<\/b>";
         u += "<\/td>";
         u += "<\/tr>"
     } else
-        for (n === 1 && (e = GetSortedDeck(h), u += "<tr style='background-color:#D9C58A'>", u += "<td colspan='3' style='text-align:center'>" + StrSorted, u += "<\/td>", u += "<\/tr>"), f = 0; f < e.length; f++) o = e.substr(f, 1), a = IsNeutralCard(o) ? "#9DCC4D" : s === 0 ? "#EF9D77" : "#9DD7F2", u += "<tr style='background-color:" + a + "'>", u += "<td style='background-color:silver;text-align:right'><b>" + (f + 1) + ".<\/b><\/td>", u += "<td id='ciCard" + f + "'>", IsLocationCard(s, o) ? (l = Decode(e, f), u += locationData[b[l][0][2]][0]) : u += IsNeutralCard(o) ? empTitles[empDataN[GetNeutralIndex(o)][2]] : empTitles[y[GetEmpireIndex(s, o)][2]], u += "<\/td>", n === 4 && (u += "<td title='costs for drafting this card' style='cursor:default'>" + y[GetEmpireIndex(s, o)][3], u += "<\/td>"), u += "<\/tr>";
-    for (u += "<\/table>", u += "<\/div>", u += " <img id='cInfoCardView' style='position:absolute;left:270px;top:70px;width:170px;height:263px;", u += "border:1px solid black' src='" + GameImagePath + "cards/back.jpg'/>", u += "<input id='closeCInfo' type='button' name='closeCI' value='" + StrClose + "'", u += " style='position:absolute;left:288px;top:364px;width:140px;padding:2px;font-size:14px'/>", $("#cardInfoDiv").append(u), $("#closeCInfo").click(function() {
-            CloseCardInfo()
-        }), p = "", f = 0; f < e.length; f++) o = e.substr(f, 1), IsNeutralCard(o) ? (l = o, p = "Neutral") : (l = Decode(e, f), p = s === 0 ? "British" : "French"), $("#ciCard" + f).mouseover(function(n, t) {
-        return function() {
-            ShowCardInfoCard(n, t)
-        }
-    }(l, p))
+        for (
+            n === 1 && (e = GetSortedDeck(h), u += "<tr style='background-color:#D9C58A'>",
+                u += "<td colspan='3' style='text-align:center'>" + StrSorted, u += "<\/td>", u += "<\/tr>"), f = 0; f < e.length; f++
+        ) o = e.substr(f, 1), a = IsNeutralCard(o) ? "#9DCC4D" : s === 0 ? "#EF9D77" : "#9DD7F2",
+            u += "<tr style='background-color:" + a + "'>", u += "<td style='background-color:silver;text-align:right'><b>" + (f + 1) + ".<\/b><\/td>", u += "<td id='ciCard" + f + "'>", IsLocationCard(s, o) ? (l = Decode(e, f), u += locationData[b[l][0][2]][0]) : u += IsNeutralCard(o) ? empTitles[empDataN[GetNeutralIndex(o)][2]] : empTitles[y[GetEmpireIndex(s, o)][2]], u += "<\/td>", n === 4 && (u += "<td title='costs for drafting this card' style='cursor:default'>" + y[GetEmpireIndex(s, o)][3], u += "<\/td>"), u += "<\/tr>";
+    for (u += "<\/table>", u += "<\/div>", u += " <img id='cInfoCardView' " +
+        "style='position:absolute;left:270px;top:70px;width:170px;height:263px;", u += "border:1px solid black' src='" +
+        GameImagePath + "cards/back.jpg'/>", u += "<input id='closeCInfo' type='button' " +
+        "name='closeCI' value='" + StrClose + "'",
+             u += " style='position:absolute;left:288px;top:364px;width:140px;padding:2px;font-size:14px'/>",
+             $("#cardInfoDiv").append(u), $("#closeCInfo").click(function () {
+        CloseCardInfo()
+    }), p = "", f = 0; f < e.length; f++
+    )
+        o = e.substr(f, 1), IsNeutralCard(o) ? (l = o, p = "Neutral") :
+            (l = Decode(e, f), p = s === 0 ? "British" : "French"), $("#ciCard" + f).mouseover(function (n, t) {
+            return function () {
+                ShowCardInfoCard(n, t)
+            }
+        }(l, p))
 }
 
 function ShowCardInfoCard(n, t) {
@@ -3107,7 +3166,7 @@ function CloseCardInfo() {
     cardInfoVisible = !1;
     $("#cardInfoDiv").animate({
         top: "+=480"
-    }, 300, function() {
+    }, 300, function () {
         $("#cardInfoDiv").html("")
     })
 }
@@ -3414,18 +3473,22 @@ function CancelMove() {
 function ResetFlyInPos() {
     optionsVisible && (handUp || ToggleHand(), $("#aOptDiv").animate({
         top: "+=480"
-    }, 300, function() {}), $("#rOptDiv").animate({
+    }, 300, function () {
+    }), $("#rOptDiv").animate({
         top: "+=480"
-    }, 300, function() {}));
+    }, 300, function () {
+    }));
     draftVisible && $("#draftDiv").animate({
         top: "+=480"
-    }, 300, function() {});
+    }, 300, function () {
+    });
     cardInfoVisible && $("#cardInfoDiv").animate({
         top: "+=480"
-    }, 300, function() {});
+    }, 300, function () {
+    });
     refillVisible && $("#refillDiv").animate({
         top: "+=250"
-    }, 200, function() {
+    }, 200, function () {
         $("#refillDiv").html("")
     });
     siegeLostVisible && $("#siegeLostDiv").animate({
@@ -3439,7 +3502,8 @@ function InitBoard() {
         lastMoveShown = !0;
         try {
             ShowLastMoveInfo()
-        } catch (e) {}
+        } catch (e) {
+        }
     }
 }
 
@@ -3458,10 +3522,10 @@ function ShowCampaignSelection() {
     n += " style='position:absolute;left:340px;top:310px;padding:1px;font-size:13px;width:120px;z-index:20'/>";
     CreateDiv("sideSelDiv", "absolute", 900, "hidden", 60, 20, 680, 350, "#D9C58A", "", n, "boardContainer", "left");
     $("#sideSelDiv").css("border", "1px solid black").css("padding", "3px 3px 3px");
-    $("#selectBrits").click(function() {
+    $("#selectBrits").click(function () {
         ChooseSide(0)
     });
-    $("#selectFrench").click(function() {
+    $("#selectFrench").click(function () {
         ChooseSide(1)
     })
 }
@@ -3549,7 +3613,8 @@ function SubmitForm() {
     if (!isGameValid) {
         try {
             alert(StrOutdatedStatusString)
-        } catch (f) {}
+        } catch (f) {
+        }
         return
     }
     IsHistory || (n = document.getElementsByName("MoveInfo")[0], n.setAttribute("value", MovesDone), t = document.getElementsByName("NewStatus")[0], t.setAttribute("value", gamestatus), i = document.getElementsByName("lastSaveStatus")[0], i.setAttribute("value", lastSaveStatus), r = document.getElementById("frmGame"), u = document.getElementById("divPostback"), u.style.display = "", r.submit())
@@ -3586,7 +3651,8 @@ function HandleResize() {
         f = 298;
         try {
             f = cardSizeBackup === 0 ? 298 : 235
-        } catch (o) {}
+        } catch (o) {
+        }
         n.style.height = f + "px";
         SaveSize(i, r);
         FormatFooter()
@@ -3647,19 +3713,23 @@ function GetLastMove(n) {
         if (PlayerInfo[n].ID == LastMovesPID[t]) {
             i = t;
             break
-        } return i == -1 ? null : LastMovesStatus[i]
+        }
+    return i == -1 ? null : LastMovesStatus[i]
 }
+
 0
+
 function ShowLastMoveInfo() {
     if (!lmVisible) {
         lmVisible = !0;
         var t = (UserIndex + 1) % 2,
             n = IsHistory ? HistoryMove[moveNr - 1] : GetLastMove(t);
-        n != null && n.length !== 0 && ($("#lastMoveDiv").html(CreateLastMoveInfo(t, n)), $("#closeLMInfo").click(function() {
+        n != null && n.length !== 0 && ($("#lastMoveDiv").html(CreateLastMoveInfo(t, n)), $("#closeLMInfo").click(function () {
             CloseLMInfo()
         }), $("#lastMoveDiv").animate({
             top: "+=422"
-        }, 300, function() {}))
+        }, 300, function () {
+        }))
     }
 }
 
@@ -3761,30 +3831,30 @@ function CreateLastMoveInfo(n, t) {
                     i += "<\/i>";
                     IsNeutralCard(e) && (i += " <b>(N)<\/b>");
                     r.length === 3 && r.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte: Handkarten wurden offengelegt!" : "No vulnerable card: your <b>hand<\/b> has been revealed!",
-                    i += "<br/>" + f);
+                        i += "<br/>" + f);
                     r.length === 4 && r.substr(2, 1) === "B" && (f = Lang === 0 ? "&Uuml;berfall wurde geblockt durch:" : "Ambush has been blocked by this card:",
-                    i += "<br/>" + f + "<br/>",
-                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
+                        i += "<br/>" + f + "<br/>",
+                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
                     IsNeutralCard(e) && (i += " <b>(N)<\/b>"),
                     a === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
-                    i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
+                        i += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
                     r.length === 5 && r.substr(2, 1) === "T" && (k = Decode(r, 4),
                         c = k === 0 ? "Reserve" : "Hand",
-                        IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
+                    IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
                         f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
                         i += "<br/>" + f + "<br/>",
                         i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>");
                     break;
                 case 7:
                     for (f = Lang === 0 ? "Gegner spielte <span style='color:red'><b>Heerf&uuml;hrer<\/b><\/span>" : "Opponent played <span style='color:red'><b>Military Leader<\/b><\/span>",
-                    i += f + ": <i>" + locationData[Decode(r, 1)][0] + "<\/i><br/>",
-                    o = r.substr(2, r.length - 2),
-                    u = 0; u < o.length; u++)
+                             i += f + ": <i>" + locationData[Decode(r, 1)][0] + "<\/i><br/>",
+                             o = r.substr(2, r.length - 2),
+                             u = 0; u < o.length; u++)
                         i += " <i>",
-                        e = r.substr(2 + u, 1),
-                        i += CalcLocTitle(s, e),
+                            e = r.substr(2 + u, 1),
+                            i += CalcLocTitle(s, e),
                         u < o.length - 1 && (i += ","),
-                        i += "<\/i>";
+                            i += "<\/i>";
                     break;
                 case 8:
                     v = "";
@@ -3792,73 +3862,73 @@ function CreateLastMoveInfo(n, t) {
                     f = Lang === 0 ? "Gegner spielte <span style='color:black'><b>" + v + "<\/b>.<\/span>" : "Opponent played <span style='color:black'><b>" + v + "<\/b>.<\/span>";
                     i += f;
                     r.length === 5 && r.substr(2, 1) === "T" && (nt = Decode(r, 4),
-                    c = nt === 0 ? "Reserve" : "Hand",
-                    f = Lang === 0 ? " war erfolgreich! Karte (aus " + c + ") wurde vom Gegner genommen:<br/>" : " was successful! This card (from " + c + ") has been taken by opponent:<br/>",
-                    i += "<br/>" + v + f,
-                    i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
+                        c = nt === 0 ? "Reserve" : "Hand",
+                        f = Lang === 0 ? " war erfolgreich! Karte (aus " + c + ") wurde vom Gegner genommen:<br/>" : " was successful! This card (from " + c + ") has been taken by opponent:<br/>",
+                        i += "<br/>" + v + f,
+                        i += "<i>" + CalcLocTitle((s + 1) % 2, r.substr(3, 1)) + "<\/i>",
                     IsNeutralCard(r.substr(3, 1)) && (i += " <b>(N)<\/b>"));
                     r.length === 3 && r.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte vorhanden: Gegner sah <b>Handkarten<\/b> ein." : "No vulnerable card: your <b>hand<\/b> has been revealed!",
-                    i += "<br/>" + f);
+                        i += "<br/>" + f);
                     break;
                 case 9:
                     for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Einkommen<\/b>:" : "Opponent performed <b>money<\/b> action:",
-                    i += f + "<br/>",
-                    o = r.substr(1, r.length - 1),
-                    h = 0,
-                    u = 0; u < o.length; u++)
+                             i += f + "<br/>",
+                             o = r.substr(1, r.length - 1),
+                             h = 0,
+                             u = 0; u < o.length; u++)
                         i += " <i>",
-                        e = r.substr(1 + u, 1),
+                            e = r.substr(1 + u, 1),
                         HasSymbol(s, 7, e) && h++,
                         HasSymbol(s, 8, e) && (h += 2),
                         HasSymbol(s, 9, e) && (h += 3),
-                        i += CalcLocTitle(s, e),
-                        i += "<\/i>";
+                            i += CalcLocTitle(s, e),
+                            i += "<\/i>";
                     i += " <b>(+" + h + ")<\/b><\/i>";
                     break;
                 case 10:
                     for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Kaufmann<\/b>:" : "Opponent performed <b>merchant<\/b> action:",
-                    i += f + "<br/>",
-                    o = r.substr(1, r.length - 1),
-                    h = 0,
-                    u = 0; u < o.length; u++)
+                             i += f + "<br/>",
+                             o = r.substr(1, r.length - 1),
+                             h = 0,
+                             u = 0; u < o.length; u++)
                         i += " <i>",
-                        e = r.substr(1 + u, 1),
+                            e = r.substr(1 + u, 1),
                         u > 0 && (HasSymbol(s, 7, e) && h++,
                         HasSymbol(s, 8, e) && (h += 2),
                         HasSymbol(s, 9, e) && (h += 3)),
-                        i += CalcLocTitle(s, e),
+                            i += CalcLocTitle(s, e),
                         u < o.length - 1 && (i += ","),
-                        i += "<\/i>";
+                            i += "<\/i>";
                     i += " <b>(+" + h + ")<\/b>";
                     break;
                 case 11:
                     for (f = Lang === 0 ? "Gegner nutzte Aktion <b>H&auml;ndler<\/b>:" : "Opponent performed <b>trader<\/b> action:",
-                    i += f + "<br/>",
-                    o = r.substr(1, r.length - 1),
-                    h = 0,
-                    u = 0; u < o.length; u++)   // o is remainder of string; u is index
+                             i += f + "<br/>",
+                             o = r.substr(1, r.length - 1),
+                             h = 0,
+                             u = 0; u < o.length; u++)   // o is remainder of string; u is index
                         i += " <i>",
-                        e = r.substr(1 + u, 1), // e is the uth char of the remainder
+                            e = r.substr(1 + u, 1), // e is the uth char of the remainder
                         u > 0 && (HasSymbol(s, 7, e) && h++,
                         HasSymbol(s, 8, e) && (h += 2),
                         HasSymbol(s, 9, e) && (h += 3)),
-                        i += CalcLocTitle(s, e),
+                            i += CalcLocTitle(s, e),
                         u < o.length - 1 && (i += ","),
-                        i += "<\/i>";
+                            i += "<\/i>";
                     i += " <b>(+" + (o.length - 1) * 2 + ")<\/b>";
                     break;
-            case 12:
-                for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Piraterie<\/b>:" : "Opponent performed <b>piracy<\/b> action:",
-                i += f + ":<br/>",
-                o = r.substr(1, r.length - 1),
-                u = 0; u < o.length; u++)
-                    i += " <i>",
-                    e = r.substr(1 + u, 1),
-                    i += CalcLocTitle(s, e),
-                    u < o.length - 1 && (i += ","),
-                    i += "<\/i>";
-                i += " <b>(+2)<\/b>";
-                break;
+                case 12:
+                    for (f = Lang === 0 ? "Gegner nutzte Aktion <b>Piraterie<\/b>:" : "Opponent performed <b>piracy<\/b> action:",
+                             i += f + ":<br/>",
+                             o = r.substr(1, r.length - 1),
+                             u = 0; u < o.length; u++)
+                        i += " <i>",
+                            e = r.substr(1 + u, 1),
+                            i += CalcLocTitle(s, e),
+                        u < o.length - 1 && (i += ","),
+                            i += "<\/i>";
+                    i += " <b>(+2)<\/b>";
+                    break;
                 case 13:
                     f = Lang === 0 ? "Gegner <b>nahm eine Imp.karte<\/b>" : "Opponent <b>drafted an empire card<\/b>";
                     i += f + ":<br/>";
@@ -3912,13 +3982,14 @@ function CreateLastMoveInfo(n, t) {
                     i += " <b>(+" + h + ")<\/b>"
             }
             i += "<br/><br/><\/li>"
-        } return i += "<\/ul><\/div>", i += "<input id='closeLMInfo' type='button' name='closeLM' value='" + StrClose + "'", i + " style='position:absolute;left:142px;top:192px;width:140px;padding:2px;font-size:14px'/>"
+        }
+    return i += "<\/ul><\/div>", i += "<input id='closeLMInfo' type='button' name='closeLM' value='" + StrClose + "'", i + " style='position:absolute;left:142px;top:192px;width:140px;padding:2px;font-size:14px'/>"
 }
 
 function CloseLMInfo() {
     $("#lastMoveDiv").animate({
         top: "-=422"
-    }, 300, function() {
+    }, 300, function () {
         $("#lastMoveDiv").html("");
         lmVisible = !1
     })
@@ -3936,13 +4007,15 @@ function GetStartPlayerIndex() {
         if (GameInfo.StartPlayer == PlayerInfo[n].ID) {
             t = n;
             break
-        } return t
+        }
+    return t
 }
 
 function GetHistMoveCampaign() {
     var n = GetStartPlayerIndex();
     return moveNr % 2 != 0 ? players[n].campaign : players[(n + 1) % 2].campaign
 }
+
 var gamestatus = "",
     lastSaveStatus = OrigStatus,
     isGameValid = !0,
@@ -4910,7 +4983,7 @@ var gamestatus = "",
             ["C", "D", "E", "F", "G"]
         ]
     ],
-    blockStringsA_FR = ["1.&nbsp;" + StrNatives2 + ", 2.&nbsp;" + StrMilitia + ", 3.&nbsp;Courers", "1.&nbsp;" + StrNatives2 + ", 2.&nbsp;Coureurs, 3.&nbsp;" + StrMilitia, "1.&nbsp;Coureurs, 2.&nbsp;" + StrNatives2 + ", 3.&nbsp;" + StrMilitia, "1.&nbsp;Coureurs, 2.&nbsp;" + StrMilitia + ", 3.&nbsp;" + StrNatives2, "1.&nbsp;" + StrMilitia + ", 2.&nbsp;" + StrNatives2 + ", 3.&nbsp;Courers", "1.&nbsp;" + StrMilitia + ", 2.&nbsp;Coureurs, 3.&nbsp;" + StrNatives2, ],
+    blockStringsA_FR = ["1.&nbsp;" + StrNatives2 + ", 2.&nbsp;" + StrMilitia + ", 3.&nbsp;Courers", "1.&nbsp;" + StrNatives2 + ", 2.&nbsp;Coureurs, 3.&nbsp;" + StrMilitia, "1.&nbsp;Coureurs, 2.&nbsp;" + StrNatives2 + ", 3.&nbsp;" + StrMilitia, "1.&nbsp;Coureurs, 2.&nbsp;" + StrMilitia + ", 3.&nbsp;" + StrNatives2, "1.&nbsp;" + StrMilitia + ", 2.&nbsp;" + StrNatives2 + ", 3.&nbsp;Courers", "1.&nbsp;" + StrMilitia + ", 2.&nbsp;Coureurs, 3.&nbsp;" + StrNatives2,],
     blockCardsA_FR = [
         [
             ["C", "D", "E", "F", "G", 38],
