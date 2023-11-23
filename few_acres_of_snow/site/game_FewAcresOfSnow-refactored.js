@@ -3859,28 +3859,7 @@ function CreateLastMoveInfo(n, t) {
                     break;
                 case 6:
                 case 35:
-                    f = Lang === 0 ? "Gegner f&uuml;hrte <span style='color:red'><b>Hinterhalt<\/b><\/span> aus!" : "Opponent performed an <span style='color:red'><b>Ambush!<\/b><\/span>";
-                    htmlToDisplay += f + "<br/>";
-                    actionPredicate = fullActionJumble.substr(1, 1);
-                    htmlToDisplay += " <i>";
-                    locationChar = fullActionJumble.substr(1, 1);
-                    htmlToDisplay += CalcLocTitle(s, locationChar);
-                    htmlToDisplay += "<\/i>";
-                    IsNeutralCard(locationChar) && (htmlToDisplay += " <b>(N)<\/b>");
-                    fullActionJumble.length === 3 && fullActionJumble.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte: Handkarten wurden offengelegt!" : "No vulnerable card: your <b>hand<\/b> has been revealed!",
-                        htmlToDisplay += "<br/>" + f);
-                    fullActionJumble.length === 4 && fullActionJumble.substr(2, 1) === "B" && (f = Lang === 0 ? "&Uuml;berfall wurde geblockt durch:" : "Ambush has been blocked by this card:",
-                        htmlToDisplay += "<br/>" + f + "<br/>",
-                        htmlToDisplay += "<i>" + CalcLocTitle((s + 1) % 2, fullActionJumble.substr(3, 1)) + "<\/i>",
-                    IsNeutralCard(locationChar) && (htmlToDisplay += " <b>(N)<\/b>"),
-                    actionInt === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
-                        htmlToDisplay += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
-                    fullActionJumble.length === 5 && fullActionJumble.substr(2, 1) === "T" && (k = Decode(fullActionJumble, 4),
-                        c = k === 0 ? "Reserve" : "Hand",
-                    IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
-                        f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
-                        htmlToDisplay += "<br/>" + f + "<br/>",
-                        htmlToDisplay += "<i>" + CalcLocTitle((s + 1) % 2, fullActionJumble.substr(3, 1)) + "<\/i>");
+                    ({ f, htmlToDisplay, actionPredicate, locationChar, k, c } = handleAmbushAction(f, htmlToDisplay, actionPredicate, fullActionJumble, locationChar, s, actionInt, k, c));
                     break;
                 case 7:
                     for (f = Lang === 0 ? "Gegner spielte <span style='color:red'><b>Heerf&uuml;hrer<\/b><\/span>" : "Opponent played <span style='color:red'><b>Military Leader<\/b><\/span>",
@@ -4021,6 +4000,32 @@ function CreateLastMoveInfo(n, t) {
             htmlToDisplay += "<br/><br/><\/li>"
         }
     return htmlToDisplay += "<\/ul><\/div>", htmlToDisplay += "<input id='closeLMInfo' type='button' name='closeLM' value='" + StrClose + "'", htmlToDisplay + " style='position:absolute;left:142px;top:192px;width:140px;padding:2px;font-size:14px'/>"
+}
+
+function handleAmbushAction(f, htmlToDisplay, actionPredicate, fullActionJumble, locationChar, s, actionInt, k, c) {
+    f = Lang === 0 ? "Gegner f&uuml;hrte <span style='color:red'><b>Hinterhalt<\/b><\/span> aus!" : "Opponent performed an <span style='color:red'><b>Ambush!<\/b><\/span>";
+    htmlToDisplay += f + "<br/>";
+    actionPredicate = fullActionJumble.substr(1, 1);
+    htmlToDisplay += " <i>";
+    locationChar = fullActionJumble.substr(1, 1);
+    htmlToDisplay += CalcLocTitle(s, locationChar);
+    htmlToDisplay += "<\/i>";
+    IsNeutralCard(locationChar) && (htmlToDisplay += " <b>(N)<\/b>");
+    fullActionJumble.length === 3 && fullActionJumble.substr(2, 1) === "C" && (f = Lang === 0 ? "Keine Zielkarte: Handkarten wurden offengelegt!" : "No vulnerable card: your <b>hand<\/b> has been revealed!",
+        htmlToDisplay += "<br/>" + f);
+    fullActionJumble.length === 4 && fullActionJumble.substr(2, 1) === "B" && (f = Lang === 0 ? "&Uuml;berfall wurde geblockt durch:" : "Ambush has been blocked by this card:",
+        htmlToDisplay += "<br/>" + f + "<br/>",
+        htmlToDisplay += "<i>" + CalcLocTitle((s + 1) % 2, fullActionJumble.substr(3, 1)) + "<\/i>",
+        IsNeutralCard(locationChar) && (htmlToDisplay += " <b>(N)<\/b>"),
+        actionInt === 35 && (f = Lang === 0 ? "freie Aktion, da geblockt" : "free action (ambush was blocked)",
+            htmlToDisplay += "<br/><span style='color:green'><b>" + f + "<\/b><\/span>"));
+    fullActionJumble.length === 5 && fullActionJumble.substr(2, 1) === "T" && (k = Decode(fullActionJumble, 4),
+        c = k === 0 ? "Reserve" : "Hand",
+        IsRandomRule(15) && k === 3 && (c = Lang === 0 ? "Belagerung" : "Siege"),
+        f = Lang === 0 ? "&Uuml;berfall erfolgreich: Diese Karte (aus " + c + ") wurde zur&uuml;ckgelegt:" : "Ambush was successful! This card (from " + c + ") has been put back to your avail. cards:",
+        htmlToDisplay += "<br/>" + f + "<br/>",
+        htmlToDisplay += "<i>" + CalcLocTitle((s + 1) % 2, fullActionJumble.substr(3, 1)) + "<\/i>");
+    return { f, htmlToDisplay, actionPredicate, locationChar, k, c };
 }
 
 function CloseLMInfo() {
