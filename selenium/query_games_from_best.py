@@ -2,7 +2,7 @@ import logging
 import re
 import os
 import time
-from pprint import pformat, pprint as pp
+from pprint import pprint as pp
 
 from selenium import webdriver
 from selenium.common.exceptions import WebDriverException
@@ -121,10 +121,25 @@ def get_player_games(driver, player, game):
 def get_and_save_game(driver, game: str):
     logging.info(f"get and save {game}")
     driver.get(f"https://www.yucata.de/en/Game/{game}")
+    # We need some time for the framework to load the page.
+    # We could probably get away with less sleep if polling for 
+    # readiness but this is OK for now.
+    time.sleep(5)
     with open(f"game-{game}.html", "w") as outfile:
         outfile.write(driver.page_source)
 
+def save_game_harness():
+    driver = webdriver.Chrome()
+    driver.get('http://yucata.de')
+
+    uname = os.getenv("YUNAME")
+    pw = os.getenv("YPW")
+    log_in_to_yucata(driver, uname, pw)
+    
+    game_id = "15070689"
+    get_and_save_game(driver, game_id)
 
 if __name__ == "__main__":
     main()
+
 
