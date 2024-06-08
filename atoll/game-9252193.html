@@ -1,0 +1,438 @@
+<html xmlns="http://www.w3.org/1999/xhtml" style="--display_emoji: unset; --text_emoji: none;"><head><meta http-equiv="expires" content="0"><meta http-equiv="pragma" content="no-cache"><link href="/bundles/gs_default_game?v=7XOhD6ywcgSRA5w4HQkskznDjzgoiWKbNvZ6zt2cTIM1" rel="stylesheet">
+<script src="/bundles/gamebasescripts?v=GmuXav0Tnq_nfxN0fj2kke5YguFbatX_6Ve-CYYLOlo1"></script>
+<script type="text/javascript" src="/signalr/hubs"></script><script type="text/javascript">
+//<![CDATA[
+var StrPlayerOnTurn = 'Player on turn :';
+var StrYourTurn = 'It is your turn';
+var StrYourTurnButOtherGame = 'It is your turn, but you have to move in all older games first';
+var StrOtherGameOnTurn = 'You are on turn in a different game. Do you want to switch to that game now?';
+var StrGameFromDatabase = 'Game from game database';
+var StrGameIsFinished = 'Game is over';
+var BtnNextID = 'ctl05_btnNextGameHistory';
+var NextGameRoute = '/en/Game/Rajas/15076641';
+var IsActive = 'False';
+var MayMoveInCurrent = 'False';
+var BaseImagePath = '/netimages/';
+var GameImagePath = '/netimages/games/Atoll/';
+var BaseUrl = '/';
+var OrigStatus = '1280200;070J1lhr:S$7WQS50ifiy9V0V0';
+var LastMove = '';
+var DBCurrentMove = '';
+var GameIsEndable = 'False';
+var UserLogin = 'philip9999';
+var UserHash = 'D27C7FE37C8E9C08283DC1F83E731127';
+var UserLang = '1';
+var SignalRDomain = '/signalr';
+var SupportsGiveUp = true;
+var SupportsFinishTurn = true;
+var SupportsCancelMove = true;
+var SupportsOfferTie = false;
+var UserID = 404792;
+var IsHistory = true;
+var OnTurnIndex = 0;
+var UserIndex = 0;
+var GameInfo = new TGameInfo(9252193,38,71879,true,false,false,false,false,2,71879,71879,2);
+var PlayerInfo = new Array(new TPlayerInfo(71879,'biscuits',26,'Lay priest','us'),new TPlayerInfo(69791,'tamihiko71b',35,'Hermit','eu'));
+
+//]]>
+</script>
+<script type="text/javascript">
+        //<![CDATA[
+        var StartStatus = '0000000;';
+var moveNr = 0;
+var HistoryMove = new Array();
+var HistoryStatus = new Array();
+HistoryMove[0] = '124';
+HistoryStatus[0] = '1010200;___|30';
+HistoryMove[1] = '71';
+HistoryStatus[1] = '1080200;_`6_|30';
+HistoryMove[2] = '46';
+HistoryStatus[2] = '1080200;_r&6_|30';
+HistoryMove[3] = '78';
+HistoryStatus[3] = '1080200;_r&6S_^30';
+HistoryMove[4] = '66';
+HistoryStatus[4] = '1080200;_r%16S_^30';
+HistoryMove[5] = '69';
+HistoryStatus[5] = '1080200;_r%T6S_^30';
+HistoryMove[6] = '26';
+HistoryStatus[6] = '1080200;|r|r%T6S_^30';
+HistoryMove[7] = '50';
+HistoryStatus[7] = '1080200;|r|rS|T6S_^30';
+HistoryMove[8] = '39';
+HistoryStatus[8] = '1080200;|r^9rS|T6S_^30';
+HistoryMove[9] = '38';
+HistoryStatus[9] = '1080200;|r^frS|T6S_^30';
+HistoryMove[10] = '27';
+HistoryStatus[10] = '1080200;|r10frS|T6S_^30';
+HistoryMove[11] = '25';
+HistoryStatus[11] = '1080200;|J10frS|T6S_^30';
+HistoryMove[12] = '13';
+HistoryStatus[12] = '1080200;010J10frS|T6S_^30';
+HistoryMove[13] = '14';
+HistoryStatus[13] = '1080200;070J10frS|T6S_^30';
+HistoryMove[14] = '48';
+HistoryStatus[14] = '1080200;070J10frV|T6S_^30';
+HistoryMove[15] = '37';
+HistoryStatus[15] = '1080200;070J10hrV|T6S_^30';
+HistoryMove[16] = '61';
+HistoryStatus[16] = '1080200;070J10hrV^1T6S_^30';
+HistoryMove[17] = '60';
+HistoryStatus[17] = '1080200;070J10hrV0S1T6S_^30';
+HistoryMove[18] = '49';
+HistoryStatus[18] = '1080200;070J10hr.0S1T6S_^30';
+HistoryMove[19] = '62';
+HistoryStatus[19] = '1080200;070J10hr.0S7T6S_^30';
+HistoryMove[20] = '73';
+HistoryStatus[20] = '1080200;070J10hr.0S7TxS_^30';
+HistoryMove[21] = '35';
+HistoryStatus[21] = '1080200;070J1ihr.0S7TxS_^30';
+HistoryMove[22] = '34';
+HistoryStatus[22] = '1080200;070J1lhr.0S7TxS_^30';
+HistoryMove[23] = '101';
+HistoryStatus[23] = '1080200;070J1lhr.0S7TxS%i%30';
+HistoryMove[24] = '59';
+HistoryStatus[24] = '1080200;070J1lhr.0-7TxS%i%30';
+HistoryMove[25] = '58';
+HistoryStatus[25] = '1080200;070J1lhr.0@7TxS%i%30';
+HistoryMove[26] = '47';
+HistoryStatus[26] = '1080200;070J1lhr:0@7TxS%i%30';
+HistoryMove[27] = '72';
+HistoryStatus[27] = '1080200;070J1lhr:0@7TPS%i%30';
+HistoryMove[28] = '70';
+HistoryStatus[28] = '1080200;070J1lhr:0@7TQS%i%30';
+HistoryMove[29] = '104';
+HistoryStatus[29] = '1080200;070J1lhr:0@7TQS%i6|30';
+HistoryMove[30] = '114';
+HistoryStatus[30] = '1080200;070J1lhr:0@7TQS%i603030';
+HistoryMove[31] = '91';
+HistoryStatus[31] = '1080200;070J1lhr:0@7TQS^i0i603030';
+HistoryMove[32] = '111';
+HistoryStatus[32] = '1080200;070J1lhr:0@7TQS^i0i693030';
+HistoryMove[33] = '56';
+HistoryStatus[33] = '1080200;070J1lhr:S@7TQS^i0i693030';
+HistoryMove[34] = '67';
+HistoryStatus[34] = '1080200;070J1lhr:S@7WQS^i0i693030';
+HistoryMove[35] = '57';
+HistoryStatus[35] = '1080200;070J1lhr:S$7WQS^i0i693030';
+HistoryMove[36] = '80';
+HistoryStatus[36] = '1080200;070J1lhr:S$7WQS30i0i693030';
+HistoryMove[37] = '79';
+HistoryStatus[37] = '1080200;070J1lhr:S$7WQS50i0i693030';
+HistoryMove[38] = '106';
+HistoryStatus[38] = '1080200;070J1lhr:S$7WQS50i0ix93030';
+HistoryMove[39] = '94';
+HistoryStatus[39] = '1080200;070J1lhr:S$7WQS50i6ix93030';
+HistoryMove[40] = '95';
+HistoryStatus[40] = '1080200;070J1lhr:S$7WQS50ifix93030';
+HistoryMove[41] = '116';
+HistoryStatus[41] = '1080200;070J1lhr:S$7WQS50ifix9V030';
+HistoryMove[42] = '103';
+HistoryStatus[42] = '1080200;070J1lhr:S$7WQS50ifiy9V030';
+HistoryMove[43] = '126';
+HistoryStatus[43] = '1080200;070J1lhr:S$7WQS50ifiy9V0V0';
+HistoryMove[44] = '';
+HistoryStatus[44] = '1280200;070J1lhr:S$7WQS50ifiy9V0V0';
+var MoveCount = 45;
+
+
+        //]]>
+        </script>
+<script src="/bundles/game_atoll?v=GRNXJBaunv38P8-MDnskmW5n9lb8lc6A2F9kOnnmB9M1"></script>
+<style type="text/css">.coord { display: none; }.show_coords > .coord { display: inline; }</style>
+<title>
+	Atoll (Nauru) #9252193
+</title></head>
+<body onload="CreateGame()">
+<form method="post" action="/en/Game/Atoll/9252193" id="frmGame">
+<div>
+<input type="hidden" name="__VIEWSTATE" id="__VIEWSTATE" value="vTzR4okA63Wt/WOAHg1vOQBk7x0KyniiiHEncLxJWgUlEOip+a0J6y+RKowm3OIaGR1SKuKlL7kcmBdwAAb9Bd118k4=">
+</div>
+<script type="text/javascript">//<![CDATA[
+var emoticons={':)':'sm_happy.gif',':-)':'sm_happy.gif',';)':'sm_twinkling.gif',';-)':'sm_twinkling.gif',':ouch:':'sm_desperate.gif',':(':'sm_unhappy.gif',':-(':'sm_unhappy.gif',':wow:':'sm_cantbelieve.gif',':sleepy:':'sm_sleepy.gif',':mad:':'sm_angry.gif',':xmassmile:':'xmassmile.gif',':-D':'bigsmile.gif',':p':'sm_aetsch.gif',':P':'sm_aetsch.gif',':blush:':'blushing.gif',':confused:':'sm_lost.gif',':angel:':'sm_angel.gif',':stupid:':'sm_hitme.gif',':sail:':'sm_holiday.gif',':alleswirdgut:':'alleswirdgut.gif',':cheers:':'cheers.gif',':dagegen:':'dagegen.gif',':engarde:':'engarde.gif',':gutenacht:':'gutenacht.gif',':keks:':'keks.gif',':kiss:':'kiss.gif',':nein:':'nein.gif',':rtfm:':'rtfm.gif',':sofa:':'sofa.gif',':titanic:':'titanic.gif',':welcome:':'welcome.gif',':isagnix:':'ichsagnix.gif',':brujita:':'witch.gif',':firefox:':'firefox.gif',':littleangel:':'littleangel.gif',':fbshark:':'shark.gif',':wallbash:':'wallbash.gif',':ohnein:':'ohnein.gif',':hug:':'hug.gif',':clueless:':'clueless.gif',':rofl:':'rofl.gif',':moderator:':'police.gif',':gaga:':'gaga.gif',':bahnhof:':'bahnhof.gif',':bath:':'bath.gif',':wash:':'wash.gif',':danke:':'danke.gif',':dafuer:':'dafuer.gif',':bitte:':'bitte.gif',':naund:':'naund.gif',':ichwarsnich:':'ichwarsnich.gif',':jimboom:':'tomate.gif',':giveup:':'giveup.gif',':grumbel:':'grumbel.gif',':hooray:':'hooray.gif',':verschwörung:':'verschwoerung.gif',':dance:':'dance.gif',':carrot:':'dance2.gif',':merryxmas:':'happyxmas.gif',':gift:':'gift.gif',':xmastree:':'xmastree.gif',':xmascandle:':'xmascandle.gif',':yucata:':'sm_yucata.gif',':yucatalove:':'sm_yucata_love.gif',':yucataparty:':'sm_yucata_party.gif',':wannkommtdasnaechstespiel:':'wannkommtdasnaechstespiel.gif',':gefudel:':'gefudel.gif',':mediocrelympics:':'sm_mediocrelympics.gif',':wintermediocre:':'sm_wintermediocrelympics.gif',':mysticvale:':'mysticvale.gif',':dragon:':'firedragon_wotd.gif',':easteregg:':'easteregg.gif',':greenegg:':'easteregg_green.gif',':blueegg:':'easteregg_blue.gif',':redegg:':'easteregg_red.gif',':roseegg:':'easteregg_pink.gif',':whiteegg:':'easteregg_white.gif',':stripeegg:':'easteregg_striped.gif',':dotegg:':'easteregg_dots.gif',':zigzagegg:':'easteregg_zigzag.gif',':ooommm:':'ooommm.gif',':lemming:':'lemming.gif',':troest:':'troest.gif',':monster:':'sm_monster.gif',':cubird:':'cubird.gif',':mountaingoat:':'goat.gif',':rollecate:':'rollecate.gif',':emma:':'rollecate.gif',':sagani:':'sagani_water.gif',':waterspirit:':'sagani_water.gif',':earthspirit:':'sagani_earth.gif',':firespirit:':'sagani_fire.gif',':airspirit:':'sagani_air.gif',':renature:':'renature_butterflutter.gif',':butterfly:':'renature_butterfly.gif',':frog:':'renature_frog.gif',':squirrel:':'renature_squirrel.gif',':turtle:':'renature_turtle.gif',':salamander:':'renature_salamander.gif',':bat:':'renature_bat.gif',':snail:':'renature_snail.gif',':bulb:':'innovation_bulb.gif',':clock:':'innovation_clock.gif',':crown:':'innovation_crown.gif',':factory:':'innovation_factory.gif',':leaf:':'innovation_leaf.gif',':tower:':'innovation_tower.gif',':avatar:':'innovation_avatar.gif',':food:':'innovation_food.gif'};
+const emoji_regex=/:\)|:-\)|;\)|;-\)|:ouch:|:\(|:-\(|:wow:|:sleepy:|:mad:|:xmassmile:|:-D|:p|:P|:blush:|:confused:|:angel:|:stupid:|:sail:|:alleswirdgut:|:cheers:|:dagegen:|:engarde:|:gutenacht:|:keks:|:kiss:|:nein:|:rtfm:|:sofa:|:titanic:|:welcome:|:isagnix:|:brujita:|:firefox:|:littleangel:|:fbshark:|:wallbash:|:ohnein:|:hug:|:clueless:|:rofl:|:moderator:|:gaga:|:bahnhof:|:bath:|:wash:|:danke:|:dafuer:|:bitte:|:naund:|:ichwarsnich:|:jimboom:|:giveup:|:grumbel:|:hooray:|:verschwörung:|:dance:|:carrot:|:merryxmas:|:gift:|:xmastree:|:xmascandle:|:yucata:|:yucatalove:|:yucataparty:|:wannkommtdasnaechstespiel:|:gefudel:|:mediocrelympics:|:wintermediocre:|:mysticvale:|:dragon:|:easteregg:|:greenegg:|:blueegg:|:redegg:|:roseegg:|:whiteegg:|:stripeegg:|:dotegg:|:zigzagegg:|:ooommm:|:lemming:|:troest:|:monster:|:cubird:|:mountaingoat:|:rollecate:|:emma:|:sagani:|:waterspirit:|:earthspirit:|:firespirit:|:airspirit:|:renature:|:butterfly:|:frog:|:squirrel:|:turtle:|:salamander:|:bat:|:snail:|:bulb:|:clock:|:crown:|:factory:|:leaf:|:tower:|:avatar:|:food:/gi
+//]]></script>
+<div>
+<input type="hidden" name="__VIEWSTATEGENERATOR" id="__VIEWSTATEGENERATOR" value="9D8479C4">
+</div>
+<div>
+<div id="divPostback" class="Postback">The page is being sent to the server. Please wait a moment...</div>
+<script type="text/javascript">
+    $(document).ready(function () {
+        UpdateChat();
+    }
+  );
+</script>
+<div id="divChatContainer" title="Chat" style="padding-bottom: 20px; overflow: hidden; display: none;">
+<div id="divChat" style="height:304px;"></div>
+<div style="width:100%;height:22px;margin-bottom:5px;">
+<input id="edtChatMsg" maxlength="200" autocomplete="off" onfocus="document.onkeypress=ChatHandleReturn;" onblur="document.onkeypress='';" style="vertical-align:middle;float:left;">
+<input type="image" src="/netimages/c/go5.gif" id="lnkSendChat" onclick="javascript:PostChatMessage();return false;" style="vertical-align: middle;float:left;margin-left:5px;" alt="Send" title="Sends a chat message to the server">
+<input type="image" src="/netimages/c/emojis.gif" id="lnkEmojis" onclick="javascript: $('#emojisList').toggle(); return false;" style="vertical-align: middle; float: left; margin-left: 5px; display: none;" alt="emoji-list" title="Display emoji list">
+<input type="image" src="/netimages/c/nomojis.gif" id="lnkNoEmojis" onclick="javascript: ToggleEmojiDisplay(); return false;" style="vertical-align: middle; float: left; margin-left: 5px; display: none;" alt="Toggle emojis" title="Toggle emojis in chat">
+<span id="ChatButtonContainer" style="display: none;">
+<a href="/en/ChatHelp" target="_blank"><img style="vertical-align: middle;float:right;margin-left:5px;padding-right:4px;" src="/netimages/c/hilfe2.gif" alt="Chat help" title="Opens the chat help where e.g. the emoticons are explained"></a>
+<a href="/en/ChatSkript" target="_blank"><img style="vertical-align: middle;float:right;margin-left:5px;padding-right:4px;" src="/netimages/c/script.gif" alt="Chat-Script" title="Opens an additional window where you can read the chat without being disturbed"></a>
+</span>
+</div>
+<div id="emojisList" style="padding-left: 5px; display:none; width:100%;">
+<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:)&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_happy.gif" title=":)" alt=":)">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;;)&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_twinkling.gif" title=";)" alt=";)">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:ouch:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_desperate.gif" title=":ouch:" alt=":ouch:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:(&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_unhappy.gif" title=":(" alt=":(">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wow:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_cantbelieve.gif" title=":wow:" alt=":wow:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sleepy:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_sleepy.gif" title=":sleepy:" alt=":sleepy:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:mad:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_angry.gif" title=":mad:" alt=":mad:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmassmile:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmassmile.gif" title=":xmassmile:" alt=":xmassmile:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:-D&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bigsmile.gif" title=":-D" alt=":-D">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:p&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_aetsch.gif" title=":p" alt=":p">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:blush:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/blushing.gif" title=":blush:" alt=":blush:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:confused:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_lost.gif" title=":confused:" alt=":confused:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:angel:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_angel.gif" title=":angel:" alt=":angel:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:kiss:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/kiss.gif" title=":kiss:" alt=":kiss:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:ohnein:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/ohnein.gif" title=":ohnein:" alt=":ohnein:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:hug:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/hug.gif" title=":hug:" alt=":hug:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:clueless:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/clueless.gif" title=":clueless:" alt=":clueless:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:rofl:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/rofl.gif" title=":rofl:" alt=":rofl:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:hooray:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/hooray.gif" title=":hooray:" alt=":hooray:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:yucata:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_yucata.gif" title=":yucata:" alt=":yucata:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:yucataparty:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_yucata_party.gif" title=":yucataparty:" alt=":yucataparty:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:easteregg:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/easteregg.gif" title=":easteregg:" alt=":easteregg:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:lemming:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/lemming.gif" title=":lemming:" alt=":lemming:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:troest:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/troest.gif" title=":troest:" alt=":troest:">&nbsp;
+<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:stupid:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_hitme.gif" title=":stupid:" alt=":stupid:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sail:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sm_holiday.gif" title=":sail:" alt=":sail:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:alleswirdgut:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/alleswirdgut.gif" title=":alleswirdgut:" alt=":alleswirdgut:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:cheers:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/cheers.gif" title=":cheers:" alt=":cheers:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dagegen:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dagegen.gif" title=":dagegen:" alt=":dagegen:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:engarde:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/engarde.gif" title=":engarde:" alt=":engarde:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gutenacht:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gutenacht.gif" title=":gutenacht:" alt=":gutenacht:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:keks:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/keks.gif" title=":keks:" alt=":keks:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:nein:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/nein.gif" title=":nein:" alt=":nein:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:rtfm:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/rtfm.gif" title=":rtfm:" alt=":rtfm:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:sofa:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/sofa.gif" title=":sofa:" alt=":sofa:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:titanic:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/titanic.gif" title=":titanic:" alt=":titanic:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:welcome:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/welcome.gif" title=":welcome:" alt=":welcome:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:isagnix:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/ichsagnix.gif" title=":isagnix:" alt=":isagnix:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:firefox:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/firefox.gif" title=":firefox:" alt=":firefox:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wallbash:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/wallbash.gif" title=":wallbash:" alt=":wallbash:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gaga:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gaga.gif" title=":gaga:" alt=":gaga:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bahnhof:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bahnhof.gif" title=":bahnhof:" alt=":bahnhof:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bath:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bath.gif" title=":bath:" alt=":bath:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:wash:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/wash.gif" title=":wash:" alt=":wash:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:danke:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/danke.gif" title=":danke:" alt=":danke:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dafuer:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dafuer.gif" title=":dafuer:" alt=":dafuer:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:bitte:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/bitte.gif" title=":bitte:" alt=":bitte:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:naund:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/naund.gif" title=":naund:" alt=":naund:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:giveup:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/giveup.gif" title=":giveup:" alt=":giveup:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:grumbel:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/grumbel.gif" title=":grumbel:" alt=":grumbel:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:dance:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/dance.gif" title=":dance:" alt=":dance:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:merryxmas:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/happyxmas.gif" title=":merryxmas:" alt=":merryxmas:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:gift:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/gift.gif" title=":gift:" alt=":gift:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmastree:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmastree.gif" title=":xmastree:" alt=":xmastree:">&nbsp;<img onclick="edtChatMsg.value = edtChatMsg.value + &quot;:xmascandle:&quot;; $(&quot;#emojisList&quot;).hide(); $(&quot;#edtChatMsg&quot;).focus(); return false;" src="/netimages/HtmlEditor/xmascandle.gif" title=":xmascandle:" alt=":xmascandle:">&nbsp;
+</div>
+</div>
+<div style="display: none">
+<div id="notesWindowContainer" title="Notes">
+<textarea id="edtNotes" cols="40" rows="10" onblur="document.onkeypress='';" onfocus="document.onkeypress=HandleNoteText;"></textarea><br>
+</div>
+</div>
+<script type="text/javascript">
+      ServiceGetNote(GameInfo.ID, UserID, GetNoteCB, null);
+    </script>
+<script type="text/javascript">
+    var MsgRemisDeclined = 'Your opponent declined the draw.';
+    var MsgConfirmRemis = 'Do you really want to offer a draw?';
+    var MsgConfirmFinish = 'If you confirm this, you will lose the game. You should do this only if you want to give up or if you cannot move anymore.';
+</script>
+<div id="tableFooter" style="z-index: 8000; margin-left: 0px; margin-right: 0px; padding-left: 0px; padding-right: 0px; bottom: 3px;">
+<div id="divNavigation" class="fg-toolbar ui-widget-header ui-corner-all" style="padding-left: 10px; height: 20px; width: 100%;">
+&nbsp;
+<a href="javascript:GoFirst();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="First"><span class="ui-icon ui-icon-arrowthickstop-1-w"></span>First</a>
+<a href="javascript:GoBack();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Back"><span class="ui-icon ui-icon-arrowthick-1-w"></span>Back</a>
+<a href="javascript:GoNext();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Forward"><span class="ui-icon ui-icon-arrowthick-1-e"></span>Forward</a>
+<a href="javascript:GoLast();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Last"><span class="ui-icon ui-icon-arrowthickstop-1-e"></span>Last</a>&nbsp;&nbsp;
+<span id="divNavigationText"></span>
+<input name="ctl05$btnNextGameHistory" type="button" id="ctl05_btnNextGameHistory" class="button bulletgobutton highlightbutton" style="z-index: 5001;" onclick="javascript: CheckForNextGame();" value="Go to next game">
+</div>
+<div id="divFooterBucket" class="" style="z-index: 1001; padding-left: 5px; display: none;">
+<input class="button hidebuttonsbutton" id="btnToggleButtons" style="z-index: 5001;" onclick="javascript: if (this.value == '<<') { this.value = '>>'; } else { this.value = '<<'; } this.classList.toggle('hidebuttonsbutton'); this.classList.toggle('showbuttonsbutton'); $('#divFooterButtons').toggle();" type="button" value="<<" title="Toggle Buttons" name="btnToggleButtons">
+<div id="divFooterButtons" class="" style="display: inline-block; z-index: 1001; padding-left: 5px;">
+<input name="ctl05$btnNextGame" type="button" id="ctl05_btnNextGame" class="button bulletgobutton" style="z-index: 5001;" onclick="javascript: CheckForNextGame();" value="Go to next game">
+<input class="button commentsbutton" id="btnShowChat" style="z-index: 5002; margin-left: 10px" onclick="javascript: OpenChat();" type="button" value="Chat" name="btnShowChat">
+<input name="ctl05$btnShowNotes" type="button" id="btnShowNotes" class="button textbutton" style="z-index: 5003; margin-left: 10px" onclick="javascript: OpenNotes();" value="Notes">
+<input name="ctl05$btnGiveUp" type="button" id="ctl05_btnGiveUp" class="button crossbutton" style="z-index: 5004; margin-left: 10px; display: none" onclick="javascript: ConfirmGiveUp();" value="Give up">
+<input name="ctl05$btnBaseFinishTurn" type="button" id="ctl05_btnBaseFinishTurn" class="button acceptbutton" style="z-index: 5007; margin-left: 10px; display: none" onclick="javascript: FinishMove();" value="Finish move">
+<input name="ctl05$btnBaseCancelMove" type="button" id="ctl05_btnBaseCancelMove" class="button crossbutton" style="z-index: 5008; margin-left: 10px; display: none" onclick="javascript: CancelMove();" value="Reset move">
+<input name="ctl05$btnRemis" type="button" id="ctl05_btnRemis" class="button" style="z-index: 5005; margin-left: 10px; display: none;" onclick="javascript: OfferRemis();" value="Offer a draw">
+<input name="ctl05$btnFinishGame" type="button" id="ctl05_btnFinishGame" class="button" style="z-index: 5006; margin-left: 10px; display: none;" onclick="javascript: ConfirmFinish();" value="Finish game">
+<input name="ctl05$btnTie" type="button" id="ctl05_btnTie" class="button" style="z-index: 5006; margin-left: 10px; display: none;" onclick="javascript: OfferTie();" value="Offer a draw">
+<input name="ctl05$btnBaseArchiveGame" type="button" id="ctl05_btnBaseArchiveGame" class="button acceptbutton" style="z-index: 5007; margin-left: 10px; display: none" onclick="javascript: ArchiveGame();" value="Archive Game">
+</div>
+</div>
+</div>
+<script type="text/javascript">
+    //<![CDATA[
+
+		function ShowRules()
+		{
+		    var url = '/en/Rules/Atoll';
+		  window.open(url, "rules");
+}
+//]]>
+
+</script>
+<div id="GameHeader" class="fg-toolbar ui-widget-header ui-corner-all ui-helper-clearfix" style="width:100%;border:0px;z-Index:8000;margin-left:0;margin-right:0;padding-left:0;padding-right:0">
+<span class="fg-buttonset ui-helper-clearfix" style="width:85px;vertical-align:middle;padding-right:10px" id="GameInfo"><span class="sprite-common invitation-image sprite-common-"></span><img border="0" src="/netimages/c/wertung.gif" style="height: 13px; width: 13px; margin-left: 5px;"><img border="0" src="/netimages/c/hin.gif" style="height: 13px; width: 13px; margin-left: 5px;"></span>
+<span id="ctl06_GameTitle" class="fg-buttonset ui-helper-clearfix">Atoll (Nauru)</span>
+<span class="fg-buttonset ui-helper-clearfix" id="PlayerOnTurn">&nbsp;</span>
+<span class="fg-buttonset ui-helper-clearfix" id="GameStatus">Game from game database</span>
+<span class="fg-buttonset ui-helper-clearfix;" style="float:right;margin-right:5px;">
+<a href="javascript:ShowRules();" class="fg-button ui-state-default fg-button-icon-solo ui-corner-all" title="Rules"><span class="ui-icon ui-icon-script"></span> Rules</a>
+</span>
+</div>
+<input name="MoveInfo" type="hidden" id="MoveInfo"><input name="MoveCount" type="hidden" id="MoveCount" value="0"><input name="NewStatus" type="hidden" id="NewStatus"><input name="SaveStatusFailed" type="hidden" id="SaveStatusFailed" value="False"><input name="Archive" type="hidden" id="Archive" value="False"><input name="windowwidth" type="hidden" id="windowwidth" value="1200"><input name="windowheight" type="hidden" id="windowheight" value="827"><script type="text/javascript">$(document).ready(function(){SetClientSize(980,1864);
+InitGameBase();})</script>
+</div>
+<input name="MayMoveInCurrent" type="hidden" value="False"></form>
+<div id="MainDiv" style="position: absolute; top: 35px; left: 5px; width: 920px; height: 754px; visibility: visible; overflow: auto; border-color: rgb(192, 128, 0) rgb(255, 255, 255) rgb(255, 255, 255) rgb(192, 128, 0); border-width: 1px; border-style: solid; background-color: rgb(224, 208, 176);">
+<div id="BoardDiv" style="position: relative; top: 98px; width: 540px; height: 558px; left: 190px;"><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:92px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:8px;">A2</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:138px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:8px;">A3</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:184px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:8px;">A4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:230px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:8px;">A5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:276px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:8px;">A6</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:322px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:8px;">A7</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:368px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:8px;">A8</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:414px; left:0px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:8px;">A9</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:23px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:48px;">B0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:48px;">B1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:115px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:48px;">B2</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:161px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:48px;">B3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:207px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:48px;">B4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:253px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:48px;">B5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:299px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:48px;">B6</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:345px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:48px;">B7</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:391px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:48px;">B8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:48px;">B9</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:483px; left:40px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:46px;">B10</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:0px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:11px; left:88px;">C0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:46px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:57px; left:88px;">C1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:92px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:88px;">C2</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:138px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:88px;">C3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:184px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:88px;">C4</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:230px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:88px;">C5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:276px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:88px;">C6</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:322px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:88px;">C7</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:368px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:88px;">C8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:414px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:88px;">C9</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:460px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:471px; left:86px;">C10</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:506px; left:80px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:517px; left:86px;">C11</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:23px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:128px;">D0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:128px;">D1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:115px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:128px;">D2</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:161px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:128px;">D3</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:207px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:128px;">D4</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:253px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:128px;">D5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:299px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:128px;">D6</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:345px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:128px;">D7</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:391px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:128px;">D8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:128px;">D9</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:483px; left:120px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:126px;">D10</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:0px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:11px; left:168px;">E0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:46px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:57px; left:168px;">E1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:92px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:168px;">E2</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:138px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:168px;">E3</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:184px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:168px;">E4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:230px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:168px;">E5</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:276px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:168px;">E6</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:322px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:168px;">E7</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:368px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:168px;">E8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:414px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:168px;">E9</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:460px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:471px; left:166px;">E10</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:506px; left:160px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:517px; left:166px;">E11</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:23px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:208px;">F0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:208px;">F1</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:115px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:208px;">F2</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:161px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:208px;">F3</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:207px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:208px;">F4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:253px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:208px;">F5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:299px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:208px;">F6</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:345px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:208px;">F7</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:391px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:208px;">F8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:208px;">F9</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:483px; left:200px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:206px;">F10</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:46px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:57px; left:248px;">G1</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:92px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:248px;">G2</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:138px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:248px;">G3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:184px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:248px;">G4</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:230px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:248px;">G5</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:276px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:248px;">G6</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:322px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:248px;">G7</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:368px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:248px;">G8</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:414px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:248px;">G9</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:460px; left:240px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:471px; left:246px;">G10</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:23px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:288px;">H0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:288px;">H1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:115px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:288px;">H2</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:161px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:288px;">H3</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:207px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:288px;">H4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:253px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:288px;">H5</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:299px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:288px;">H6</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:345px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:288px;">H7</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:391px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:288px;">H8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:288px;">H9</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:483px; left:280px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:286px;">H10</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:0px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:11px; left:328px;">I0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:46px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:57px; left:328px;">I1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:92px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:328px;">I2</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:138px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:328px;">I3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:184px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:328px;">I4</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:230px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:328px;">I5</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:276px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:328px;">I6</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:322px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:328px;">I7</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:368px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:328px;">I8</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:414px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:328px;">I9</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:460px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:471px; left:326px;">I10</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:506px; left:320px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:517px; left:326px;">I11</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:23px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:368px;">J0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:368px;">J1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:115px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:368px;">J2</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:161px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:368px;">J3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:207px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:368px;">J4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:253px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:368px;">J5</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:299px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:368px;">J6</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:345px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:368px;">J7</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:391px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:368px;">J8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:368px;">J9</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:483px; left:360px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:366px;">J10</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:0px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:11px; left:408px;">K0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:46px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:57px; left:408px;">K1</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:92px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:408px;">K2</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:138px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:408px;">K3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:184px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:408px;">K4</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:230px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:408px;">K5</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:276px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:408px;">K6</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:322px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:408px;">K7</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:368px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:408px;">K8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:414px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:408px;">K9</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:460px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:471px; left:406px;">K10</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:506px; left:400px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:517px; left:406px;">K11</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:23px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:34px; left:448px;">L0</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:69px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:80px; left:448px;">L1</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:115px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:126px; left:448px;">L2</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:161px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:172px; left:448px;">L3</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:207px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:218px; left:448px;">L4</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:253px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:264px; left:448px;">L5</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:299px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:310px; left:448px;">L6</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:345px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:356px; left:448px;">L7</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:391px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:402px; left:448px;">L8</div><img src="/netimages/games/Atoll/sk2/empty_60_.png" alt="" style="position:absolute; top:437px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:448px; left:448px;">L9</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:483px; left:440px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:494px; left:446px;">L10</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:92px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:103px; left:488px;">M2</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:138px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:149px; left:488px;">M3</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:184px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:195px; left:488px;">M4</div><img src="/netimages/games/Atoll/sk2/color_60_1.png" alt="" style="position:absolute; top:230px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:241px; left:488px;">M5</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:276px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:287px; left:488px;">M6</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:322px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:333px; left:488px;">M7</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:368px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:379px; left:488px;">M8</div><img src="/netimages/games/Atoll/sk2/color_60_0.png" alt="" style="position:absolute; top:414px; left:480px; width:60px; height: 52px;">
+<div class="coord" style="border-radius:0.2em; padding:0.1em; background-color:#FFF; opacity:0.75; font-size:0.9em; position:absolute; top:425px; left:488px;">M9</div><img src="/netimages/games/Atoll/spacer.gif" width="520" height="552" border="1" alt="" usemap="#boardmap" style="position:absolute; top:0px; left:0px;">
+<map name="boardmap">
+</map>
+</div>
+</div>
+<div id="RightDiv" style="position: absolute; top: 35px; left: 934px; width: 260px; height: 757px; overflow: auto;">
+<div id="LogoDiv">
+<img id="AtollLogo" alt="" title="Atoll by Mark Steere" style="width:250px;height:200px;" src="/netimages/games/Atoll/AtollLogo7.png">
+</div>
+<div id="MarginDiv0" style="position:relative; height:1px;">
+</div>
+<div id="PlayerDiv" style="position: relative; background-color: rgb(255, 235, 205); margin-bottom: 5px; visibility: visible;">&nbsp;<img src="/netimages/games/Atoll/sk2/pcolor0.png" onclick="SwapColor();" width="14" height="12/">&nbsp;<span id="playerInfo0" style="font-weight:bold"><span class="fflag-spacer fflag ff-sm fflag-us"></span><span id="gbPlayerName0" style="vertical-align: top;">biscuits</span></span><br>
+&nbsp;<img src="/netimages/games/Atoll/sk2/pcolor1.png" onclick="SwapColor();" width="14" height="12/">&nbsp;<span id="playerInfo1" style="font-weight:bold"><span class="fflag-spacer fflag ff-sm fflag-eu"></span><span id="gbPlayerName1" style="vertical-align: top;">tamihiko71b</span></span></div>
+<div id="OptionDiv" style="position: relative; background-color: rgb(255, 235, 205); margin-bottom: 5px; visibility: visible;">
+<table>
+<tbody><tr>
+<td>
+<span id="SkinSelectText">Skin: </span>
+</td>
+<td>
+<select id="SkinSelect" onchange="SkinSelectChange();" size="1">
+<option>Basic</option>
+<option>Hexxagon</option>
+<option>Hexxagon2</option>
+</select>
+</td>
+</tr>
+</tbody></table>
+</div>
+<div style="position:relative; background-color:#FFEBCD;margin-bottom:5px;">
+<input type="checkbox" id="show_board_coordinates" onchange="updateBoardCoordinates(this.checked)">
+<label for="show_board_coordinates" id="show_board_coordinates_label">Coordinates</label>
+</div>
+<div id="InfoDiv" style="position: relative; background-color: rgb(255, 235, 205); margin-bottom: 5px; padding: 3px; visibility: hidden;">
+</div>
+<br>
+<div id="MsLogo">
+<a href="" onclick="window.open('http://www.marksteeregames.com/');return false;">
+www.MarkSteereGames.com &nbsp;
+<img id="MsLogoImg" alt="MSG logo" title="Mark Steere Games" style="width:40px;height:40px;" src="/netimages/games/Atoll/MSG_Logo_40.png">
+</a>
+</div>
+</div>
+<script type="text/javascript">
+            $(document).ready
+            {
+                //CreateGame(); // this should be down here but then some framework features don't work
+                UpdatePlayerDisplay();
+            }
+        </script>
+
+
+</body></html>
