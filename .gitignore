@@ -1,10 +1,11 @@
+.idea
+__*
+
+# Rest of this is boilerplate from somewhere.
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-
-# I don't really want to version this
-.idea
 
 # C extensions
 *.so
@@ -130,3 +131,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/
